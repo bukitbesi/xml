@@ -484,6 +484,7 @@ svg{display:inline-block;width:1em;height:1em;font-size:1em;line-height:1;overfl
 .featured-items  {display:grid;grid-template-rows:minmax(0,1fr) minmax(0,auto);align-items:center;height:var(--height)}
 .featured-items .first{position:static}
 .featured-items .first .entry-thumbnail{position:absolute;inset:0;aspect-ratio:unset;z-index:0;border-radius:0}
+.featured-items .first .entry-thumbnail .lcp-hero{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
 .featured-items .first .entry-thumbnail:after{content:'';position:absolute;inset:0;background:linear-gradient(0,var(--rgba-99),var(--rgba-1a));z-index:2}
 .featured-items .first .entry-header{position:relative;gap:1rem;max-width:65%;z-index:3}
 .featured-items .first .entry-title{font-size:2rem}
@@ -1156,8 +1157,11 @@ ins.adsbygoogle-noablate[data-anchor-shown="true"]{z-index:990!important}
 .share-a .facebook .sl span{display:none}
 .cookie-consent .widget{flex-direction:column}
 .consent-button{width:100%}
-ins.adsbygoogle[data-ad-status="unfilled"]{display: none !important;
-}.video-responsive{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;background-color:#000}.video-responsive iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}.videoyoutube{margin-bottom:1.5em}.table-responsive-wrapper{display:block;width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;margin-bottom:1.5em}.table-responsive-wrapper table{width:100%;min-width:600px;border-collapse:collapse}}
+ins.adsbygoogle[data-ad-status="unfilled"]{display:none!important}
+/* CLS prevention: reserve minimum height for each ad format before AdSense loads */
+.is-ad .widget-content{min-height:90px;display:flex;justify-content:center;align-items:center}
+#post-ads-3 .widget-content{min-height:280px}
+.footer-ads .widget-content,.header-ads .widget-content{min-height:90px}.video-responsive{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;background-color:#000}.video-responsive iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}.videoyoutube{margin-bottom:1.5em}.table-responsive-wrapper{display:block;width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;margin-bottom:1.5em}.table-responsive-wrapper table{width:100%;min-width:600px;border-collapse:collapse}}
 .embed-container {position:relative; padding-bottom:56.25%; height:0; overflow:hidden; max-width:100%;}
 .embed-container iframe, .embed-container object, .embed-container embed {position:absolute; top:0; left:0; width:100%; height:100%;}]]></b:skin>
       </b:if>
@@ -1272,6 +1276,10 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display: none !important;
               <link href='//www.google-analytics.com' rel='dns-prefetch'/>
               <link href='//pagead2.googlesyndication.com' rel='dns-prefetch'/>
               <link expr:href='data:view.url.canonical' rel='canonical'/>
+              <!-- LCP preload: tells browser to fetch the hero image before it discovers it in the DOM -->
+              <b:if cond='data:view.isPost and data:view.featuredImage'>
+                <link as='image' expr:href='resizeImage(data:view.featuredImage, 1200, &quot;16:9&quot;)' fetchpriority='high' rel='preload'/>
+              </b:if>
               <b:if cond='data:blog.adultContent'>
                 <meta content='adult' name='rating'/>
               </b:if>
@@ -1286,7 +1294,7 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display: none !important;
                 <b:with value='[data:skin.vars.main_font_family, data:skin.vars.title_font_family, data:skin.vars.text_font_family]' var='fonts'>
                   <b:loop index='i' values='data:fonts' var='font'>
                     <b:if cond='not(data:font contains &quot;,&quot;)'>
-                      <b:with value='&quot;https://fonts.googleapis.com/css2?family=&quot; + data:font + &quot;:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&amp;display=swap&quot;' var='fontLink'>
+                      <b:with value='&quot;https://fonts.googleapis.com/css2?family=&quot; + data:font + &quot;:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&amp;display=swap&quot;' var='fontLink'>
                         <b:tag cond='data:i == 0' expr:href='data:fontLink' name='link' rel='stylesheet'/>
                         <b:tag cond='data:i == 1 and (data:font not in [data:fonts[0]])' expr:href='data:fontLink' name='link' rel='stylesheet'/>
                         <b:tag cond='data:i == 2 and (data:font not in [data:fonts[0], data:fonts[1]])' expr:href='data:fontLink' name='link' rel='stylesheet'/>
@@ -1295,9 +1303,9 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display: none !important;
                   </b:loop>
                 </b:with>
                 <b:else/>
-                <link as='style' href='https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&amp;display=swap' onload='this.onload=null;this.rel=&apos;stylesheet&apos;' rel='preload'/>
+                <link as='style' href='https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&amp;display=swap' onload='this.onload=null;this.rel=&apos;stylesheet&apos;' rel='preload'/>
                 <noscript>
-                  <link href='https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&amp;display=swap' rel='stylesheet'/>
+                  <link href='https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&amp;display=swap' rel='stylesheet'/>
                 </noscript>
               </b:if>
               <link as='style' href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.13.1/font/bootstrap-icons.min.css' onload="this.onload=null;this.rel='stylesheet'" rel='preload'/>
@@ -1587,7 +1595,12 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display: none !important;
                 <b:if cond='data:i == 0'>
                   <a class='entry-inner flex-c' expr:href='data:post.url.canonical'>
                     <div class='container'>
-                      <b:include data='{ showIcon: false, hasLink: false }' name='post-thumbnail'/>
+                      <!-- LCP hero: real img tag with fetchpriority so browser fetches immediately -->
+                      <div class='entry-thumbnail'>
+                        <b:if cond='data:post.featuredImage'>
+                          <img class='thumbnail lcp-hero' expr:alt='data:post.title' expr:src='resizeImage(data:post.featuredImage, 1200, &quot;16:9&quot;)' fetchpriority='high' height='675' loading='eager' width='1200'/>
+                        </b:if>
+                      </div>
                       <div class='entry-header'>
                         <b:include name='post-category'/>
                         <b:include data='{ hasLink: false }' name='post-title'/>
@@ -4253,7 +4266,7 @@ if ('serviceWorker' in navigator) {
 <script>
 //<![CDATA[document.addEventListener("DOMContentLoaded",function(){const e=document.querySelectorAll(".post-body table");e.forEach(function(e){if("table-responsive-wrapper"!==e.parentElement.className){const t=document.createElement("div");t.className="table-responsive-wrapper",e.parentNode.insertBefore(t,e),t.appendChild(e)}})});//]]>
 </script>
-      <script data-cfasync='false' src='https://cdn.jsdelivr.net/gh/tbbcom/on@main/master-ads-injector.js'/>
+      <script defer='defer' src='https://cdn.jsdelivr.net/gh/tbbcom/on@main/master-ads-injector.js'/>
     <script>
 //<![CDATA[
 (function() {
