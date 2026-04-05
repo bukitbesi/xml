@@ -6,6 +6,38 @@ Format: `[version] YYYY-MM-DD`
 
 ---
 
+## [2.1.2] — 2026-04-05
+
+### Fixed — SEO & Meta Tags
+- **Duplicate OG/Twitter meta** — `pbt-head` was emitting a full second set of `og:type`, `og:title`, `og:description`, `og:url`, `og:image`, `twitter:card`, `twitter:title`, `twitter:description`, `twitter:image` on every post and homepage. Removed duplicate block entirely.
+- **Missing `article:` properties** — posts now output `article:published_time`, `article:modified_time`, `article:author`, `article:section`, and all `article:tag` values; required by Facebook News and Google Discover
+- **No robots meta tag** — added `index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1` for normal pages; `noindex,follow` for 404 and empty search result pages
+- **`og:url` wrong variable** — `data:blog.url.canonical` (blog-level) changed to `data:view.url.canonical` (page-level) in `customOpenGraphMetaData`
+- **Missing `og:image:width`, `og:image:height`, `og:image:alt`, `og:image:type`** — added to all image-bearing pages
+- **Duplicate `theme-color` meta** — hardcoded `#2563eb` static tag removed; dynamic CSS-variable-driven tag retained
+- **Deprecated `Content-Type` meta** (`http-equiv="Content-Type"`) replaced with modern `<meta charset="utf-8">`
+- **`og:image` aspect ratio** — changed resizeImage second argument from `"630"` to `"16:9"` for correct proportional cropping
+- **`twitter:image` fallback** — added `data:blog.postImageUrl` fallback when `data:view.featuredImage` is absent
+
+### Fixed — HTML / Accessibility
+- **`expr:ariby` typo** on all 3 contact form inputs changed to `expr:aria-label` (was a non-existent HTML attribute — ARIA was never applied)
+
+### Fixed — CSS
+- **`@keyframes darkOff`** was identical to `darkOn` (both 0.25→1 opacity) — dark mode toggle Off animation had no visual effect; fixed to 1→0.25
+- **`@keyframes copyOff`** was identical to `copyOn` (both 0→1 opacity) — copy-link confirmation had no fade-out; fixed to 1→0
+
+### Fixed — Performance
+- **Bootstrap Icons render-blocking** — changed from synchronous `rel="stylesheet"` to async preload pattern (`rel="preload" as="style" onload="this.rel='stylesheet'"`) with `<noscript>` fallback; eliminates a render-blocking resource on every page
+- **Missing preconnect** for `pagead2.googlesyndication.com`, `www.googletagmanager.com`, `www.clarity.ms` — added; reduces connection latency for ads and analytics
+
+### Fixed — Blogger Logic
+- **Disqus shortname** was `"probloggertemplates"` (template author's Disqus account) — changed to `"thebukitbesi"` in both declarations
+
+### Added
+- `docs/SEO-AUDIT.md` — comprehensive issue registry with severity, fix status, and validation checklist
+
+---
+
 ## [2.1.1] — 2026-04-03
 
 ### Fixed

@@ -18,7 +18,6 @@
         <meta content='ahdaybbwhsv8eelp8rkqmy8r8ngnb9' name='facebook-domain-verification'/>
         <meta content='966242223397117' property='fb:app_id'/>
         <link href='https://tbbcom.github.io/on/manifest.json' rel='manifest'/>
-		<meta content='#2563eb' name='theme-color'/>
         <!-- GA4 Implementation -->
         <script async='async' src='https://www.googletagmanager.com/gtag/js?id=G-0XL6FW2M0R'/>
         <script>window.dataLayer = window.dataLayer || [];
@@ -1019,9 +1018,9 @@ ins.adsbygoogle-noablate[data-anchor-shown="true"]{z-index:990!important}
 @keyframes rotate{100%{transform:rotate(360deg)}}
 @keyframes dash{0%{stroke-dasharray:1,150;stroke-dashoffset:0}50%{stroke-dasharray:90,150;stroke-dashoffset:-35}100%{stroke-dasharray:90,150;stroke-dashoffset:-124}}
 @keyframes darkOn{0%{opacity:.25}100%{opacity:1}}
-@keyframes darkOff{0%{opacity:.25}100%{opacity:1}}
+@keyframes darkOff{0%{opacity:1}100%{opacity:.25}}
 @keyframes copyOn{0%{opacity:0}100%{opacity:1}}
-@keyframes copyOff{0%{opacity:0}100%{opacity:1}}
+@keyframes copyOff{0%{opacity:1}100%{opacity:0}}
 .fadeInUp{opacity:0;-webkit-animation-timing-function:ease-out;animation-timing-function:ease-out;-webkit-animation-fill-mode:both;animation-fill-mode:both;-webkit-animation-duration:.25s;animation-duration:.25s;-webkit-animation-name:fadeInUp;animation-name:fadeInUp}
 .fadeInDown{opacity:0;-webkit-animation-timing-function:ease-out;animation-timing-function:ease-out;-webkit-animation-fill-mode:both;animation-fill-mode:both;-webkit-animation-duration:.25s;animation-duration:.25s;-webkit-animation-name:fadeInDown;animation-name:fadeInDown}
 @media (max-width: calc(60.625rem + 4.5rem)) {
@@ -1169,52 +1168,65 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display: none !important;
             <b:attr cond='data:widgets.Text none w =&gt; w.sectionId == &quot;cookie&quot;' name='native-cookie' value='true'/>
           </b:includable>
           <b:includable id='customOpenGraphMetaData'>
-	<meta expr:content='data:blog.localeUnderscoreDelimited' property='og:locale'/>
-	<b:if cond='data:view.isHomepage'>
-		<meta content='website' property='og:type'/> <b:elseif cond='data:view.isSingleItem'/>
-		<meta content='article' property='og:type'/> <b:else/>
-		<meta content='object' property='og:type'/> </b:if>
-	<meta expr:content='data:view.title.escaped' property='og:title'/>
-	<meta expr:content='data:blog.title.escaped' property='og:site_name'/>
-	<meta expr:content='data:view.description.escaped' property='og:description'/>
-	<meta expr:content='data:blog.url.canonical' property='og:url'/>
-	<b:if cond='data:view.featuredImage'>
-		<meta expr:content='data:view.featuredImage resizeImage 1200' property='og:image'/> <b:elseif cond='data:blog.postImageUrl'/>
-		<meta expr:content='data:blog.postImageUrl resizeImage 1200' property='og:image'/> </b:if>
-	<meta content='summary_large_image' name='twitter:card'/>
-	<meta expr:content='data:view.title.escaped' name='twitter:title'/>
-	<meta expr:content='data:view.description.escaped' name='twitter:description'/>
-	<meta expr:content='data:view.featuredImage resizeImage 1200' name='twitter:image'/> </b:includable>
+            <meta expr:content='data:blog.localeUnderscoreDelimited' property='og:locale'/>
+            <b:if cond='data:view.isHomepage'>
+              <meta content='website' property='og:type'/>
+            <b:elseif cond='data:view.isSingleItem'/>
+              <meta content='article' property='og:type'/>
+            <b:else/>
+              <meta content='object' property='og:type'/>
+            </b:if>
+            <meta expr:content='data:view.title.escaped' property='og:title'/>
+            <meta expr:content='data:blog.title.escaped' property='og:site_name'/>
+            <meta expr:content='data:view.description.escaped' property='og:description'/>
+            <!-- og:url — use view canonical for all page types -->
+            <meta expr:content='data:view.url.canonical' property='og:url'/>
+            <b:if cond='data:view.featuredImage'>
+              <meta expr:content='resizeImage(data:view.featuredImage, 1200, &quot;16:9&quot;)' property='og:image'/>
+              <meta content='1200' property='og:image:width'/>
+              <meta content='675' property='og:image:height'/>
+              <meta expr:content='data:view.title.escaped' property='og:image:alt'/>
+              <meta content='image/webp' property='og:image:type'/>
+              <meta expr:content='resizeImage(data:view.featuredImage, 1200, &quot;16:9&quot;)' name='twitter:image'/>
+            <b:elseif cond='data:blog.postImageUrl'/>
+              <meta expr:content='resizeImage(data:blog.postImageUrl, 1200, &quot;16:9&quot;)' property='og:image'/>
+              <meta content='1200' property='og:image:width'/>
+              <meta content='675' property='og:image:height'/>
+              <meta expr:content='data:view.title.escaped' property='og:image:alt'/>
+              <meta content='image/webp' property='og:image:type'/>
+              <meta expr:content='resizeImage(data:blog.postImageUrl, 1200, &quot;16:9&quot;)' name='twitter:image'/>
+            </b:if>
+            <meta content='summary_large_image' name='twitter:card'/>
+            <meta expr:content='data:view.title.escaped' name='twitter:title'/>
+            <meta expr:content='data:view.description.escaped' name='twitter:description'/>
+          </b:includable>
           <b:includable id='pbt-head'>
+            <!-- Robots meta: noindex error & raw-query search pages to prevent thin-content indexing -->
+            <b:if cond='data:view.isError'>
+              <meta content='noindex, follow' name='robots'/>
+            <b:elseif cond='data:view.isSearch and !data:view.search.label and !data:view.search.query'/>
+              <meta content='noindex, follow' name='robots'/>
+            <b:else/>
+              <meta content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' name='robots'/>
+            </b:if>
+            <!-- Article meta (post pages only) — required for Facebook News & Google Discover -->
             <b:if cond='data:view.isPost'>
-	<meta expr:content='data:blog.canonicalUrl' property='og:url'/>
-	<meta expr:content='data:blog.pageName' property='og:title'/>
-	<meta expr:content='data:blog.metaDescription' property='og:description'/>
-	<meta content='article' property='og:type'/>
-	<meta expr:content='resizeImage(data:blog.postImageUrl,1200,&quot;630&quot;)' property='og:image'/>
-	<meta expr:content='resizeImage(data:blog.postImageUrl,1200,&quot;630&quot;)' name='twitter:image'/>
-	<meta content='1200' property='og:image:width'/>
-	<meta content='630' property='og:image:height'/>
-	<meta content='image/webp' property='og:image:type'/>
-	<meta expr:content='data:blog.pageName' property='og:image:alt'/>
-	<meta content='summary_large_image' name='twitter:card'/>
-	<meta expr:content='data:blog.pageName' name='twitter:title'/>
-	<meta expr:content='data:blog.metaDescription' name='twitter:description'/> </b:if>
-<b:if cond='data:view.isHomepage'>
-	<meta content='website' property='og:type'/>
-	<meta content='The Bukit Besi' property='og:site_name'/>
-	<meta content='ms_MY' property='og:locale'/>
-	<meta content='The Bukit Besi' property='og:title'/>
-	<meta content='Platform digital The Bukit Besi lengkap dengan sajian tutorial, review, isu semasa, tip harian dan inspirasi tempatan.' property='og:description'/>
-	<meta content='https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg5-p8tEVCMM7QDy-l92oo94Nc48N0c5ebiwQKr5hF5sj1p8NGZ0BZ4TuvG0i94FbOC0pf9ZvzUdKOYe7DeGIRnPAyZlFUvawCiPxY0ut7B0n5srvStf7TwDCtU2LdOh5nH_lHfHbFRjMviQBmD0kzd4VsFCSHKSb-pFp8dpEf38rYrjOqhWqh0HmqqzenH/s1200/the-bukit-besi-16x9.webp' property='og:image'/>
-	<meta content='1200' property='og:image:width'/>
-	<meta content='630' property='og:image:height'/>
-	<meta content='summary_large_image' name='twitter:card'/>
-	<meta content='The Bukit Besi' name='twitter:title'/>
-	<meta content='Platform digital The Bukit Besi lengkap dengan sajian tutorial, review dan inspirasi tempatan.' name='twitter:description'/>
-	<meta content='https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg5-p8tEVCMM7QDy-l92oo94Nc48N0c5ebiwQKr5hF5sj1p8NGZ0BZ4TuvG0i94FbOC0pf9ZvzUdKOYe7DeGIRnPAyZlFUvawCiPxY0ut7B0n5srvStf7TwDCtU2LdOh5nH_lHfHbFRjMviQBmD0kzd4VsFCSHKSb-pFp8dpEf38rYrjOqhWqh0HmqqzenH/s1200/the-bukit-besi-16x9.webp' name='twitter:image'/> </b:if>
+              <b:if cond='data:view.timestamp.iso8601'>
+                <meta expr:content='data:view.timestamp.iso8601' property='article:published_time'/>
+              </b:if>
+              <b:if cond='data:view.lastUpdated.iso8601'>
+                <meta expr:content='data:view.lastUpdated.iso8601' property='article:modified_time'/>
+              </b:if>
+              <meta expr:content='data:post.author.name' property='article:author'/>
+              <b:if cond='data:post.labels'>
+                <meta expr:content='data:post.labels.first.name' property='article:section'/>
+                <b:loop values='data:post.labels' var='label'>
+                  <meta expr:content='data:label.name' property='article:tag'/>
+                </b:loop>
+              </b:if>
+            </b:if>
             <meta content='blogger' name='generator'/>
-            <meta expr:content='&quot;text/html; charset=&quot; + data:blog.encoding' http-equiv='Content-Type'/>
+            <meta charset='utf-8'/>
             <meta content='width=device-width, initial-scale=1, minimum-scale=1, user-scalable=yes' name='viewport'/>
             <meta content='31dc76b8d3a1ad64' name='yandex-verification'/>
             <b:if cond='data:view.isHomepage'>
@@ -1246,6 +1258,9 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display: none !important;
               <link crossorigin='' href='//fonts.gstatic.com' rel='preconnect'/>
               <link href='//cdnjs.cloudflare.com' rel='preconnect'/>
               <link href='//cdn.jsdelivr.net' rel='preconnect'/>
+              <link href='//pagead2.googlesyndication.com' rel='preconnect'/>
+              <link href='//www.googletagmanager.com' rel='preconnect'/>
+              <link href='//www.clarity.ms' rel='preconnect'/>
               <link href='//blogger.googleusercontent.com' rel='dns-prefetch'/>
               <link href='//1.bp.blogspot.com' rel='dns-prefetch'/>
               <link href='//2.bp.blogspot.com' rel='dns-prefetch'/>
@@ -1285,7 +1300,8 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display: none !important;
                   <link href='https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&amp;display=swap' rel='stylesheet'/>
                 </noscript>
               </b:if>
-              <b:tag href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.13.1/font/bootstrap-icons.min.css' name='link' rel='stylesheet'/>
+              <link as='style' href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.13.1/font/bootstrap-icons.min.css' onload="this.onload=null;this.rel='stylesheet'" rel='preload'/>
+              <noscript><link href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.13.1/font/bootstrap-icons.min.css' rel='stylesheet'/></noscript>
             </b:if>
           </b:includable>
           <b:includable id='body-attrs'>
@@ -1676,9 +1692,9 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display: none !important;
           <b:includable id='contact-form-content'>
             <div class='widget-content contact-form-widget'>
               <form class='contact-form-form' name='contact-form'>
-                <input class='contact-form-name cf-s' expr:ariby='data:contactFormNameMsg' expr:id='data:widget.instanceId + &quot;_contact-form-name&quot;' expr:placeholder='data:contactFormNameMsg' name='name' size='30' type='text' value=''/>
-                <input class='contact-form-email cf-s' expr:ariby='data:contactFormEmailMsg + &quot; *&quot;' expr:id='data:widget.instanceId + &quot;_contact-form-email&quot;' expr:placeholder='data:contactFormEmailMsg + &quot; *&quot;' name='email' size='30' type='text' value=''/>
-                <textarea class='contact-form-email-message cf-s' cols='25' expr:ariby='data:contactFormMessageMsg + &quot; *&quot;' expr:id='data:widget.instanceId + &quot;_contact-form-email-message&quot;' expr:placeholder='data:contactFormMessageMsg + &quot; *&quot;' name='email-message' rows='5'/>
+                <input class='contact-form-name cf-s' expr:aria-label='data:contactFormNameMsg' expr:id='data:widget.instanceId + &quot;_contact-form-name&quot;' expr:placeholder='data:contactFormNameMsg' name='name' size='30' type='text' value=''/>
+                <input class='contact-form-email cf-s' expr:aria-label='data:contactFormEmailMsg + &quot; *&quot;' expr:id='data:widget.instanceId + &quot;_contact-form-email&quot;' expr:placeholder='data:contactFormEmailMsg + &quot; *&quot;' name='email' size='30' type='text' value=''/>
+                <textarea class='contact-form-email-message cf-s' cols='25' expr:aria-label='data:contactFormMessageMsg + &quot; *&quot;' expr:id='data:widget.instanceId + &quot;_contact-form-email-message&quot;' expr:placeholder='data:contactFormMessageMsg + &quot; *&quot;' name='email-message' rows='5'/>
                 <input class='contact-form-button contact-form-button-submit btn' expr:id='data:widget.instanceId + &quot;_contact-form-submit&quot;' expr:value='data:contactFormSendMsg' type='button'/>
                 <p class='contact-form-error-message' expr:id='data:widget.instanceId + &quot;_contact-form-error-message&quot;'/>
                 <p class='contact-form-success-message' expr:id='data:widget.instanceId + &quot;_contact-form-success-message&quot;'/>
@@ -2376,7 +2392,7 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display: none !important;
           <b:includable id='threadedCommentJs' var='post'/>
           <b:includable id='threadedComments' var='post'/>
           <b:includable id='threadedCommentsDisqus' var='post'>
-            <b:tag name='script' type='text/javascript'>var disqus_shortname=&quot;probloggertemplates&quot;,disqus_blogger_current_url=&quot;<data:post.url.canonical/>&quot;,disqus_blogger_homepage_url=&quot;<data:blog.homepageUrl.canonical/>&quot;,disqus_blogger_canonical_homepage_url=&quot;<data:blog.homepageUrl.canonical/>&quot;;</b:tag>
+            <b:tag name='script' type='text/javascript'>var disqus_shortname=&quot;thebukitbesi&quot;,disqus_blogger_current_url=&quot;<data:post.url.canonical/>&quot;,disqus_blogger_homepage_url=&quot;<data:blog.homepageUrl.canonical/>&quot;,disqus_blogger_canonical_homepage_url=&quot;<data:blog.homepageUrl.canonical/>&quot;;</b:tag>
           </b:includable>
         </b:defaultmarkup>
         <b:defaultmarkup type='PopularPosts'>
@@ -3758,7 +3774,7 @@ if (canonicalUrl) {
                     <b:includable id='threadedCommentJs' var='post'/>
                     <b:includable id='threadedComments' var='post'/>
                     <b:includable id='threadedCommentsDisqus' var='post'>
-                      <b:tag name='script' type='text/javascript'>var disqus_shortname=&quot;probloggertemplates&quot;,disqus_blogger_current_url=&quot;<data:post.url.canonical/>&quot;,disqus_blogger_homepage_url=&quot;<data:blog.homepageUrl.canonical/>&quot;,disqus_blogger_canonical_homepage_url=&quot;<data:blog.homepageUrl.canonical/>&quot;;</b:tag>
+                      <b:tag name='script' type='text/javascript'>var disqus_shortname=&quot;thebukitbesi&quot;,disqus_blogger_current_url=&quot;<data:post.url.canonical/>&quot;,disqus_blogger_homepage_url=&quot;<data:blog.homepageUrl.canonical/>&quot;,disqus_blogger_canonical_homepage_url=&quot;<data:blog.homepageUrl.canonical/>&quot;;</b:tag>
                     </b:includable>
                     <b:includable id='tooltipCss'>
                       <!-- LINT.IfChange -->
