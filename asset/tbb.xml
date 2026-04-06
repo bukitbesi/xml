@@ -484,7 +484,6 @@ svg{display:inline-block;width:1em;height:1em;font-size:1em;line-height:1;overfl
 .featured-items  {display:grid;grid-template-rows:minmax(0,1fr) minmax(0,auto);align-items:center;height:var(--height)}
 .featured-items .first{position:static}
 .featured-items .first .entry-thumbnail{position:absolute;inset:0;aspect-ratio:unset;z-index:0;border-radius:0}
-.featured-items .first .entry-thumbnail .lcp-hero{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
 .featured-items .first .entry-thumbnail:after{content:'';position:absolute;inset:0;background:linear-gradient(0,var(--rgba-99),var(--rgba-1a));z-index:2}
 .featured-items .first .entry-header{position:relative;gap:1rem;max-width:65%;z-index:3}
 .featured-items .first .entry-title{font-size:2rem}
@@ -1595,12 +1594,7 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display:none!important}
                 <b:if cond='data:i == 0'>
                   <a class='entry-inner flex-c' expr:href='data:post.url.canonical'>
                     <div class='container'>
-                      <!-- LCP hero: real img tag with fetchpriority so browser fetches immediately -->
-                      <div class='entry-thumbnail'>
-                        <b:if cond='data:post.featuredImage'>
-                          <img class='thumbnail lcp-hero' expr:alt='data:post.title' expr:src='resizeImage(data:post.featuredImage, 1200, &quot;16:9&quot;)' fetchpriority='high' height='675' loading='eager' width='1200'/>
-                        </b:if>
-                      </div>
+                      <b:include data='{ showIcon: false, hasLink: false }' name='post-thumbnail'/>
                       <div class='entry-header'>
                         <b:include name='post-category'/>
                         <b:include data='{ hasLink: false }' name='post-title'/>
