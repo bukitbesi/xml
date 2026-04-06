@@ -1,0 +1,74 @@
+{
+  "color_palette": [
+    { "color": "#2563eb", "slug": "palette1", "name": "Accent Blue"  },
+    { "color": "#1d4ed8", "slug": "palette2", "name": "Accent Dark"  },
+    { "color": "#111827", "slug": "palette3", "name": "Dark"         },
+    { "color": "#374151", "slug": "palette4", "name": "Dark Medium"  },
+    { "color": "#6b7280", "slug": "palette5", "name": "Gray"         },
+    { "color": "#d1d5db", "slug": "palette6", "name": "Light Gray"   },
+    { "color": "#f3f4f6", "slug": "palette7", "name": "Off White"    },
+    { "color": "#ffffff", "slug": "palette8", "name": "White"        }
+  ],
+  "typography": {
+    "body": {
+      "family":     "Inter",
+      "weight":     "400",
+      "size":       { "desktop": 17, "tablet": 16, "mobile": 15, "unit": "px" },
+      "lineHeight": { "desktop": 1.75 }
+    },
+    "h1": {
+      "family": "Inter", "weight": "700",
+      "size":   { "desktop": 40, "tablet": 32, "mobile": 28, "unit": "px" },
+      "lineHeight": { "desktop": 1.2 }
+    },
+    "h2": {
+      "family": "Inter", "weight": "700",
+      "size":   { "desktop": 30, "tablet": 26, "mobile": 22, "unit": "px" },
+      "lineHeight": { "desktop": 1.3 }
+    },
+    "h3": {
+      "family": "Inter", "weight": "600",
+      "size":   { "desktop": 22, "tablet": 20, "mobile": 18, "unit": "px" },
+      "lineHeight": { "desktop": 1.4 }
+    },
+    "h4": {
+      "family": "Inter", "weight": "600",
+      "size":   { "desktop": 18, "tablet": 17, "mobile": 16, "unit": "px" }
+    },
+    "h5": {
+      "family": "Inter", "weight": "600",
+      "size":   { "desktop": 16, "unit": "px" }
+    },
+    "h6": {
+      "family": "Inter", "weight": "600",
+      "size":   { "desktop": 14, "unit": "px" }
+    }
+  },
+  "buttons": {
+    "color":            "#ffffff",
+    "background":       "#2563eb",
+    "backgroundHover":  "#1d4ed8",
+    "borderRadius":     8,
+    "paddingTopBottom": 12,
+    "paddingLeftRight": 24,
+    "fontWeight":       "600",
+    "fontSize":         14
+  },
+  "links": {
+    "color":      "#2563eb",
+    "colorHover": "#1d4ed8"
+  },
+  "header": {
+    "height":     { "desktop": 70, "mobile": 60, "unit": "px" },
+    "background": "#ffffff",
+    "borderBottom": "1px solid #e5e7eb",
+    "sticky": true
+  },
+  "content": {
+    "width":     1200,
+    "narrowWidth": 780
+  },
+  "sidebar": {
+    "width": 340
+  }
+}
