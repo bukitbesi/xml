@@ -1,0 +1,871 @@
+/*
+Theme Name:   Kadence Spotlight Child
+Theme URI:    https://makluman.com
+Description:  Lightweight SEO-first Kadence Pro child theme. Inspired by the Spotlight blogger design — same color system, typography and grid — rebuilt for zero layout shift, near-perfect Core Web Vitals and maximum ranking performance.
+Author:       Bukit Besi
+Author URI:   https://www.thebukitbesi.com
+Template:     kadence
+Version:      1.0.0
+License:      GNU General Public License v2 or later
+License URI:  https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain:  kadence-spotlight-child
+Tags:         blog, news, magazine, seo, lightweight, dark-mode
+*/
+
+/* ============================================================
+   1. DESIGN TOKENS  (mirrors Spotlight CSS variable system)
+   ============================================================ */
+:root {
+  /* Brand */
+  --sp-accent:          #2563eb;
+  --sp-accent-dark:     #1d4ed8;
+  --sp-accent-lite:     #2563eb26;
+
+  /* Text hierarchy */
+  --sp-title:           #111827;
+  --sp-text:            #4b5563;
+  --sp-summary:         #6b7280;
+  --sp-meta:            #9ca3af;
+
+  /* Surfaces */
+  --sp-bg:              #f3f4f6;
+  --sp-surface:         #ffffff;
+  --sp-border:          #e5e7eb;
+
+  /* Header */
+  --sp-header-bg:       #ffffff;
+  --sp-header-color:    #111827;
+  --sp-header-hover:    #2563eb;
+
+  /* Sub-menu */
+  --sp-submenu-bg:      #111827;
+  --sp-submenu-color:   #f9fafb;
+
+  /* Footer */
+  --sp-footer-bg:       #111827;
+  --sp-footer-color:    #f9fafb;
+  --sp-footer-text:     #d1d5db;
+  --sp-footerbar-bg:    #020617;
+
+  /* UI */
+  --sp-radius:          0.5rem;
+  --sp-radius-sm:       0.25rem;
+  --sp-shadow:          0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.05);
+  --sp-shadow-md:       0 4px 12px rgba(0,0,0,.10);
+  --sp-shadow-lg:       0 8px 24px rgba(0,0,0,.12);
+  --sp-transition:      .2s ease;
+
+  /* Layout */
+  --sp-container:       75rem;        /* 1200px */
+  --sp-sidebar:         20rem;        /* 320px */
+  --sp-gap:             2rem;
+  --sp-header-h:        4rem;
+
+  /* Typography */
+  --sp-font:            'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --sp-font-mono:       'JetBrains Mono', 'Fira Code', monospace;
+}
+
+/* Dark mode tokens */
+.dark-mode,
+[data-theme="dark"] {
+  --sp-accent:          #3b82f6;
+  --sp-title:           #f9fafb;
+  --sp-text:            #d1d5db;
+  --sp-summary:         #9ca3af;
+  --sp-meta:            #6b7280;
+  --sp-bg:              #111827;
+  --sp-surface:         #1f2937;
+  --sp-border:          #374151;
+  --sp-header-bg:       #1f2937;
+  --sp-header-color:    #f9fafb;
+  --sp-shadow:          0 1px 3px rgba(0,0,0,.3),0 1px 2px rgba(0,0,0,.2);
+}
+
+/* ============================================================
+   2. BASE OVERRIDES — match Spotlight baseline
+   ============================================================ */
+body {
+  font-family: var(--sp-font) !important;
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--sp-text);
+  background-color: var(--sp-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: var(--sp-accent);
+  text-decoration: none;
+  transition: color var(--sp-transition);
+}
+a:hover { color: var(--sp-accent-dark); }
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ============================================================
+   3. TYPOGRAPHY
+   ============================================================ */
+h1, h2, h3, h4, h5, h6,
+.entry-title,
+.wp-block-heading {
+  font-family: var(--sp-font) !important;
+  color: var(--sp-title);
+  line-height: 1.3;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+h1, .h1 { font-size: clamp(1.75rem, 4vw, 2.5rem); }
+h2, .h2 { font-size: clamp(1.375rem, 3vw, 1.875rem); }
+h3, .h3 { font-size: clamp(1.125rem, 2.5vw, 1.375rem); }
+h4, .h4 { font-size: 1.125rem; }
+h5, .h5 { font-size: 1rem; }
+h6, .h6 { font-size: 0.875rem; }
+
+/* Post title sizing */
+.entry-title { font-size: clamp(1.5rem, 3vw, 2rem); margin-bottom: 1rem; }
+.entry-title a { color: var(--sp-title); }
+.entry-title a:hover { color: var(--sp-accent); }
+
+/* Body copy */
+.entry-content,
+.entry-content p {
+  font-size: 1.0625rem;
+  line-height: 1.8;
+  color: var(--sp-text);
+}
+.entry-content p { margin-bottom: 1.5rem; }
+
+/* Meta */
+.entry-meta,
+.entry-footer,
+.posted-on,
+.byline {
+  font-size: 0.8125rem;
+  color: var(--sp-meta);
+}
+
+/* ============================================================
+   4. LAYOUT & CONTAINER
+   ============================================================ */
+.site {
+  background: var(--sp-bg);
+}
+
+.container,
+.site-container,
+.content-area .site-main,
+.kadence-container {
+  max-width: var(--sp-container);
+  margin-inline: auto;
+  padding-inline: var(--sp-gap);
+}
+
+/* Content + sidebar grid */
+.content-wrap,
+#inner-wrap {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--sp-sidebar);
+  gap: var(--sp-gap);
+  align-items: start;
+}
+.no-sidebar .content-wrap,
+.no-sidebar #inner-wrap {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+/* ============================================================
+   5. HEADER
+   ============================================================ */
+.site-header,
+#masthead {
+  background: var(--sp-header-bg);
+  border-bottom: 1px solid var(--sp-border);
+  height: var(--sp-header-h);
+  display: flex;
+  align-items: center;
+}
+
+/* Sticky header */
+.site-header.sticky-header,
+.kadence-sticky-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: var(--sp-shadow);
+}
+
+/* Logo */
+.site-branding .site-title a,
+.site-branding .custom-logo-link {
+  color: var(--sp-title);
+  font-weight: 700;
+  font-size: 1.25rem;
+}
+
+/* Primary nav */
+.main-navigation,
+.primary-navigation {
+  font-family: var(--sp-font);
+  font-size: 0.9375rem;
+  font-weight: 500;
+}
+.main-navigation a,
+.primary-navigation a {
+  color: var(--sp-header-color);
+  padding: 0.5rem 0.875rem;
+  border-radius: var(--sp-radius-sm);
+  transition: color var(--sp-transition), background var(--sp-transition);
+}
+.main-navigation a:hover,
+.primary-navigation a:hover,
+.main-navigation .current-menu-item > a,
+.primary-navigation .current-menu-item > a {
+  color: var(--sp-accent);
+}
+
+/* Dropdown */
+.main-navigation ul ul,
+.primary-navigation ul ul {
+  background: var(--sp-submenu-bg);
+  border-radius: var(--sp-radius);
+  box-shadow: var(--sp-shadow-md);
+  border: none;
+  min-width: 12rem;
+  padding: 0.5rem 0;
+}
+.main-navigation ul ul a,
+.primary-navigation ul ul a {
+  color: var(--sp-submenu-color);
+  padding: 0.5rem 1.25rem;
+  font-size: 0.875rem;
+}
+.main-navigation ul ul a:hover,
+.primary-navigation ul ul a:hover {
+  color: var(--sp-accent);
+  background: rgba(255,255,255,.06);
+}
+
+/* ============================================================
+   6. POST CARDS — index / archive / search
+   ============================================================ */
+.posts-container,
+.loop-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
+  gap: var(--sp-gap);
+}
+
+/* Individual card */
+article.post,
+.post-grid-item,
+.type-post {
+  background: var(--sp-surface);
+  border-radius: var(--sp-radius);
+  box-shadow: var(--sp-shadow);
+  overflow: hidden;
+  transition: box-shadow var(--sp-transition), transform var(--sp-transition);
+  display: flex;
+  flex-direction: column;
+}
+article.post:hover,
+.post-grid-item:hover {
+  box-shadow: var(--sp-shadow-md);
+  transform: translateY(-2px);
+}
+
+/* Card thumbnail */
+.post-thumbnail,
+.wp-post-image,
+.entry-thumbnail {
+  width: 100%;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+  display: block;
+}
+.post-thumbnail a { display: block; overflow: hidden; }
+.post-thumbnail img {
+  width: 100%;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+  transition: transform .35s ease;
+}
+.post-thumbnail a:hover img { transform: scale(1.03); }
+
+/* Card body */
+.entry-header,
+.entry-body {
+  padding: 1.25rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Category label */
+.cat-links a,
+.entry-categories a,
+.post-categories a {
+  display: inline-block;
+  background: var(--sp-accent);
+  color: #fff;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.25rem 0.625rem;
+  border-radius: 999px;
+  margin-bottom: 0.75rem;
+  line-height: 1.4;
+}
+.cat-links a:hover,
+.entry-categories a:hover { background: var(--sp-accent-dark); color: #fff; }
+
+/* Card title */
+.entry-title {
+  font-size: 1.0625rem;
+  line-height: 1.4;
+  margin: 0 0 0.625rem;
+  flex: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Excerpt */
+.entry-summary,
+.entry-excerpt {
+  font-size: 0.875rem;
+  color: var(--sp-summary);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Meta row */
+.entry-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.8125rem;
+  color: var(--sp-meta);
+  margin-top: auto;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--sp-border);
+}
+.entry-meta time { color: var(--sp-meta); }
+
+/* ============================================================
+   7. FEATURED / HERO SECTION
+   ============================================================ */
+.featured-section,
+.hero-section {
+  background: var(--sp-surface);
+  margin-bottom: var(--sp-gap);
+}
+
+.featured-hero {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--sp-radius);
+  aspect-ratio: 16/9;
+  max-height: 32rem;
+}
+.featured-hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.featured-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, rgba(0,0,0,.7) 0%, rgba(0,0,0,.1) 60%);
+  z-index: 1;
+}
+.featured-hero .entry-header {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  padding: 2rem;
+  color: #fff;
+}
+.featured-hero .entry-title {
+  color: #fff;
+  font-size: clamp(1.375rem, 3vw, 2rem);
+  -webkit-line-clamp: 2;
+}
+
+/* ============================================================
+   8. SINGLE POST PAGE
+   ============================================================ */
+.single .entry-header { margin-bottom: 2rem; }
+.single .entry-title { font-size: clamp(1.5rem, 3.5vw, 2.25rem); margin-bottom: 0.75rem; }
+
+/* Featured image */
+.single .post-thumbnail,
+.single .wp-post-image {
+  width: 100%;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+  border-radius: var(--sp-radius);
+  margin-bottom: 2rem;
+}
+
+/* Reading width — prevents lines from getting too long */
+.single .entry-content {
+  max-width: 42rem;
+}
+.single.no-sidebar .entry-content { max-width: 48rem; margin-inline: auto; }
+
+/* In-content elements */
+.entry-content h2 { margin: 2rem 0 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--sp-border); }
+.entry-content h3 { margin: 1.75rem 0 0.875rem; }
+.entry-content ul, .entry-content ol { margin: 0 0 1.5rem 1.5rem; }
+.entry-content li { margin-bottom: 0.375rem; }
+.entry-content blockquote {
+  border-left: 4px solid var(--sp-accent);
+  margin: 2rem 0;
+  padding: 1rem 1.5rem;
+  background: var(--sp-accent-lite);
+  border-radius: 0 var(--sp-radius) var(--sp-radius) 0;
+  font-style: italic;
+  color: var(--sp-title);
+}
+.entry-content pre,
+.entry-content code {
+  font-family: var(--sp-font-mono);
+  font-size: 0.875rem;
+}
+.entry-content pre {
+  background: var(--sp-bg);
+  border: 1px solid var(--sp-border);
+  border-radius: var(--sp-radius);
+  padding: 1.25rem;
+  overflow-x: auto;
+  margin-bottom: 1.5rem;
+}
+.entry-content code {
+  background: var(--sp-bg);
+  padding: 0.125rem 0.375rem;
+  border-radius: var(--sp-radius-sm);
+  color: var(--sp-accent);
+}
+
+/* Tables */
+.entry-content table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; }
+.entry-content th { background: var(--sp-bg); font-weight: 600; }
+.entry-content th, .entry-content td { padding: 0.75rem 1rem; border: 1px solid var(--sp-border); text-align: left; }
+.entry-content tr:nth-child(even) td { background: var(--sp-bg); }
+
+/* Post navigation */
+.post-navigation {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin: 3rem 0;
+  padding: 2rem 0;
+  border-top: 1px solid var(--sp-border);
+  border-bottom: 1px solid var(--sp-border);
+}
+.nav-previous, .nav-next { display: flex; flex-direction: column; }
+.nav-next { text-align: right; align-items: flex-end; }
+.nav-subtitle { font-size: 0.75rem; text-transform: uppercase; letter-spacing: .06em; color: var(--sp-meta); margin-bottom: 0.25rem; }
+.nav-title { font-weight: 600; color: var(--sp-title); font-size: 0.9375rem; line-height: 1.4; }
+.nav-title:hover { color: var(--sp-accent); }
+
+/* ============================================================
+   9. BREADCRUMBS
+   ============================================================ */
+.breadcrumb-trail,
+.kadence-breadcrumbs,
+.rank-math-breadcrumb,
+.yoast-breadcrumb {
+  font-size: 0.8125rem;
+  color: var(--sp-meta);
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+.breadcrumb-trail a,
+.rank-math-breadcrumb a,
+.yoast-breadcrumb a { color: var(--sp-meta); }
+.breadcrumb-trail a:hover,
+.rank-math-breadcrumb a:hover,
+.yoast-breadcrumb a:hover { color: var(--sp-accent); }
+.breadcrumb-trail .sep { margin: 0 0.25rem; opacity: .4; }
+
+/* ============================================================
+   10. SIDEBAR
+   ============================================================ */
+.widget-area,
+#secondary {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.widget {
+  background: var(--sp-surface);
+  border-radius: var(--sp-radius);
+  box-shadow: var(--sp-shadow);
+  padding: 1.25rem;
+  overflow: hidden;
+}
+
+.widget-title {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--sp-title);
+  margin-bottom: 1rem;
+  padding-bottom: 0.625rem;
+  border-bottom: 2px solid var(--sp-accent);
+}
+
+/* Sticky sidebar */
+.widget-area.sticky-sidebar { position: sticky; top: calc(var(--sp-header-h) + 1rem); }
+
+/* Recent / popular posts in sidebar */
+.widget ul { list-style: none; margin: 0; padding: 0; }
+.widget ul li { padding: 0.625rem 0; border-bottom: 1px solid var(--sp-border); }
+.widget ul li:last-child { border-bottom: none; padding-bottom: 0; }
+.widget ul li a { color: var(--sp-title); font-size: 0.875rem; font-weight: 500; line-height: 1.4; }
+.widget ul li a:hover { color: var(--sp-accent); }
+
+/* ============================================================
+   11. BUTTONS
+   ============================================================ */
+.wp-block-button__link,
+.button,
+.btn,
+input[type="submit"],
+button[type="submit"] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: var(--sp-accent);
+  color: #fff !important;
+  font-family: var(--sp-font);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  padding: 0.625rem 1.5rem;
+  border-radius: var(--sp-radius);
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: background var(--sp-transition), transform var(--sp-transition), box-shadow var(--sp-transition);
+  text-decoration: none;
+}
+.wp-block-button__link:hover,
+.button:hover,
+.btn:hover,
+input[type="submit"]:hover {
+  background: var(--sp-accent-dark);
+  box-shadow: var(--sp-shadow-md);
+  transform: translateY(-1px);
+}
+
+/* Outline variant */
+.wp-block-button.is-style-outline .wp-block-button__link,
+.btn-outline {
+  background: transparent;
+  border-color: var(--sp-accent);
+  color: var(--sp-accent) !important;
+}
+.wp-block-button.is-style-outline .wp-block-button__link:hover,
+.btn-outline:hover {
+  background: var(--sp-accent);
+  color: #fff !important;
+}
+
+/* ============================================================
+   12. FOOTER
+   ============================================================ */
+.site-footer,
+#colophon {
+  background: var(--sp-footer-bg);
+  color: var(--sp-footer-text);
+  margin-top: 3rem;
+}
+
+.footer-widgets {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+  gap: 2rem;
+  padding: 3rem 0;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+.footer-widget .widget-title {
+  color: var(--sp-footer-color);
+  border-bottom-color: var(--sp-accent);
+}
+.footer-widget a { color: var(--sp-footer-text); }
+.footer-widget a:hover { color: var(--sp-footer-color); }
+
+.site-info,
+.footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1.25rem 0;
+  font-size: 0.8125rem;
+  color: rgba(255,255,255,.45);
+  background: var(--sp-footerbar-bg);
+}
+.site-info a { color: rgba(255,255,255,.6); }
+.site-info a:hover { color: var(--sp-accent); }
+
+/* ============================================================
+   13. TAGS & LABELS
+   ============================================================ */
+.tags-links a,
+.post-tags a,
+.wp-block-tag-cloud a {
+  display: inline-block;
+  background: var(--sp-bg);
+  color: var(--sp-text);
+  border: 1px solid var(--sp-border);
+  font-size: 0.8125rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  margin: 0.25rem 0.25rem 0.25rem 0;
+  transition: background var(--sp-transition), color var(--sp-transition);
+}
+.tags-links a:hover,
+.post-tags a:hover { background: var(--sp-accent); color: #fff; border-color: var(--sp-accent); }
+
+/* ============================================================
+   14. FORMS & COMMENTS
+   ============================================================ */
+input[type="text"],
+input[type="email"],
+input[type="url"],
+input[type="search"],
+textarea,
+select {
+  width: 100%;
+  padding: 0.625rem 0.875rem;
+  background: var(--sp-surface);
+  border: 1px solid var(--sp-border);
+  border-radius: var(--sp-radius);
+  font-family: var(--sp-font);
+  font-size: 0.9375rem;
+  color: var(--sp-title);
+  transition: border-color var(--sp-transition), box-shadow var(--sp-transition);
+  outline: none;
+}
+input:focus, textarea:focus, select:focus {
+  border-color: var(--sp-accent);
+  box-shadow: 0 0 0 3px var(--sp-accent-lite);
+}
+
+/* Comment list */
+.comment-list { list-style: none; margin: 0; padding: 0; }
+.comment-body {
+  background: var(--sp-surface);
+  border-radius: var(--sp-radius);
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--sp-border);
+}
+.comment-author .fn { font-weight: 600; font-size: 0.9375rem; }
+.comment-metadata { font-size: 0.8125rem; color: var(--sp-meta); margin: 0.25rem 0 0.75rem; }
+
+/* ============================================================
+   15. SEARCH
+   ============================================================ */
+.search-form {
+  display: flex;
+  gap: 0.5rem;
+}
+.search-form .search-field {
+  flex: 1;
+}
+.search-results .entry-title { font-size: 1.125rem; }
+
+/* ============================================================
+   16. PAGINATION
+   ============================================================ */
+.pagination,
+.page-numbers {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  margin: 2.5rem 0;
+  flex-wrap: wrap;
+}
+.page-numbers .page-numbers,
+.pagination a,
+.pagination span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.25rem;
+  height: 2.25rem;
+  padding: 0 0.625rem;
+  background: var(--sp-surface);
+  border: 1px solid var(--sp-border);
+  border-radius: var(--sp-radius-sm);
+  color: var(--sp-title);
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: background var(--sp-transition), color var(--sp-transition);
+}
+.page-numbers .current,
+.pagination .current {
+  background: var(--sp-accent);
+  border-color: var(--sp-accent);
+  color: #fff;
+}
+.page-numbers a:hover,
+.pagination a:hover { background: var(--sp-bg); color: var(--sp-accent); }
+
+/* ============================================================
+   17. PERFORMANCE — CLS prevention
+   ============================================================ */
+/* Reserve space for lazy-loaded images before they arrive */
+.post-thumbnail,
+.entry-thumbnail,
+.featured-image-wrap {
+  background: var(--sp-bg);
+}
+
+/* Prevent ad CLS */
+.widget_block .wp-block-group,
+.kadence-ad-block,
+.ad-area {
+  min-height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ============================================================
+   18. ACCESSIBILITY
+   ============================================================ */
+/* Skip to content */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 0;
+  background: var(--sp-accent);
+  color: #fff;
+  padding: 0.625rem 1rem;
+  z-index: 9999;
+  border-radius: 0 0 var(--sp-radius) 0;
+  font-weight: 600;
+  text-decoration: none;
+}
+.skip-link:focus { top: 0; }
+
+/* Focus rings */
+:focus-visible {
+  outline: 2px solid var(--sp-accent);
+  outline-offset: 3px;
+  border-radius: var(--sp-radius-sm);
+}
+
+/* ============================================================
+   19. BLOCK EDITOR OVERRIDES
+   ============================================================ */
+/* Columns block */
+.wp-block-columns { gap: var(--sp-gap); }
+
+/* Separator */
+.wp-block-separator { border-color: var(--sp-border); }
+
+/* Quote block */
+.wp-block-quote {
+  border-left: 4px solid var(--sp-accent);
+  background: var(--sp-accent-lite);
+  padding: 1.25rem 1.5rem;
+  border-radius: 0 var(--sp-radius) var(--sp-radius) 0;
+  margin: 2rem 0;
+}
+.wp-block-quote cite { font-size: 0.875rem; color: var(--sp-meta); }
+
+/* Cover block */
+.wp-block-cover { border-radius: var(--sp-radius); overflow: hidden; }
+
+/* Callout / notice pattern */
+.wp-block-group.is-style-notice {
+  background: var(--sp-accent-lite);
+  border-left: 4px solid var(--sp-accent);
+  border-radius: 0 var(--sp-radius) var(--sp-radius) 0;
+  padding: 1.25rem 1.5rem;
+  margin: 2rem 0;
+}
+
+/* ============================================================
+   20. RESPONSIVE
+   ============================================================ */
+@media (max-width: 1100px) {
+  :root {
+    --sp-sidebar: 18rem;
+    --sp-gap: 1.5rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .content-wrap,
+  #inner-wrap {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .widget-area,
+  #secondary {
+    order: 2;
+    position: static;
+  }
+  .footer-widgets { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 640px) {
+  :root {
+    --sp-gap: 1.25rem;
+    --sp-header-h: 3.5rem;
+  }
+  .posts-container,
+  .loop-container { grid-template-columns: 1fr; }
+  .footer-widgets { grid-template-columns: 1fr; }
+  .post-navigation { grid-template-columns: 1fr; }
+  .nav-next { text-align: left; align-items: flex-start; }
+  .site-info {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .entry-title { font-size: 1.25rem; }
+  .featured-hero .entry-title { font-size: 1.25rem; }
+}
+
+/* ============================================================
+   21. PRINT
+   ============================================================ */
+@media print {
+  .site-header, .site-footer, .widget-area,
+  .post-navigation, .comments-area { display: none; }
+  body { font-size: 12pt; color: #000; background: #fff; }
+  a { color: #000; text-decoration: underline; }
+  .entry-content { max-width: 100%; }
+}
