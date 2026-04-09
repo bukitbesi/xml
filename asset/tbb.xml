@@ -2771,8 +2771,7 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display:none!important}
           &quot;width&quot;: 512,
           &quot;height&quot;: 512
         }
-      },
-      &quot;description&quot;: &quot;<data:view.description.jsonEscaped/>&quot;
+      }
       <b:if cond='data:view.timestamp.iso8601'>,&quot;datePublished&quot;: &quot;<data:view.timestamp.iso8601/>&quot;</b:if>
       <b:if cond='data:view.lastUpdated.iso8601'>,&quot;dateModified&quot;: &quot;<data:view.lastUpdated.iso8601/>&quot;</b:if>
     },
@@ -2812,7 +2811,6 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display:none!important}
         &quot;@id&quot;: &quot;<data:view.url.canonical.jsonEscaped/>&quot;
       },
       &quot;headline&quot;: &quot;<data:view.title.jsonEscaped/>&quot;,
-      &quot;description&quot;: &quot;<data:view.description.jsonEscaped/>&quot;,
       &quot;image&quot;: {
         &quot;@type&quot;: &quot;ImageObject&quot;,
         &quot;url&quot;: &quot;<b:eval expr='data:view.featuredImage ? resizeImage(data:view.featuredImage, &quot;1200&quot;, &quot;16:9&quot;) : &quot;https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg5-p8tEVCMM7QDy-l92oo94Nc48N0c5ebiwQKr5hF5sj1p8NGZ0BZ4TuvG0i94FbOC0pf9ZvzUdKOYe7DeGIRnPAyZlFUvawCiPxY0ut7B0n5srvStf7TwDCtU2LdOh5nH_lHfHbFRjMviQBmD0kzd4VsFCSHKSb-pFp8dpEf38rYrjOqhWqh0HmqqzenH/s1600/the-bukit-besi-16x9.webp&quot;'/>&quot;,
