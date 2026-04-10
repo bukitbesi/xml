@@ -2971,15 +2971,20 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display:none!important}
       <script type='text/javascript'>
 //<![CDATA[
 (function() {
+  // Fix 1: HTTP → HTTPS redirect (catches old http:// links before Blogger can serve them)
+  if (window.location.protocol === 'http:') {
+    window.location.replace('https://' + window.location.host + window.location.pathname + window.location.search + window.location.hash);
+    return;
+  }
   var canonical = document.querySelector("link[rel='canonical']");
   if (!canonical) return;
   var canonicalHref = canonical.href;
-  // Hard-redirect ?m=1 / ?m=0 to canonical — responsive theme has no mobile version
+  // Fix 2: Hard-redirect ?m=1 / ?m=0 to canonical — responsive theme has no mobile version
   if (/[?&]m=[01]/.test(window.location.search)) {
     window.location.replace(canonicalHref);
     return;
   }
-  // Keep browser URL bar in sync with canonical for other Blogger URL quirks
+  // Fix 3: Keep browser URL bar in sync with canonical for other Blogger URL quirks
   if (window.location.href !== canonicalHref) {
     window.history.replaceState(null, null, canonicalHref);
   }
