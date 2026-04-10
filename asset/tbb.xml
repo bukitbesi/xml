@@ -1208,10 +1208,16 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display:none!important}
             <meta expr:content='data:view.title.escaped' name='twitter:image:alt'/>
           </b:includable>
           <b:includable id='pbt-head'>
-            <!-- Robots meta: noindex error & raw-query search pages to prevent thin-content indexing -->
+            <!-- Robots meta: noindex thin/duplicate page types to preserve crawl budget -->
             <b:if cond='data:view.isError'>
               <meta content='noindex, follow' name='robots'/>
             <b:elseif cond='data:view.isSearch and !data:view.search.label and !data:view.search.query'/>
+              <meta content='noindex, follow' name='robots'/>
+            <b:elseif cond='data:view.isSearch and data:view.search.label'/>
+              <!-- Label/category pages: noindex to avoid thin-content crawl waste; links still followed -->
+              <meta content='noindex, follow' name='robots'/>
+            <b:elseif cond='data:view.isArchive'/>
+              <!-- Date archive pages: noindex — duplicate/thin content -->
               <meta content='noindex, follow' name='robots'/>
             <b:else/>
               <meta content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' name='robots'/>
@@ -1284,6 +1290,7 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display:none!important}
               <link href='//www.google-analytics.com' rel='dns-prefetch'/>
               <link href='//pagead2.googlesyndication.com' rel='dns-prefetch'/>
               <link expr:href='data:view.url.canonical' rel='canonical'/>
+              <link href='/sitemap.xml' rel='sitemap' title='Sitemap' type='application/xml'/>
               <!-- LCP preload: tells browser to fetch the hero image before it discovers it in the DOM -->
               <b:if cond='data:view.isPost and data:view.featuredImage'>
                 <link as='image' expr:href='resizeImage(data:view.featuredImage, 1200, &quot;16:9&quot;)' fetchpriority='high' rel='preload'/>
@@ -2963,14 +2970,20 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display:none!important}
 </b:if></script>
       <script type='text/javascript'>
 //<![CDATA[
-// Force Canonical URL - SEO Fix for Blogger ?m=1 redirect
-var canonicalUrl = document.querySelector("link[rel='canonical']");
-if (canonicalUrl) {
-    var canonicalHref = canonicalUrl.href;
-    if (window.location.href !== canonicalHref) {
-        window.history.replaceState(null, null, canonicalHref);
-    }
-}
+(function() {
+  var canonical = document.querySelector("link[rel='canonical']");
+  if (!canonical) return;
+  var canonicalHref = canonical.href;
+  // Hard-redirect ?m=1 / ?m=0 to canonical — responsive theme has no mobile version
+  if (/[?&]m=[01]/.test(window.location.search)) {
+    window.location.replace(canonicalHref);
+    return;
+  }
+  // Keep browser URL bar in sync with canonical for other Blogger URL quirks
+  if (window.location.href !== canonicalHref) {
+    window.history.replaceState(null, null, canonicalHref);
+  }
+})();
 //]]>
 </script>
     </head>
