@@ -1186,19 +1186,32 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display:none!important}
             <!-- og:url — use view canonical for all page types -->
             <meta expr:content='data:view.url.canonical' property='og:url'/>
             <b:if cond='data:view.featuredImage'>
-              <meta expr:content='resizeImage(data:view.featuredImage, 1200, &quot;16:9&quot;)' property='og:image'/>
-              <meta content='1200' property='og:image:width'/>
-              <meta content='675' property='og:image:height'/>
-              <meta expr:content='data:view.title.escaped' property='og:image:alt'/>
-              <meta content='image/webp' property='og:image:type'/>
-              <meta expr:content='resizeImage(data:view.featuredImage, 1200, &quot;16:9&quot;)' name='twitter:image'/>
+              <b:with value='resizeImage(data:view.featuredImage, 1200, &quot;16:9&quot;)' var='ogImg'>
+                <meta expr:content='data:ogImg' property='og:image'/>
+                <meta expr:content='data:ogImg' property='og:image:secure_url'/>
+                <meta content='1200' property='og:image:width'/>
+                <meta content='675' property='og:image:height'/>
+                <meta expr:content='data:view.title.escaped' property='og:image:alt'/>
+                <meta content='image/webp' property='og:image:type'/>
+                <meta expr:content='data:ogImg' name='twitter:image'/>
+              </b:with>
             <b:elseif cond='data:blog.postImageUrl'/>
-              <meta expr:content='resizeImage(data:blog.postImageUrl, 1200, &quot;16:9&quot;)' property='og:image'/>
-              <meta content='1200' property='og:image:width'/>
-              <meta content='675' property='og:image:height'/>
-              <meta expr:content='data:view.title.escaped' property='og:image:alt'/>
+              <b:with value='resizeImage(data:blog.postImageUrl, 1200, &quot;16:9&quot;)' var='ogImg'>
+                <meta expr:content='data:ogImg' property='og:image'/>
+                <meta expr:content='data:ogImg' property='og:image:secure_url'/>
+                <meta content='1200' property='og:image:width'/>
+                <meta content='675' property='og:image:height'/>
+                <meta expr:content='data:view.title.escaped' property='og:image:alt'/>
+                <meta content='image/webp' property='og:image:type'/>
+                <meta expr:content='data:ogImg' name='twitter:image'/>
+              </b:with>
+            <b:else/>
+              <!-- Site-logo fallback: ensures WhatsApp/Facebook/Twitter always have an image -->
+              <meta content='https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgqjFdEWNgwNSHf8cuiBJ5SO6VLtkzs2xcmzsaEK7jELM2mLf5IB2oiMcnEQmeAzIokVd4pKnasNfrNAKj50Q8eGodMdghKT8EQVCc9ViaX7yebBtN_ByUgCGgZkF9KJp68K5l7xgovnldmexg9hdaPdA1TMb_4SVrfAuZ7TNY68vouUIHaE__kwBrL3mPF/s1600/bukit-besi-blog.webp' property='og:image'/>
+              <meta content='https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgqjFdEWNgwNSHf8cuiBJ5SO6VLtkzs2xcmzsaEK7jELM2mLf5IB2oiMcnEQmeAzIokVd4pKnasNfrNAKj50Q8eGodMdghKT8EQVCc9ViaX7yebBtN_ByUgCGgZkF9KJp68K5l7xgovnldmexg9hdaPdA1TMb_4SVrfAuZ7TNY68vouUIHaE__kwBrL3mPF/s1600/bukit-besi-blog.webp' property='og:image:secure_url'/>
               <meta content='image/webp' property='og:image:type'/>
-              <meta expr:content='resizeImage(data:blog.postImageUrl, 1200, &quot;16:9&quot;)' name='twitter:image'/>
+              <meta expr:content='data:blog.title.escaped' property='og:image:alt'/>
+              <meta content='https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgqjFdEWNgwNSHf8cuiBJ5SO6VLtkzs2xcmzsaEK7jELM2mLf5IB2oiMcnEQmeAzIokVd4pKnasNfrNAKj50Q8eGodMdghKT8EQVCc9ViaX7yebBtN_ByUgCGgZkF9KJp68K5l7xgovnldmexg9hdaPdA1TMb_4SVrfAuZ7TNY68vouUIHaE__kwBrL3mPF/s1600/bukit-besi-blog.webp' name='twitter:image'/>
             </b:if>
             <meta content='summary_large_image' name='twitter:card'/>
             <meta expr:content='data:view.title.escaped' name='twitter:title'/>
@@ -1373,7 +1386,7 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display:none!important}
               <b:tag name='script' type='text/javascript'>const noThumbnail = &quot;<b:eval expr='resizeImage(data:sourceUrl, 72, &quot;1:1&quot;)'/>&quot;;</b:tag>
               <b:elseif cond='data:widget.sectionId == &quot;main-logo&quot;'/>
               <a class='logo-img' expr:href='data:blog.homepageUrl.canonical' rel='home'>
-                <img expr:alt='data:blog.title' expr:data-src='data:sourceUrl' expr:height='data:height' expr:src='data:sourceUrl' expr:width='data:width' loading='lazy'>
+                <img expr:alt='data:blog.title' expr:data-src='data:sourceUrl' decoding='async' expr:height='data:height' expr:src='data:sourceUrl' expr:width='data:width' loading='lazy'>
                   <b:attr cond='data:link and (data:link contains &quot;googleusercontent.com&quot;)' expr:value='data:link' name='data-dark-src'/>
                 </img>
                 <b:if cond='data:view.isHomepage'>
@@ -1389,12 +1402,12 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display:none!important}
                     <b:attr name='rel' value='nofollow noopener'/>
                     <b:attr name='target' value='_blank'/>
                   </b:if>
-                  <img expr:alt='data:caption and (data:title == &quot;{ads}&quot;) ? data:caption : data:widget.instanceId' expr:height='data:height' expr:src='data:sourceUrl' expr:width='data:width' loading='lazy'/>
+                  <img expr:alt='data:caption and (data:title == &quot;{ads}&quot;) ? data:caption : data:widget.instanceId' decoding='async' expr:height='data:height' expr:src='data:sourceUrl' expr:width='data:width' loading='lazy'/>
                 </b:tag>
               </noscript>
               <b:elseif cond='data:widget.sectionId == &quot;footer-info&quot;'/>
               <a class='footer-logo' expr:href='data:blog.homepageUrl.canonical' rel='home'>
-                <img expr:alt='data:blog.title' expr:data-src='data:sourceUrl' expr:height='data:height' expr:src='data:sourceUrl' expr:width='data:width' loading='lazy'>
+                <img expr:alt='data:blog.title' expr:data-src='data:sourceUrl' decoding='async' expr:height='data:height' expr:src='data:sourceUrl' expr:width='data:width' loading='lazy'>
                   <b:attr cond='data:link and (data:link contains &quot;googleusercontent.com&quot;)' expr:value='data:link' name='data-dark-src'/>
                 </img>
               </a>
@@ -1410,7 +1423,7 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display:none!important}
                     <b:attr name='rel' value='nofollow noopener'/>
                     <b:attr name='target' value='_blank'/>
                   </b:if>
-                  <img expr:alt='data:caption and (data:title == &quot;{ads}&quot;) ? data:caption : data:widget.instanceId' expr:height='data:height' expr:src='data:sourceUrl' expr:width='data:width' loading='lazy'/>
+                  <img expr:alt='data:caption and (data:title == &quot;{ads}&quot;) ? data:caption : data:widget.instanceId' decoding='async' expr:height='data:height' expr:src='data:sourceUrl' expr:width='data:width' loading='lazy'/>
                 </b:tag>
                 <b:if cond='data:caption and (data:title != &quot;{ads}&quot;)'>
                   <p class='image-caption excerpt'>
@@ -1757,25 +1770,31 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display:none!important}
                 <b:with value='data:view.title.jsonEscaped' var='shareTitle'>
                   <ul class='share-b social color'>
                     <li class='facebook'>
-                      <a class='bi-facebook window-open' expr:href='&quot;https://www.facebook.com/sharer.php?u=&quot; + data:shareUrl' rel='nofollow noopener' title='Facebook'/>
+                      <!-- Facebook: reads og:image automatically from page meta -->
+                      <a class='bi-facebook window-open' expr:href='&quot;https://www.facebook.com/sharer.php?u=&quot; + data:shareUrl' rel='nofollow noopener noreferrer' title='Facebook'/>
                     </li>
                     <li class='twitter'>
-                      <a class='bi-twitter window-open' expr:href='&quot;https://twitter.com/intent/tweet?url=&quot; + data:shareUrl' rel='nofollow noopener' title='Twitter'/>
+                      <!-- Twitter/X: include title text + via handle for attribution -->
+                      <a class='bi-twitter window-open' expr:href='&quot;https://twitter.com/intent/tweet?url=&quot; + data:shareUrl + &quot;&amp;text=&quot; + data:shareTitle + &quot;&amp;via=thebukitbesi&quot;' rel='nofollow noopener noreferrer' title='Twitter / X'/>
                     </li>
                     <li class='whatsapp'>
-                      <a class='bi-whatsapp window-open' expr:href='&quot;https://api.whatsapp.com/send?text=&quot; + data:shareTitle + &quot; | &quot; + data:shareUrl' rel='nofollow noopener' title='WhatsApp'/>
+                      <!-- WhatsApp: wa.me universal link; double newline puts URL on its own line so WA generates rich preview with og:image -->
+                      <a class='bi-whatsapp window-open' expr:href='&quot;https://wa.me/?text=&quot; + data:shareTitle + &quot;%0A%0A&quot; + data:shareUrl' rel='nofollow noopener noreferrer' title='WhatsApp'/>
                     </li>
                     <li class='pinterest-p'>
-                      <a class='bi-pinterest window-open' expr:href='&quot;https://www.pinterest.com/pin/create/button/?url=&quot; + data:shareUrl + &quot;&amp;media=&quot; + data:view.featuredImage + &quot;&amp;description=&quot; + data:shareTitle' rel='nofollow noopener' title='Pinterest'/>
+                      <!-- Pinterest: passes featured image directly via &media= param -->
+                      <a class='bi-pinterest window-open' expr:href='&quot;https://www.pinterest.com/pin/create/button/?url=&quot; + data:shareUrl + &quot;&amp;media=&quot; + data:view.featuredImage + &quot;&amp;description=&quot; + data:shareTitle' rel='nofollow noopener noreferrer' title='Pinterest'/>
                     </li>
                     <li class='linkedin'>
-                      <a class='bi-linkedin window-open' expr:href='&quot;https://www.linkedin.com/shareArticle?mini=true&amp;url=&quot; + data:shareUrl + &quot;&amp;title=&quot; + data:shareTitle' rel='nofollow noopener' title='LinkedIn'/>
+                      <!-- LinkedIn: new share endpoint (shareArticle deprecated) -->
+                      <a class='bi-linkedin window-open' expr:href='&quot;https://www.linkedin.com/sharing/share-offsite/?url=&quot; + data:shareUrl' rel='nofollow noopener noreferrer' title='LinkedIn'/>
                     </li>
                     <li class='reddit'>
-                      <a class='bi-reddit window-open' expr:href='&quot;https://reddit.com/submit?url=&quot; + data:shareUrl + &quot;&amp;title=&quot; + data:shareTitle' rel='nofollow noopener' title='Reddit'/>
+                      <a class='bi-reddit window-open' expr:href='&quot;https://reddit.com/submit?url=&quot; + data:shareUrl + &quot;&amp;title=&quot; + data:shareTitle' rel='nofollow noopener noreferrer' title='Reddit'/>
                     </li>
                     <li class='telegram'>
-                      <a class='bi-telegram window-open' expr:href='&quot;https://telegram.me/share/url?url=&quot; + data:shareUrl + &quot;&amp;text=&quot; + data:shareTitle' rel='nofollow noopener' title='Telegram'/>
+                      <!-- Telegram: t.me is the canonical short domain -->
+                      <a class='bi-telegram window-open' expr:href='&quot;https://t.me/share/url?url=&quot; + data:shareUrl + &quot;&amp;text=&quot; + data:shareTitle' rel='nofollow noopener noreferrer' title='Telegram'/>
                     </li>
                     <li class='email'>
                       <a class='bi-email window-open' expr:href='&quot;mailto:?subject=&quot; + data:shareTitle + &quot;&amp;body=&quot; + data:shareUrl' rel='nofollow noopener' title='Email'/>
@@ -2149,9 +2168,16 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display:none!important}
                   <data:allBylineItems.author.label/>
                 </span>
               </b:if>
-              <span class='author-name'>
-                <data:post.author.name/>
-              </span>
+              <b:if cond='data:post.author.profileUrl'>
+                <!-- rel=author signals author entity to Google Knowledge Graph -->
+                <a class='author-name' expr:href='data:post.author.profileUrl' rel='author noopener noreferrer' target='_blank'>
+                  <data:post.author.name/>
+                </a>
+              <b:else/>
+                <span class='author-name'>
+                  <data:post.author.name/>
+                </span>
+              </b:if>
             </span>
           </b:includable>
           <b:includable id='postBody' var='post'>
@@ -2290,17 +2316,22 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display:none!important}
                   </span>
                 </li>
                 <li class='facebook has-span'>
-                  <a class='bi-facebook sl window-open' expr:href='&quot;https://www.facebook.com/sharer.php?u=&quot; + data:post.url.canonical' rel='nofollow noopener' title='Facebook'>
+                  <a class='bi-facebook sl window-open' expr:href='&quot;https://www.facebook.com/sharer.php?u=&quot; + data:post.url.canonical' rel='nofollow noopener noreferrer' title='Facebook'>
                     <span>Facebook</span>
                   </a>
                 </li>
                 <li class='twitter has-span'>
-                  <a class='bi-twitter sl window-open' expr:href='&quot;https://twitter.com/intent/tweet?url=&quot; + data:post.url.canonical' rel='nofollow noopener' title='Twitter'>
+                  <!-- Twitter/X: title + via handle -->
+                  <a class='bi-twitter sl window-open' expr:href='&quot;https://twitter.com/intent/tweet?url=&quot; + data:post.url.canonical + &quot;&amp;text=&quot; + data:post.title.jsonEscaped + &quot;&amp;via=thebukitbesi&quot;' rel='nofollow noopener noreferrer' title='Twitter / X'>
                     <span>Twitter</span>
                   </a>
                 </li>
                 <li class='whatsapp'>
-                  <a class='bi-whatsapp sl window-open' expr:href='&quot;https://api.whatsapp.com/send?text=&quot; + data:post.title.jsonEscaped + &quot; | &quot; + data:post.url.canonical' rel='nofollow noopener' title='WhatsApp'/>
+                  <!-- wa.me universal link; double newline triggers rich link preview with featured image -->
+                  <a class='bi-whatsapp sl window-open' expr:href='&quot;https://wa.me/?text=&quot; + data:post.title.jsonEscaped + &quot;%0A%0A&quot; + data:post.url.canonical' rel='nofollow noopener noreferrer' title='WhatsApp'/>
+                </li>
+                <li class='telegram'>
+                  <a class='bi-telegram sl window-open' expr:href='&quot;https://t.me/share/url?url=&quot; + data:post.url.canonical + &quot;&amp;text=&quot; + data:post.title.jsonEscaped' rel='nofollow noopener noreferrer' title='Telegram'/>
                 </li>
                 <li class='email'>
                   <a class='bi-email sl window-open' expr:href='&quot;mailto:?subject=&quot; + data:post.title.jsonEscaped + &quot;&amp;body=&quot; + data:post.url.canonical' rel='nofollow noopener' title='Email'/>
