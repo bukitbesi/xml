@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="robots" content="noindex,nofollow"/>
+  <title>TBB Post Optimizer</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>"/>
+  <link rel="stylesheet" href="app.css"/>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════
+     LOGIN SCREEN
+═══════════════════════════════════════ -->
+<div id="login-screen" class="login-screen">
+  <div class="login-card">
+    <div class="login-logo">🚀</div>
+    <h1>TBB Post Optimizer</h1>
+    <p class="login-sub">AI-powered content optimizer for thebukitbesi.com<br/>Beat any top 3 result — with one click.</p>
+    <button id="btn-login" class="btn btn-google btn-lg">
+      <svg class="g-icon" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+      Sign in with Google
+    </button>
+    <p class="login-note">Requires Blogger API + Search Console access.<br/>Data never leaves your browser.</p>
+    <div class="login-footer">
+      <a href="#" class="link" id="link-settings-login">⚙️ Setup API Keys First</a>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     MAIN APP
+═══════════════════════════════════════ -->
+<div id="app" class="app hidden">
+
+  <!-- ── SIDEBAR ─────────────────────── -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <span>🚀</span>
+      <span class="brand-name">TBB Optimizer</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a class="nav-item active" data-view="dashboard">
+        <span class="nav-ico">📊</span><span>Dashboard</span>
+      </a>
+      <a class="nav-item" data-view="batch">
+        <span class="nav-ico">⚡</span><span>Batch Mode</span>
+        <span class="nav-badge" id="nav-badge-batch">0</span>
+      </a>
+      <a class="nav-item" data-view="settings">
+        <span class="nav-ico">⚙️</span><span>Settings</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <button class="theme-toggle" id="btn-theme" title="Toggle dark/light">🌙</button>
+      <div class="sidebar-user">
+        <div class="user-avatar" id="user-avatar">?</div>
+        <div class="user-meta">
+          <div class="user-name" id="user-name">—</div>
+          <div class="user-blog" id="user-blog">—</div>
+        </div>
+        <button class="btn-icon" id="btn-logout" title="Sign out">↩</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── MAIN CONTENT ───────────────── -->
+  <main class="main">
+
+    <!-- ▸ DASHBOARD ────────────────── -->
+    <section class="view active" id="view-dashboard">
+      <div class="view-header">
+        <div>
+          <h2>Post Intelligence</h2>
+          <p class="view-sub">AI-scored content opportunities, ranked by ranking potential</p>
+        </div>
+        <div class="header-actions">
+          <button class="btn btn-ghost" id="btn-refresh-posts" title="Re-fetch posts">↻ Refresh</button>
+          <button class="btn btn-secondary" id="btn-sync-gsc">📈 Sync GSC</button>
+          <button class="btn btn-primary" id="btn-start-batch">⚡ Batch Mode</button>
+        </div>
+      </div>
+
+      <!-- Stats row -->
+      <div class="stats-row" id="stats-row">
+        <div class="stat-card" id="stat-total"><div class="stat-val">—</div><div class="stat-lbl">Total Posts</div></div>
+        <div class="stat-card danger" id="stat-urgent"><div class="stat-val">—</div><div class="stat-lbl">🔴 Urgent</div></div>
+        <div class="stat-card warn" id="stat-stale"><div class="stat-val">—</div><div class="stat-lbl">⏰ Stale 6mo+</div></div>
+        <div class="stat-card" id="stat-page2"><div class="stat-val">—</div><div class="stat-lbl">📄 Stuck Page 2+</div></div>
+        <div class="stat-card" id="stat-english"><div class="stat-val">—</div><div class="stat-lbl">🇬🇧 English Posts</div></div>
+      </div>
+
+      <!-- Filters -->
+      <div class="filter-bar">
+        <div class="filter-tabs" id="filter-tabs">
+          <button class="ftab active" data-filter="urgent">🔴 Urgent</button>
+          <button class="ftab" data-filter="stale">⏰ Stale</button>
+          <button class="ftab" data-filter="page2">📄 Page 2+</button>
+          <button class="ftab" data-filter="english">🇬🇧 English</button>
+          <button class="ftab" data-filter="all">All Posts</button>
+        </div>
+        <div class="filter-right">
+          <input class="search-input" id="post-search" type="text" placeholder="🔍 Search posts..."/>
+          <select id="sort-select">
+            <option value="score-asc">Worst Score First</option>
+            <option value="score-desc">Best Score First</option>
+            <option value="date-asc">Oldest First</option>
+            <option value="date-desc">Newest First</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Post list -->
+      <div class="post-list" id="post-list">
+        <div class="empty-state" id="post-list-loading">
+          <div class="spinner"></div>
+          <p>Connecting to Blogger...</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ▸ OPTIMIZER ─────────────────── -->
+    <section class="view hidden" id="view-optimizer">
+      <div class="view-header opt-header">
+        <button class="btn btn-ghost" id="btn-back-dashboard">← Back</button>
+        <div class="opt-title-block">
+          <h2 id="opt-post-title" class="opt-title">—</h2>
+          <div class="opt-meta" id="opt-post-meta"></div>
+        </div>
+        <div class="opt-score-block">
+          <div class="score-badge" id="opt-score-badge">
+            <svg class="score-ring-svg" viewBox="0 0 56 56">
+              <circle class="ring-bg" cx="28" cy="28" r="24"/>
+              <circle class="ring-fg" id="ring-fg" cx="28" cy="28" r="24"/>
+            </svg>
+            <span class="score-num" id="opt-score-num">—</span>
+          </div>
+          <div class="score-label-block">
+            <span class="score-label" id="opt-score-label">Score</span>
+            <span class="score-rec" id="opt-score-rec"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="opt-tabs">
+        <button class="otab active" data-tab="analyze">🔍 Analyze</button>
+        <button class="otab" data-tab="rewrite">✍️ Rewrite</button>
+        <button class="otab" data-tab="images">🖼️ Images</button>
+        <button class="otab" data-tab="social">📱 Social</button>
+        <button class="otab" data-tab="schema">🗂️ Schema</button>
+      </div>
+
+      <!-- ── ANALYZE ──────────────── -->
+      <div class="opt-panel active" id="panel-analyze">
+        <div class="analyze-grid">
+          <!-- Left col -->
+          <div class="analyze-col">
+            <div class="card">
+              <div class="card-hdr"><h3>Content Metrics</h3></div>
+              <div id="content-metrics" class="metrics-list"></div>
+            </div>
+            <div class="card">
+              <div class="card-hdr"><h3>Score Breakdown</h3></div>
+              <div id="score-breakdown"></div>
+            </div>
+            <div class="card">
+              <div class="card-hdr">
+                <h3>📈 GSC Performance</h3>
+                <span class="badge badge-muted" id="gsc-status">Not synced</span>
+              </div>
+              <div id="gsc-metrics-detail"></div>
+            </div>
+          </div>
+          <!-- Right col -->
+          <div class="analyze-col">
+            <div class="card">
+              <div class="card-hdr">
+                <h3>🏆 Competitor Intel</h3>
+                <button class="btn btn-sm" id="btn-fetch-competitors">Fetch Top 3</button>
+              </div>
+              <div id="competitor-list"><p class="muted-txt">Enter keyword below then click Fetch Top 3</p></div>
+              <div class="competitor-kw-row">
+                <input id="comp-keyword" class="input-inline" type="text" placeholder="Keyword to analyze (auto-filled from post title)"/>
+              </div>
+            </div>
+            <div class="card" id="card-gaps">
+              <div class="card-hdr"><h3>🎯 Content Gaps — What You're Missing</h3></div>
+              <div id="content-gaps"><p class="muted-txt">Run competitor analysis first</p></div>
+            </div>
+            <div class="card" id="card-unique">
+              <div class="card-hdr"><h3>✨ Your Unique Angles — What They Don't Have</h3></div>
+              <div id="unique-angles"><p class="muted-txt">Run competitor analysis first</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="panel-actions">
+          <button class="btn btn-primary btn-lg" id="btn-run-analysis">🤖 Run Full AI Analysis</button>
+        </div>
+      </div>
+
+      <!-- ── REWRITE ──────────────── -->
+      <div class="opt-panel hidden" id="panel-rewrite">
+        <div class="rewrite-toolbar">
+          <div class="mode-selector" id="mode-selector">
+            <button class="mbtn active" data-mode="smart">🧠 Smart Auto</button>
+            <button class="mbtn" data-mode="full">🔄 Full Rewrite</button>
+            <button class="mbtn" data-mode="expand">📝 Expand Only</button>
+            <button class="mbtn" data-mode="refresh">✨ Refresh Stats</button>
+          </div>
+          <div class="rewrite-opts">
+            <label class="chk-label"><input type="checkbox" id="chk-faq" checked/> Add FAQ</label>
+            <label class="chk-label"><input type="checkbox" id="chk-local" checked/> Local angle</label>
+            <label class="chk-label"><input type="checkbox" id="chk-snippet" checked/> Snippet target</label>
+          </div>
+          <button class="btn btn-primary" id="btn-generate-rewrite">⚡ Generate</button>
+        </div>
+
+        <div class="rewrite-progress hidden" id="rewrite-progress">
+          <div class="progress-steps" id="progress-steps"></div>
+          <div class="progress-bar-wrap"><div class="progress-bar" id="rewrite-prog-bar"></div></div>
+        </div>
+
+        <div class="diff-container hidden" id="diff-container">
+          <div class="diff-header">
+            <div class="diff-col-title">📄 Original</div>
+            <div class="diff-col-title">⚡ Optimized Version</div>
+          </div>
+          <div class="diff-body">
+            <div class="diff-original" id="diff-original"></div>
+            <div class="diff-rewrite" id="diff-rewrite"></div>
+          </div>
+          <div class="diff-stats" id="diff-stats"></div>
+        </div>
+
+        <div class="rewrite-placeholder" id="rewrite-placeholder">
+          <div class="placeholder-icon">✍️</div>
+          <h3>Ready to optimize this post</h3>
+          <p>Select a rewrite mode and click Generate. The AI will:</p>
+          <ul>
+            <li>Fill competitor content gaps</li>
+            <li>Inject human experience signals</li>
+            <li>Add Malaysian-specific context</li>
+            <li>Target featured snippets</li>
+            <li>Generate a complete FAQ section</li>
+            <li>Suggest internal links</li>
+          </ul>
+        </div>
+
+        <div class="panel-actions rewrite-actions hidden" id="rewrite-actions">
+          <button class="btn btn-success btn-lg" id="btn-publish-rewrite">🚀 Approve &amp; Publish</button>
+          <button class="btn btn-secondary" id="btn-schedule">📅 Schedule</button>
+          <button class="btn btn-ghost" id="btn-regenerate">↺ Regenerate</button>
+          <button class="btn btn-ghost" id="btn-copy-html">📋 Copy HTML</button>
+          <button class="btn btn-ghost" id="btn-edit-manual">✏️ Edit Manually</button>
+        </div>
+      </div>
+
+      <!-- ── IMAGES ───────────────── -->
+      <div class="opt-panel hidden" id="panel-images">
+        <div class="images-toolbar">
+          <div class="style-pills" id="style-pills">
+            <button class="spill active" data-style="photorealistic">📷 Photorealistic</button>
+            <button class="spill" data-style="illustrated">🎨 Illustrated</button>
+            <button class="spill" data-style="infographic">📊 Infographic</button>
+            <button class="spill" data-style="thumbnail">🖼️ Blog Thumbnail</button>
+          </div>
+          <button class="btn btn-primary" id="btn-gen-prompts">✨ Generate Prompts</button>
+        </div>
+
+        <div class="image-gen-note">
+          <p>💡 <strong>Best tools for each style:</strong> Photorealistic → <b>Midjourney / FLUX</b> &nbsp;|&nbsp; Illustrated → <b>Ideogram v3</b> &nbsp;|&nbsp; Infographic → <b>Canva AI / Ideogram</b> &nbsp;|&nbsp; Thumbnail with text → <b>Ideogram v3</b> (handles Malay text perfectly)</p>
+        </div>
+
+        <div class="prompt-grid" id="prompt-grid">
+          <p class="muted-txt text-center">Click "Generate Prompts" to create 3 tailored image prompts for this post</p>
+        </div>
+
+        <div class="divider-label">— Or generate directly with Gemini (requires API key in settings) —</div>
+        <div class="gemini-gen-row">
+          <input id="custom-prompt" class="input-inline" type="text" placeholder="Custom prompt (or use generated ones above)"/>
+          <button class="btn btn-secondary" id="btn-gemini-image">🎨 Generate with Gemini</button>
+        </div>
+        <div id="gemini-image-output"></div>
+      </div>
+
+      <!-- ── SOCIAL ────────────────── -->
+      <div class="opt-panel hidden" id="panel-social">
+        <div class="panel-actions" style="margin-bottom:1.5rem">
+          <button class="btn btn-primary" id="btn-gen-social">📱 Generate All Social Content</button>
+        </div>
+        <div class="social-grid" id="social-grid">
+          <p class="muted-txt">Click generate to create optimized social content for all platforms</p>
+        </div>
+      </div>
+
+      <!-- ── SCHEMA ────────────────── -->
+      <div class="opt-panel hidden" id="panel-schema">
+        <div class="panel-actions" style="margin-bottom:1.5rem">
+          <div class="schema-type-pills" id="schema-type-pills">
+            <button class="spill active" data-schema="auto">🤖 Auto-Detect</button>
+            <button class="spill" data-schema="article">📰 Article</button>
+            <button class="spill" data-schema="howto">📋 HowTo</button>
+            <button class="spill" data-schema="faq">❓ FAQ</button>
+            <button class="spill" data-schema="review">⭐ Review</button>
+          </div>
+          <button class="btn btn-primary" id="btn-gen-schema">🗂️ Generate Schema</button>
+        </div>
+        <div id="schema-output">
+          <p class="muted-txt">Schema markup will appear here. Copy and paste into your Blogger post HTML.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ▸ BATCH MODE ─────────────────── -->
+    <section class="view hidden" id="view-batch">
+      <div class="view-header">
+        <h2>⚡ Batch Optimizer</h2>
+        <p class="view-sub">Process multiple posts in a queue. AI optimizes each one sequentially.</p>
+      </div>
+      <div class="batch-controls">
+        <button class="btn btn-secondary" id="btn-add-urgent-batch">+ Add All Urgent Posts</button>
+        <button class="btn btn-secondary" id="btn-add-stale-batch">+ Add All Stale Posts</button>
+        <button class="btn btn-primary" id="btn-run-batch" disabled>▶ Start Batch (0)</button>
+      </div>
+      <div class="batch-queue" id="batch-queue">
+        <p class="muted-txt text-center">Add posts to the queue from the dashboard, then start batch processing.</p>
+      </div>
+      <div class="batch-log" id="batch-log"></div>
+    </section>
+
+    <!-- ▸ SETTINGS ───────────────────── -->
+    <section class="view hidden" id="view-settings">
+      <div class="view-header">
+        <h2>⚙️ Settings</h2>
+        <p class="view-sub">Configure API keys, preferences, and your blog connection</p>
+      </div>
+
+      <div class="settings-grid">
+
+        <!-- Setup guide -->
+        <div class="card">
+          <div class="card-hdr"><h3>🚀 First-Time Setup Guide</h3></div>
+          <div class="setup-steps">
+            <div class="setup-step">
+              <div class="step-circle">1</div>
+              <div class="step-body">
+                <strong>Create Google Cloud Project</strong>
+                <p>Enable <b>Blogger API v3</b> and <b>Google Search Console API</b></p>
+                <a href="https://console.cloud.google.com/apis/library" target="_blank" class="btn btn-sm btn-ghost">Open API Library →</a>
+              </div>
+            </div>
+            <div class="setup-step">
+              <div class="step-circle">2</div>
+              <div class="step-body">
+                <strong>Create OAuth 2.0 Client ID</strong>
+                <p>Type: <b>Web application</b><br/>
+                Authorized JS origin: <code id="current-origin"></code></p>
+                <a href="https://console.cloud.google.com/apis/credentials" target="_blank" class="btn btn-sm btn-ghost">Open Credentials →</a>
+              </div>
+            </div>
+            <div class="setup-step">
+              <div class="step-circle">3</div>
+              <div class="step-body">
+                <strong>Get Gemini API Key (Free)</strong>
+                <p>Go to Google AI Studio → Create API Key → Copy it</p>
+                <a href="https://aistudio.google.com/app/apikey" target="_blank" class="btn btn-sm btn-ghost">Get Free Key →</a>
+              </div>
+            </div>
+            <div class="setup-step">
+              <div class="step-circle">4</div>
+              <div class="step-body">
+                <strong>Paste keys below and Save</strong>
+                <p>Then return to Dashboard and Sign in with Google</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- API Keys -->
+        <div class="card">
+          <div class="card-hdr"><h3>🔑 API Keys</h3></div>
+          <div class="form-grid">
+            <div class="fg">
+              <label>Google OAuth Client ID <span class="req">*required</span></label>
+              <input id="s-client-id" type="text" placeholder="123456.apps.googleusercontent.com"/>
+              <small>From Google Cloud Console → Credentials</small>
+            </div>
+            <div class="fg">
+              <label>Gemini API Key <span class="req">*required</span></label>
+              <div class="input-row">
+                <input id="s-gemini-key" type="password" placeholder="AIza..."/>
+                <button class="btn btn-sm btn-ghost" onclick="togglePwd('s-gemini-key')">👁</button>
+              </div>
+              <small>Free at aistudio.google.com — 1,500 requests/day</small>
+            </div>
+            <div class="fg">
+              <label>Claude API Key <span class="opt">optional</span></label>
+              <div class="input-row">
+                <input id="s-claude-key" type="password" placeholder="sk-ant-..."/>
+                <button class="btn btn-sm btn-ghost" onclick="togglePwd('s-claude-key')">👁</button>
+              </div>
+              <small>console.anthropic.com — premium rewrites (~$0.009/article)</small>
+            </div>
+            <div class="fg">
+              <label>OpenAI API Key <span class="opt">optional</span></label>
+              <div class="input-row">
+                <input id="s-openai-key" type="password" placeholder="sk-..."/>
+                <button class="btn btn-sm btn-ghost" onclick="togglePwd('s-openai-key')">👁</button>
+              </div>
+              <small>For DALL-E 3 image generation</small>
+            </div>
+            <div class="fg">
+              <label>Google Custom Search API Key <span class="opt">optional</span></label>
+              <input id="s-cse-key" type="text" placeholder="AIza..."/>
+              <small>100 free searches/day — for precise competitor URL fetching</small>
+            </div>
+            <div class="fg">
+              <label>Google CSE CX ID <span class="opt">optional</span></label>
+              <input id="s-cse-cx" type="text" placeholder="017..."/>
+              <small>Programmable Search Engine ID from cse.google.com</small>
+            </div>
+          </div>
+        </div>
+
+        <!-- Preferences -->
+        <div class="card">
+          <div class="card-hdr"><h3>⚙️ Preferences</h3></div>
+          <div class="form-grid">
+            <div class="fg">
+              <label>Blog site URL</label>
+              <input id="s-site-url" type="text" placeholder="https://www.thebukitbesi.com/"/>
+              <small>Used for GSC sync and internal link suggestions</small>
+            </div>
+            <div class="fg">
+              <label>Stale post threshold</label>
+              <select id="s-stale-months">
+                <option value="3">3 months</option>
+                <option value="6" selected>6 months</option>
+                <option value="9">9 months</option>
+                <option value="12">12 months</option>
+              </select>
+            </div>
+            <div class="fg">
+              <label>Default rewrite mode</label>
+              <select id="s-rewrite-mode">
+                <option value="smart">🧠 Smart (auto-select based on score)</option>
+                <option value="full">🔄 Always full rewrite</option>
+                <option value="expand">📝 Always expand</option>
+                <option value="refresh">✨ Always refresh stats only</option>
+              </select>
+            </div>
+            <div class="fg">
+              <label>Language handling</label>
+              <select id="s-lang-mode">
+                <option value="auto">Auto-detect per post</option>
+                <option value="ms">Always Malay</option>
+                <option value="en">Always English</option>
+                <option value="both">Bilingual (Malay + English)</option>
+              </select>
+            </div>
+            <div class="fg">
+              <label>Target word count vs competitors</label>
+              <select id="s-wc-target">
+                <option value="match">Match competitor average</option>
+                <option value="plus15" selected>Competitor avg + 15%</option>
+                <option value="plus30">Competitor avg + 30%</option>
+                <option value="min1500">Minimum 1,500 words</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button class="btn btn-primary" id="btn-save-settings">💾 Save Settings</button>
+            <button class="btn btn-ghost" id="btn-clear-settings">Clear All</button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ═══════════════════════════════════════
+     MODAL
+═══════════════════════════════════════ -->
+<div class="modal-overlay hidden" id="modal-overlay">
+  <div class="modal" id="modal">
+    <div class="modal-hdr">
+      <h3 id="modal-title"></h3>
+      <button class="btn-icon" id="modal-close">✕</button>
+    </div>
+    <div class="modal-bdy" id="modal-body"></div>
+    <div class="modal-ftr" id="modal-footer"></div>
+  </div>
+</div>
+
+<!-- Toast container -->
+<div id="toasts"></div>
+
+<!-- Google Identity Services -->
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script src="app.js"></script>
+</body>
+</html>
