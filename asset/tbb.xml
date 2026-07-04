@@ -359,7 +359,7 @@ svg{display:inline-block;width:1em;height:1em;font-size:1em;line-height:1;overfl
 .main-logo .title{max-width:100%;font-family:var(--title-font);font-size:1.25rem;color:var(--header-color);line-height:var(--logo);font-weight:var(--title-weight);overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
 .main-logo .title a{color:var(--header-color)}
 .main-logo .title a:hover{color:var(--header-hover-color)}
-.main-logo #h1-off{display:none;visibility:hidden}
+.main-logo #h1-off{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 #main-menu .widget{display:none}
 #main-menu .widget.is-ready{display:block}
 .main-nav{display:flex;height:var(--header);gap:1.75rem}
@@ -1280,6 +1280,7 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display:none!important}
   			<meta expr:content='data:blog.metaDescription.escaped' name='description'/>
 			<b:elseif cond='data:view.isError'/>
   			<title>Page Not Found | <data:blog.title.escaped/></title>
+  			<meta expr:content='data:blog.metaDescription.escaped' name='description'/>
 			<b:else/>
   			<title><data:view.title.escaped/> | <data:blog.title.escaped/></title>
   			<meta expr:content='data:blog.metaDescription.escaped' name='description'/>
@@ -1325,9 +1326,18 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display:none!important}
                   <b:loop index='i' values='data:fonts' var='font'>
                     <b:if cond='not(data:font contains &quot;,&quot;)'>
                       <b:with value='&quot;https://fonts.googleapis.com/css2?family=&quot; + data:font + &quot;:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&amp;display=swap&quot;' var='fontLink'>
-                        <b:tag cond='data:i == 0' expr:href='data:fontLink' name='link' rel='stylesheet'/>
-                        <b:tag cond='data:i == 1 and (data:font not in [data:fonts[0]])' expr:href='data:fontLink' name='link' rel='stylesheet'/>
-                        <b:tag cond='data:i == 2 and (data:font not in [data:fonts[0], data:fonts[1]])' expr:href='data:fontLink' name='link' rel='stylesheet'/>
+                        <b:if cond='data:i == 0'>
+                          <link as='style' expr:href='data:fontLink' onload="this.onload=null;this.rel='stylesheet'" rel='preload'/>
+                          <noscript><link expr:href='data:fontLink' rel='stylesheet'/></noscript>
+                        </b:if>
+                        <b:if cond='data:i == 1 and (data:font not in [data:fonts[0]])'>
+                          <link as='style' expr:href='data:fontLink' onload="this.onload=null;this.rel='stylesheet'" rel='preload'/>
+                          <noscript><link expr:href='data:fontLink' rel='stylesheet'/></noscript>
+                        </b:if>
+                        <b:if cond='data:i == 2 and (data:font not in [data:fonts[0], data:fonts[1]])'>
+                          <link as='style' expr:href='data:fontLink' onload="this.onload=null;this.rel='stylesheet'" rel='preload'/>
+                          <noscript><link expr:href='data:fontLink' rel='stylesheet'/></noscript>
+                        </b:if>
                       </b:with>
                     </b:if>
                   </b:loop>
@@ -1863,7 +1873,7 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display:none!important}
             <b:tag name='script' type='text/javascript'>const pbt={blogView:<b:if cond='data:blog.view'>&quot;<data:blog.view/>&quot;<b:else/>false</b:if>,isRTL:<b:eval expr='data:blog.languageDirection == &quot;rtl&quot; ? &quot;true&quot; : &quot;false&quot;'/>,isMultiple:<b:eval expr='data:view.isMultipleItems ? &quot;true&quot; : &quot;false&quot;'/>,isSingle:<b:eval expr='data:view.isSingleItem ? &quot;true&quot; : &quot;false&quot;'/>,isPost:<b:eval expr='data:view.isPost ? &quot;true&quot; : &quot;false&quot;'/>,isPage:<b:eval expr='data:view.isPage ? &quot;true&quot; : &quot;false&quot;'/>,isBoxed:<b:eval expr='data:skin.vars.boxedMode == &quot;1px&quot; ? &quot;true&quot; : &quot;false&quot;'/>,isDark:<b:eval expr='data:skin.vars.darkMode == &quot;1px&quot; ? &quot;true&quot; : &quot;false&quot;'/>,userDarkMode:<b:eval expr='data:skin.vars.userDarkMode == &quot;1px&quot; ? &quot;true&quot; : &quot;false&quot;'/>,stickyMenu:<b:eval expr='data:skin.vars.stickyMenu == &quot;1px&quot; ? &quot;true&quot; : &quot;false&quot;'/>,hasCookie:<b:eval expr='data:widgets.Text any w =&gt; w.sectionId == &quot;cookie&quot; ? &quot;true&quot; : &quot;false&quot;'/>,postAuthor:<b:eval expr='data:widgets.Blog.first.allBylineItems.author ? &quot;true&quot; : &quot;false&quot;'/>,postDate:<b:eval expr='data:widgets.Blog.first.allBylineItems.timestamp ? &quot;true&quot; : &quot;false&quot;'/>,postAuthorLabel:&quot;<b:eval expr='data:widgets.Blog.first.allBylineItems.author.label ? data:widgets.Blog.first.allBylineItems.author.label : &quot;&quot;'/>&quot;,postDateLabel:&quot;<b:eval expr='data:widgets.Blog.first.allBylineItems.timestamp.label ? data:widgets.Blog.first.allBylineItems.timestamp.label : &quot;&quot;'/>&quot;,postCategory:<b:eval expr='data:skin.vars.postCategory == &quot;1px&quot; ? &quot;true&quot; : &quot;false&quot;'/>,postSummary:<b:eval expr='data:skin.vars.postSummary == &quot;1px&quot; ? &quot;true&quot; : &quot;false&quot;'/>,showMore:&quot;<data:messages.showMore/>&quot;,viewAll:&quot;<data:messages.viewAll/>&quot;,noResults:&quot;<data:messages.noResultsFound/>&quot;,noTitle:&quot;<data:messages.noTitle/>&quot;,noThumb:&quot;https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhG9GA0058_fE7q8dUjkpL56fvlwSQs-DyuNjRG1C3oYBoWDR2PYrDa0SKVYt6iEJ8pssbajfAujp0g51-SQimyZNawn0waVgbe8cwgMzSXRURuiG7bqguOahIkTzTgPOn67eoasTMjKkxPfqXg1ytQ4NMjLEAGpp3zKKtpo-PVacHSnidorgbmaOFlyQ/w72-h72-p-k-no-nu/ptb-nth.webp&quot;}</b:tag>
           </b:includable>
           <b:includable id='pbt-feeds'>
-            <code id='data'>{&quot;version&quot;:&quot;2.1.0&quot;,&quot;encoding&quot;:&quot;UTF-8&quot;,&quot;author&quot;:{&quot;name&quot;:&quot;Pro Blogger Templates&quot;,&quot;url&quot;:&quot;https://probloggertemplates.com/&quot;}<b:if cond='!data:posts.empty'>,&quot;posts&quot;:[<b:loop index='i' values='data:posts' var='post'><b:if cond='data:i != 0'>,</b:if>{&quot;id&quot;:&quot;<data:post.id/>&quot;,&quot;published&quot;:{&quot;date&quot;:&quot;<data:post.date.jsonEscaped/>&quot;,&quot;datetime&quot;:&quot;<data:post.date.iso8601.jsonEscaped/>&quot;},&quot;author&quot;:&quot;<data:post.author.name.jsonEscaped/>&quot;,<b:if cond='data:post.labels'>&quot;category&quot;:&quot;<data:post.labels.first.name.jsonEscaped/>&quot;,</b:if>&quot;title&quot;:&quot;<b:eval expr='data:post.title ? data:post.title.jsonEscaped : data:messages.noTitle.jsonEscaped'/>&quot;,&quot;link&quot;:&quot;<data:post.url.canonical.jsonEscaped/>&quot;,&quot;thumbnail&quot;:{&quot;src&quot;:&quot;<b:if cond='data:post.featuredImage'><b:eval expr='data:post.featuredImage.isYouTube ? resizeImage(data:post.featuredImage.youtubeMaxResDefaultUrl.jsonEscaped, 72, &quot;1:1&quot;) : resizeImage(data:post.featuredImage.jsonEscaped, 72, &quot;1:1&quot;)'/><b:else/>https://resources.blogblog.com/img/blank.gif</b:if>&quot;,&quot;source&quot;:&quot;<b:eval expr='data:post.featuredImage.isYouTube ? &quot;youtube&quot; : &quot;blogger&quot;'/>&quot;}<b:if cond='data:post.snippets.short'>,&quot;summary&quot;:&quot;<data:post.snippets.short.jsonEscaped/>&quot;</b:if>}</b:loop>]</b:if>}</code>
+            <code id='data'>{&quot;version&quot;:&quot;2.1.0&quot;,&quot;encoding&quot;:&quot;UTF-8&quot;,&quot;author&quot;:{&quot;name&quot;:&quot;The Bukit Besi&quot;,&quot;url&quot;:&quot;https://www.thebukitbesi.com/&quot;}<b:if cond='!data:posts.empty'>,&quot;posts&quot;:[<b:loop index='i' values='data:posts' var='post'><b:if cond='data:i != 0'>,</b:if>{&quot;id&quot;:&quot;<data:post.id/>&quot;,&quot;published&quot;:{&quot;date&quot;:&quot;<data:post.date.jsonEscaped/>&quot;,&quot;datetime&quot;:&quot;<data:post.date.iso8601.jsonEscaped/>&quot;},&quot;author&quot;:&quot;<data:post.author.name.jsonEscaped/>&quot;,<b:if cond='data:post.labels'>&quot;category&quot;:&quot;<data:post.labels.first.name.jsonEscaped/>&quot;,</b:if>&quot;title&quot;:&quot;<b:eval expr='data:post.title ? data:post.title.jsonEscaped : data:messages.noTitle.jsonEscaped'/>&quot;,&quot;link&quot;:&quot;<data:post.url.canonical.jsonEscaped/>&quot;,&quot;thumbnail&quot;:{&quot;src&quot;:&quot;<b:if cond='data:post.featuredImage'><b:eval expr='data:post.featuredImage.isYouTube ? resizeImage(data:post.featuredImage.youtubeMaxResDefaultUrl.jsonEscaped, 72, &quot;1:1&quot;) : resizeImage(data:post.featuredImage.jsonEscaped, 72, &quot;1:1&quot;)'/><b:else/>https://resources.blogblog.com/img/blank.gif</b:if>&quot;,&quot;source&quot;:&quot;<b:eval expr='data:post.featuredImage.isYouTube ? &quot;youtube&quot; : &quot;blogger&quot;'/>&quot;}<b:if cond='data:post.snippets.short'>,&quot;summary&quot;:&quot;<data:post.snippets.short.jsonEscaped/>&quot;</b:if>}</b:loop>]</b:if>}</code>
           </b:includable>
         </b:defaultmarkup>
         <b:defaultmarkup type='LinkList'>
@@ -2765,7 +2775,7 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display:none!important}
     }
   ]
 }
-<b:elseif cond='data:view.isSearch and !data:view.search.query'/>
+<b:elseif cond='data:view.isSearch and !data:view.search.query and !data:view.search.label'/>
 {
   &quot;@context&quot;: &quot;https://schema.org&quot;,
   &quot;@graph&quot;: [
@@ -2773,6 +2783,20 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display:none!important}
       &quot;@type&quot;: &quot;WebPage&quot;,
       &quot;name&quot;: &quot;<data:view.title.escaped/>&quot;,
       &quot;url&quot;: &quot;<data:view.url.canonical.jsonEscaped/>&quot;
+    }
+  ]
+}
+<b:elseif cond='data:view.isSearch and data:view.search.label'/>
+{
+  &quot;@context&quot;: &quot;https://schema.org&quot;,
+  &quot;@graph&quot;: [
+    {
+      &quot;@type&quot;: &quot;CollectionPage&quot;,
+      &quot;@id&quot;: &quot;<data:view.url.canonical.jsonEscaped/>&quot;,
+      &quot;name&quot;: &quot;<data:view.search.label.jsonEscaped/>&quot;,
+      &quot;url&quot;: &quot;<data:view.url.canonical.jsonEscaped/>&quot;,
+      &quot;inLanguage&quot;: &quot;<data:blog.locale.language/>&quot;,
+      &quot;isPartOf&quot;: {&quot;@id&quot;: &quot;<data:blog.homepageUrl.canonical.jsonEscaped/>#website&quot;}
     }
   ]
 }
