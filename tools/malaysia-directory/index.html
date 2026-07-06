@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ms">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Direktori Lokasi Malaysia — Demo</title>
+  <meta name="description" content="Demo enjin direktori lokasi Malaysia yang boleh dicari dan ditapis mengikut negeri serta daerah.">
+  <link rel="stylesheet" href="./assets/directory.css">
+</head>
+<body>
+  <main id="tbb-directory-app">
+    <div class="dir-shell" data-tbb-directory data-category="pejabat-pos" data-state="Selangor" data-source="./data/pejabat-pos-selangor.json">
+      <section class="dir-hero" aria-labelledby="dir-title">
+        <p class="dir-eyebrow">The Bukit Besi Directory</p>
+        <h1 id="dir-title">Cari Pejabat Pos di Selangor</h1>
+        <p class="dir-lead">Cari mengikut nama cawangan, bandar, daerah atau poskod. Gunakan pautan arah dan semak sumber rasmi sebelum bergerak kerana waktu operasi boleh berubah.</p>
+      </section>
+
+      <section class="dir-toolbar" aria-label="Penapis direktori">
+        <div class="dir-field dir-field--search">
+          <label for="dir-search">Cari lokasi</label>
+          <input class="dir-input" id="dir-search" data-dir-search type="search" autocomplete="off" placeholder="Contoh: Shah Alam, Klang atau 43000">
+        </div>
+        <div class="dir-field">
+          <label for="dir-state">Negeri</label>
+          <select class="dir-select" id="dir-state" data-dir-state></select>
+        </div>
+        <div class="dir-field">
+          <label for="dir-district">Daerah</label>
+          <select class="dir-select" id="dir-district" data-dir-district></select>
+        </div>
+        <button class="dir-button" data-dir-clear type="button">Reset</button>
+      </section>
+
+      <div class="dir-summary" aria-live="polite">
+        <strong><span data-dir-count>0</span> lokasi</strong>
+        <span class="dir-status" data-dir-status>Memuatkan lokasi…</span>
+      </div>
+
+      <div class="dir-grid" data-dir-results></div>
+
+      <template data-dir-card>
+        <article class="dir-card">
+          <div class="dir-card__top">
+            <div>
+              <h2 data-field="name"></h2>
+              <p class="dir-type" data-field="type"></p>
+            </div>
+            <span class="dir-badge" data-field="status"></span>
+          </div>
+          <p class="dir-address" data-field="address"></p>
+          <p class="dir-meta" data-field="district"></p>
+          <p class="dir-hours" data-field="hours"></p>
+          <ul class="dir-services" data-field="services"></ul>
+          <p class="dir-verified" data-field="verified"></p>
+          <div class="dir-actions">
+            <a class="dir-action" data-action="phone"></a>
+            <a class="dir-action dir-action--primary" data-action="maps">Arah</a>
+            <button class="dir-action" data-copy-address type="button">Salin alamat</button>
+            <a class="dir-action" data-action="source">Sumber rasmi</a>
+          </div>
+        </article>
+      </template>
+
+      <p class="dir-note">Maklumat lokasi perlu disahkan secara berkala. Waktu operasi mungkin berubah pada cuti umum, musim perayaan atau atas arahan operasi semasa.</p>
+      <noscript><p class="dir-noscript">Aktifkan JavaScript untuk menggunakan carian dan penapis direktori.</p></noscript>
+    </div>
+  </main>
+  <script src="./assets/directory.js" defer></script>
+</body>
+</html>
