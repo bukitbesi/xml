@@ -11,6 +11,7 @@ from urllib.parse import urlparse
 DATASET = Path(__file__).resolve().parents[1] / "data" / "pejabat-pos-selangor.json"
 ALLOWED_STATUS = {"verified", "partial", "pending"}
 REQUIRED = {"id", "name", "category", "state", "verificationStatus", "sourceUrl"}
+VERIFIED_REQUIRED = {"address", "phone", "hours", "lastVerified"}
 
 
 def valid_http_url(value: str) -> bool:
@@ -55,9 +56,12 @@ def main() -> int:
             errors.append(f"{prefix}: sourceUrl must be a valid HTTPS URL")
 
         if status == "verified":
-            for field in ("address", "lastVerified"):
+            for field in sorted(VERIFIED_REQUIRED):
                 if not item.get(field):
                     errors.append(f"{prefix}: verified record requires {field}")
+
+        if status == "partial" and not item.get("address"):
+            errors.append(f"{prefix}: partial record requires address")
 
         if status == "pending" and any(item.get(field) for field in ("phone", "hours")):
             errors.append(f"{prefix}: pending record must not publish phone or hours")
