@@ -1,0 +1,63 @@
+<!-- The Bukit Besi Malaysia Directory embed -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/bukitbesi/xml@main/tools/malaysia-directory/assets/directory.css">
+
+<section id="tbb-directory-app" aria-labelledby="tbb-dir-title">
+  <div class="dir-shell" data-tbb-directory data-category="pejabat-pos" data-state="Selangor" data-source="https://cdn.jsdelivr.net/gh/bukitbesi/xml@main/tools/malaysia-directory/data/pejabat-pos-selangor.json">
+    <div class="dir-hero">
+      <p class="dir-eyebrow">The Bukit Besi Directory</p>
+      <h2 id="tbb-dir-title">Cari Pejabat Pos di Selangor</h2>
+      <p class="dir-lead">Cari mengikut nama cawangan, bandar, daerah atau poskod. Semak sumber rasmi sebelum bergerak kerana alamat, telefon dan waktu operasi boleh berubah.</p>
+    </div>
+
+    <div class="dir-toolbar" aria-label="Penapis direktori">
+      <div class="dir-field dir-field--search">
+        <label for="tbb-dir-search">Cari lokasi</label>
+        <input class="dir-input" id="tbb-dir-search" data-dir-search type="search" autocomplete="off" placeholder="Contoh: Shah Alam, Klang atau 43000">
+      </div>
+      <div class="dir-field">
+        <label for="tbb-dir-state">Negeri</label>
+        <select class="dir-select" id="tbb-dir-state" data-dir-state></select>
+      </div>
+      <div class="dir-field">
+        <label for="tbb-dir-district">Daerah</label>
+        <select class="dir-select" id="tbb-dir-district" data-dir-district></select>
+      </div>
+      <button class="dir-button" data-dir-clear type="button">Reset</button>
+    </div>
+
+    <div class="dir-summary" aria-live="polite">
+      <strong><span data-dir-count>0</span> lokasi</strong>
+      <span class="dir-status" data-dir-status>Memuatkan lokasi…</span>
+    </div>
+
+    <div class="dir-grid" data-dir-results></div>
+
+    <template data-dir-card>
+      <article class="dir-card">
+        <div class="dir-card__top">
+          <div>
+            <h3 data-field="name"></h3>
+            <p class="dir-type" data-field="type"></p>
+          </div>
+          <span class="dir-badge" data-field="status"></span>
+        </div>
+        <p class="dir-address" data-field="address"></p>
+        <p class="dir-meta" data-field="district"></p>
+        <p class="dir-hours" data-field="hours"></p>
+        <ul class="dir-services" data-field="services"></ul>
+        <p class="dir-verified" data-field="verified"></p>
+        <div class="dir-actions">
+          <a class="dir-action" data-action="phone"></a>
+          <a class="dir-action dir-action--primary" data-action="maps">Arah</a>
+          <button class="dir-action" data-copy-address type="button">Salin alamat</button>
+          <a class="dir-action" data-action="source">Sumber rasmi</a>
+        </div>
+      </article>
+    </template>
+
+    <p class="dir-note">Maklumat cawangan disemak secara berkala. Waktu operasi boleh berubah pada cuti umum, musim perayaan atau arahan operasi semasa.</p>
+    <noscript><p class="dir-noscript">Aktifkan JavaScript untuk menggunakan carian dan penapis lokasi.</p></noscript>
+  </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/gh/bukitbesi/xml@main/tools/malaysia-directory/assets/directory.js" defer></script>
