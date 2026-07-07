@@ -9,8 +9,8 @@
 ## LIVE TEST REQUIRED
 
 - Pos Malaysia outlet details must be checked manually in a normal browser session.
-- Automated fetches to the Pos Malaysia homepage returned HTTP 403 during this batch.
-- Search-engine queries did not expose reliable first-party branch detail pages for the current seed records.
+- Automated fetches to the Pos Malaysia homepage returned HTTP 403 on 2026-07-07.
+- Search-engine queries on 2026-07-07 did not expose reliable first-party branch detail pages for the current seed records.
 
 ## DATA ENTRY RULE
 
