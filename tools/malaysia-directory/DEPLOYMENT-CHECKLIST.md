@@ -12,16 +12,16 @@
 ## BUILD AND VALIDATE
 
 ```bash
-python tools/malaysia-directory/scripts/validate_dataset.py
-python tools/malaysia-directory/scripts/build_schema.py
-python -m json.tool tools/malaysia-directory/generated/pejabat-pos-selangor.schema.json > /dev/null
+python3 tools/malaysia-directory/scripts/validate_dataset.py
+python3 tools/malaysia-directory/scripts/build_schema.py
+python3 -m json.tool tools/malaysia-directory/generated/pejabat-pos-selangor.schema.json > /dev/null
 ```
 
 ## BLOGGER MANUAL STEPS
 
 1. Back up the current post HTML.
-2. Replace the article body with `templates/pejabat-pos-selangor-blogger.html`.
-3. Insert the directory markup from `templates/blogger-embed.html` at the marked position.
+2. Replace the article body with `tools/malaysia-directory/templates/pejabat-pos-selangor-blogger.html`.
+3. Insert the directory markup from `tools/malaysia-directory/templates/blogger-embed.html` at the marked position.
 4. Add the generated JSON-LD in a `<script type="application/ld+json">` block only after confirming it matches visible locations.
 5. Preview on Android and desktop before publishing.
 6. Test search, district filter, reset, copy address, phone, maps and official-source links.
