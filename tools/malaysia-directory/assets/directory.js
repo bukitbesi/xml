@@ -9,6 +9,7 @@
       this.dataUrl = root.dataset.source;
       this.category = root.dataset.category || '';
       this.state = root.dataset.state || '';
+      this.includePending = root.dataset.includePending === 'true';
       this.records = [];
       this.filtered = [];
       this.stateEl = root.querySelector('[data-dir-state]');
@@ -35,7 +36,10 @@
         const response = await fetch(this.dataUrl, { credentials: 'omit', cache: 'no-cache' });
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const payload = await response.json();
-        this.records = Array.isArray(payload.items) ? payload.items : [];
+        const items = Array.isArray(payload.items) ? payload.items : [];
+        this.records = this.includePending
+          ? items
+          : items.filter(item => ['verified', 'partial'].includes(item.verificationStatus));
         this.meta = payload.meta || {};
         this.populateFilters();
         this.applyFilters();
@@ -58,7 +62,7 @@
         this.searchEl?.focus();
       });
 
-      this.resultsEl?.addEventListener('click', async (event) => {
+      this.resultsEl?.addEventListener('click', async event => {
         const copyButton = event.target.closest('[data-copy-address]');
         if (!copyButton) return;
         const address = copyButton.dataset.copyAddress || '';
@@ -84,10 +88,8 @@
     populateFilters() {
       const states = [...new Set(this.records.map(item => item.state).filter(Boolean))].sort(this.localeSort);
       const districts = [...new Set(this.records.map(item => item.district).filter(Boolean))].sort(this.localeSort);
-
       this.fillSelect(this.stateEl, states, 'Semua negeri');
       this.fillSelect(this.districtEl, districts, 'Semua daerah');
-
       const pendingState = this.stateEl?.dataset.pending || this.state;
       const pendingDistrict = this.districtEl?.dataset.pending || '';
       if (this.stateEl && states.includes(pendingState)) this.stateEl.value = pendingState;
@@ -128,7 +130,10 @@
       if (this.countEl) this.countEl.textContent = String(this.filtered.length);
 
       if (!this.filtered.length) {
-        this.setStatus('Tiada lokasi sepadan. Cuba nama bandar, poskod atau daerah lain.', 'empty');
+        const message = this.records.length
+          ? 'Tiada lokasi sepadan. Cuba nama bandar, poskod atau daerah lain.'
+          : 'Tiada lokasi disahkan tersedia buat masa ini.';
+        this.setStatus(message, 'empty');
         return;
       }
 
@@ -165,8 +170,24 @@
 
       const badge = node.querySelector('[data-field="status"]');
       if (badge) {
-        badge.textContent = item.verificationStatus === 'verified' ? 'Disahkan' : item.verificationStatus === 'partial' ? 'Separa disahkan' : 'Semakan diperlukan';
-        badge.dataset.status = item.verificationStatus || 'pending';
+        switch (item.verificationStatus) {
+          case 'verified':
+            badge.textContent = 'Disahkan';
+            badge.dataset.status = 'verified';
+            break;
+          case 'partial':
+            badge.textContent = 'Separa disahkan';
+            badge.dataset.status = 'partial';
+            break;
+          case 'pending':
+            badge.textContent = 'Belum disahkan';
+            badge.dataset.status = 'pending';
+            break;
+          default:
+            badge.textContent = 'Status belum disahkan';
+            badge.dataset.status = 'unknown';
+            break;
+        }
       }
 
       const services = node.querySelector('[data-field="services"]');
