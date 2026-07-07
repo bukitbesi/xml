@@ -2,7 +2,7 @@
 
 Use this worksheet before promoting any record from `pending` to `partial` or `verified`.
 
-| ID | Name | Address | Phone | Hours | Official source | Last checked | Status | Notes |
+| ID | Name | Address | Phone | Hours | Official source | `lastVerified` | Status | Notes |
 |---|---|---|---|---|---|---|---|---|
 | pejabat-pos-besar-shah-alam | Pejabat Pos Besar Shah Alam |  |  |  | https://www.pos.com.my/ |  | pending | Manual first-party verification required |
 | pejabat-pos-klang | Pejabat Pos Klang |  |  |  | https://www.pos.com.my/ |  | pending | Manual first-party verification required |
