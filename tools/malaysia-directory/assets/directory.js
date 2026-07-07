@@ -170,8 +170,24 @@
 
       const badge = node.querySelector('[data-field="status"]');
       if (badge) {
-        badge.textContent = item.verificationStatus === 'verified' ? 'Disahkan' : 'Separa disahkan';
-        badge.dataset.status = item.verificationStatus || 'partial';
+        switch (item.verificationStatus) {
+          case 'verified':
+            badge.textContent = 'Disahkan';
+            badge.dataset.status = 'verified';
+            break;
+          case 'partial':
+            badge.textContent = 'Separa disahkan';
+            badge.dataset.status = 'partial';
+            break;
+          case 'pending':
+            badge.textContent = 'Belum disahkan';
+            badge.dataset.status = 'pending';
+            break;
+          default:
+            badge.textContent = 'Status belum disahkan';
+            badge.dataset.status = 'unknown';
+            break;
+        }
       }
 
       const services = node.querySelector('[data-field="services"]');
