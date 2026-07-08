@@ -1,0 +1,49 @@
+name: Apply Blogger comments fix
+
+on:
+  push:
+    branches:
+      - fix-blogger-comments-20260708
+
+permissions:
+  contents: write
+
+jobs:
+  patch-template:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out branch
+        uses: actions/checkout@v4
+        with:
+          ref: fix-blogger-comments-20260708
+
+      - name: Apply minimal comments visibility fallback
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          path = Path('asset/tbb.xml')
+          text = path.read_text(encoding='utf-8')
+          old = '.blog-post-comments{display:none;flex-direction:column}'
+          new = '.blog-post-comments{display:flex;flex-direction:column}'
+
+          if old not in text:
+              raise SystemExit('Expected comments CSS rule was not found; no change made.')
+
+          text = text.replace(old, new, 1)
+          path.write_text(text, encoding='utf-8')
+          PY
+
+      - name: Remove one-time workflow
+        run: rm .github/workflows/apply-blogger-comments-fix.yml
+
+      - name: Commit patched template
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add asset/tbb.xml .github/workflows/apply-blogger-comments-fix.yml
+          git commit -m 'fix: restore native Blogger comments visibility'
+          git push origin HEAD:fix-blogger-comments-20260708
