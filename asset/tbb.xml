@@ -770,7 +770,7 @@ table.tr-caption-container td.tr-caption{font-size:0.75rem;padding:0.25rem 0 0 0
 .related-items .post{display:grid;gap:0.75rem}
 .related-items .entry-thumbnail{width:100%;aspect-ratio:var(--aspect-ratio)}
 .related-items .entry-title{font-size:1rem}
-.blog-post-comments{display:none;flex-direction:column}
+.blog-post-comments{display:flex;flex-direction:column}
 .blog-post-comments.visible{display:flex}
 .blog-post-comments .fb_iframe_widget_fluid_desktop{float:left;display:block!important;width:calc(100% + 1rem)!important;max-width:calc(100% + 1rem)!important;margin:0 -0.5rem}
 .blog-post-comments .fb_iframe_widget_fluid_desktop span,.blog-post-comments .fb_iframe_widget_fluid_desktop iframe{float:left;display:block!important;width:100%!important}
