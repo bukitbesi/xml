@@ -1,4 +1,4 @@
-# Homepage Schema Audit — thebukitbesi.com
+# Homepage Schema Audit — https://www.thebukitbesi.com/
 
 Date: 2026-07-08
 Scope: `asset/tbb.xml` on `main`, homepage-oriented structured data and rich-result interpretation.
@@ -8,7 +8,7 @@ Scope: `asset/tbb.xml` on `main`, homepage-oriented structured data and rich-res
 - The current Blogger baseline in `asset/tbb.xml` is the authoritative template for the site.
 - The homepage head currently renders standard SEO tags: title, meta description, canonical, Open Graph and Twitter metadata.
 - The homepage Open Graph type is correctly set to `website` when `data:view.isHomepage` is true.
-- The template currently includes homepage metadata, but no explicit homepage JSON-LD graph for `WebSite`, `Organization`, or `WebPage` was confirmed in the inspected template sections.
+- The template already emits a homepage JSON-LD `@graph` under `data:view.isHomepage` (`asset/tbb.xml:2891–2933`) containing `WebSite` and `Organization` entities plus a `SearchAction` with a `/search?q=` URL template.
 - Rich Results Test can report `No items detected` on a homepage even when normal SEO metadata exists, because `WebSite`, `Organization`, and `WebPage` do not always produce rich-result item cards.
 
 ## ASSUMPTION
@@ -40,7 +40,7 @@ A safe future remediation batch may add one compact homepage-only JSON-LD graph:
 - `WebSite`
 - `WebPage`
 - `Organization` or `OnlineBusiness` with only verified visible facts
-- optional `SearchAction` only if the Blogger search URL is confirmed working
+- `SearchAction` (already present; verify that the `/search?q=` URL template returns valid results)
 
 ## NEXT PROPOSED BATCH
 
