@@ -29,6 +29,25 @@
     &#39;page_path&#39;: window.location.pathname
   });</script>
         
+<script async='async' src='https://news.google.com/swg/js/v1/swg-basic.js'/>
+
+<script>
+//<![CDATA[
+  (self.SWG_BASIC = self.SWG_BASIC || []).push( basicSubscriptions => {
+    try {
+      basicSubscriptions.init({
+        type: "NewsArticle",
+        isPartOfType: ["Product"],
+        isPartOfProductId: "CAownu29DA:openaccess",
+        clientOptions: { theme: "light", lang: "ms" },
+      });
+    } catch (error) {
+      console.warn("RRM failed to initialize:", error);
+    }
+  });
+//]]>
+</script>
+
         <b:skin version='2.1.0'><![CDATA[ /* Blogger Template Style */
 /*-- Customize Options (Start) --
 <Variable name="keycolor" description="Main Color" type="color" default="#2563eb" value="#2563eb"/>
@@ -359,7 +378,7 @@ svg{display:inline-block;width:1em;height:1em;font-size:1em;line-height:1;overfl
 .main-logo .title{max-width:100%;font-family:var(--title-font);font-size:1.25rem;color:var(--header-color);line-height:var(--logo);font-weight:var(--title-weight);overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
 .main-logo .title a{color:var(--header-color)}
 .main-logo .title a:hover{color:var(--header-hover-color)}
-.main-logo #h1-off{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.main-logo #h1-off{display:none;visibility:hidden}
 #main-menu .widget{display:none}
 #main-menu .widget.is-ready{display:block}
 .main-nav{display:flex;height:var(--header);gap:1.75rem}
@@ -770,7 +789,7 @@ table.tr-caption-container td.tr-caption{font-size:0.75rem;padding:0.25rem 0 0 0
 .related-items .post{display:grid;gap:0.75rem}
 .related-items .entry-thumbnail{width:100%;aspect-ratio:var(--aspect-ratio)}
 .related-items .entry-title{font-size:1rem}
-.blog-post-comments{display:flex;flex-direction:column}
+.blog-post-comments{display:none;flex-direction:column}
 .blog-post-comments.visible{display:flex}
 .blog-post-comments .fb_iframe_widget_fluid_desktop{float:left;display:block!important;width:calc(100% + 1rem)!important;max-width:calc(100% + 1rem)!important;margin:0 -0.5rem}
 .blog-post-comments .fb_iframe_widget_fluid_desktop span,.blog-post-comments .fb_iframe_widget_fluid_desktop iframe{float:left;display:block!important;width:100%!important}
@@ -834,8 +853,7 @@ table.tr-caption-container td.tr-caption{font-size:0.75rem;padding:0.25rem 0 0 0
 .show-cf:focus,.comments #top-continue a:focus{box-shadow:0 0 0 2px var(--accent-color-lite)}
 .cf-on .show-cf,.comments .comment-replybox-thread,.no-comments .comment-form,.no-comment-form #top-continue a{display:none}
 .cf-on .comments .comment-replybox-thread,.cf-on .no-comments .comment-form{display:block}
-#comment-editor[height="230px"],#comment-editor[height="1142px"]{height:4.25rem}
-#comment-editor{min-height:4.25rem;max-height:fit-content}
+#comment-editor { min-height: 275px; height: 275px; width: 100%; border: none; }
 #top-ce #comment-editor{margin:1.5rem 0 0}
 #post-ads-1,#post-ads-2,#post-ads-3,#post-ads-4{display:none}
 .before-ads .widget{margin:0 0 1.5rem}
@@ -1183,35 +1201,22 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display:none!important}
             <meta expr:content='data:view.title.escaped' property='og:title'/>
             <meta expr:content='data:blog.title.escaped' property='og:site_name'/>
             <meta expr:content='data:view.description.escaped' property='og:description'/>
-            <!-- og:url — use view canonical for all page types -->
+            <!-- og:url &#8212; use view canonical for all page types -->
             <meta expr:content='data:view.url.canonical' property='og:url'/>
             <b:if cond='data:view.featuredImage'>
-              <b:with value='resizeImage(data:view.featuredImage, 1200, &quot;16:9&quot;)' var='ogImg'>
-                <meta expr:content='data:ogImg' property='og:image'/>
-                <meta expr:content='data:ogImg' property='og:image:secure_url'/>
-                <meta content='1200' property='og:image:width'/>
-                <meta content='675' property='og:image:height'/>
-                <meta expr:content='data:view.title.escaped' property='og:image:alt'/>
-                <meta content='image/webp' property='og:image:type'/>
-                <meta expr:content='data:ogImg' name='twitter:image'/>
-              </b:with>
-            <b:elseif cond='data:blog.postImageUrl'/>
-              <b:with value='resizeImage(data:blog.postImageUrl, 1200, &quot;16:9&quot;)' var='ogImg'>
-                <meta expr:content='data:ogImg' property='og:image'/>
-                <meta expr:content='data:ogImg' property='og:image:secure_url'/>
-                <meta content='1200' property='og:image:width'/>
-                <meta content='675' property='og:image:height'/>
-                <meta expr:content='data:view.title.escaped' property='og:image:alt'/>
-                <meta content='image/webp' property='og:image:type'/>
-                <meta expr:content='data:ogImg' name='twitter:image'/>
-              </b:with>
-            <b:else/>
-              <!-- Site-logo fallback: ensures WhatsApp/Facebook/Twitter always have an image -->
-              <meta content='https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgqjFdEWNgwNSHf8cuiBJ5SO6VLtkzs2xcmzsaEK7jELM2mLf5IB2oiMcnEQmeAzIokVd4pKnasNfrNAKj50Q8eGodMdghKT8EQVCc9ViaX7yebBtN_ByUgCGgZkF9KJp68K5l7xgovnldmexg9hdaPdA1TMb_4SVrfAuZ7TNY68vouUIHaE__kwBrL3mPF/s1600/bukit-besi-blog.webp' property='og:image'/>
-              <meta content='https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgqjFdEWNgwNSHf8cuiBJ5SO6VLtkzs2xcmzsaEK7jELM2mLf5IB2oiMcnEQmeAzIokVd4pKnasNfrNAKj50Q8eGodMdghKT8EQVCc9ViaX7yebBtN_ByUgCGgZkF9KJp68K5l7xgovnldmexg9hdaPdA1TMb_4SVrfAuZ7TNY68vouUIHaE__kwBrL3mPF/s1600/bukit-besi-blog.webp' property='og:image:secure_url'/>
+              <meta expr:content='resizeImage(data:view.featuredImage, 1200, &quot;16:9&quot;)' property='og:image'/>
+              <meta content='1200' property='og:image:width'/>
+              <meta content='675' property='og:image:height'/>
+              <meta expr:content='data:view.title.escaped' property='og:image:alt'/>
               <meta content='image/webp' property='og:image:type'/>
-              <meta expr:content='data:blog.title.escaped' property='og:image:alt'/>
-              <meta content='https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgqjFdEWNgwNSHf8cuiBJ5SO6VLtkzs2xcmzsaEK7jELM2mLf5IB2oiMcnEQmeAzIokVd4pKnasNfrNAKj50Q8eGodMdghKT8EQVCc9ViaX7yebBtN_ByUgCGgZkF9KJp68K5l7xgovnldmexg9hdaPdA1TMb_4SVrfAuZ7TNY68vouUIHaE__kwBrL3mPF/s1600/bukit-besi-blog.webp' name='twitter:image'/>
+              <meta expr:content='resizeImage(data:view.featuredImage, 1200, &quot;16:9&quot;)' name='twitter:image'/>
+            <b:elseif cond='data:blog.postImageUrl'/>
+              <meta expr:content='resizeImage(data:blog.postImageUrl, 1200, &quot;16:9&quot;)' property='og:image'/>
+              <meta content='1200' property='og:image:width'/>
+              <meta content='675' property='og:image:height'/>
+              <meta expr:content='data:view.title.escaped' property='og:image:alt'/>
+              <meta content='image/webp' property='og:image:type'/>
+              <meta expr:content='resizeImage(data:blog.postImageUrl, 1200, &quot;16:9&quot;)' name='twitter:image'/>
             </b:if>
             <meta content='summary_large_image' name='twitter:card'/>
             <meta expr:content='data:view.title.escaped' name='twitter:title'/>
@@ -1221,21 +1226,14 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display:none!important}
             <meta expr:content='data:view.title.escaped' name='twitter:image:alt'/>
           </b:includable>
           <b:includable id='pbt-head'>
-            <!-- Robots meta: noindex thin/duplicate page types to preserve crawl budget -->
-            <b:if cond='data:view.isError'>
-              <meta content='noindex, follow' name='robots'/>
-            <b:elseif cond='data:view.isSearch and !data:view.search.label and !data:view.search.query'/>
-              <meta content='noindex, follow' name='robots'/>
-            <b:elseif cond='data:view.isSearch and data:view.search.label'/>
-              <!-- Label/category pages: noindex to avoid thin-content crawl waste; links still followed -->
-              <meta content='noindex, follow' name='robots'/>
-            <b:elseif cond='data:view.isArchive'/>
-              <!-- Date archive pages: noindex — duplicate/thin content -->
-              <meta content='noindex, follow' name='robots'/>
-            <b:else/>
-              <meta content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' name='robots'/>
-            </b:if>
-            <!-- Article meta (post pages only) — required for Facebook News & Google Discover -->
+            <!-- Robots meta: noindex error & raw-query search pages to prevent thin-content indexing -->
+            <!-- Optimized Robots Control by Master SEO Alchemist -->
+<b:if cond='data:view.isError or data:view.isArchive or data:view.isSearch'>
+  <meta content='noindex, follow' name='robots'/>
+<b:else/>
+  <meta content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' name='robots'/>
+</b:if>
+            <!-- Article meta (post pages only) &#8212; required for Facebook News & Google Discover -->
             <b:if cond='data:view.isPost'>
               <b:if cond='data:view.timestamp.iso8601'>
                 <meta expr:content='data:view.timestamp.iso8601' property='article:published_time'/>
@@ -1269,8 +1267,6 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display:none!important}
 			<b:elseif cond='data:view.isPage'/>
   			<title><data:view.title.escaped/> | <data:blog.title.escaped/></title>
   			<meta expr:content='data:view.description.escaped' name='description'/>
-			<b:elseif cond='data:view.isSearch and data:view.search.label'/>
-  			<title><data:view.search.label.escaped/> | <data:blog.title.escaped/></title>
   			<meta expr:content='data:blog.metaDescription.escaped' name='description'/>
 			<b:elseif cond='data:view.isSearch and data:view.search.query'/>
   			<title>Search for: <data:view.search.query.escaped/> | <data:blog.title.escaped/></title>
@@ -1280,13 +1276,13 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display:none!important}
   			<meta expr:content='data:blog.metaDescription.escaped' name='description'/>
 			<b:elseif cond='data:view.isError'/>
   			<title>Page Not Found | <data:blog.title.escaped/></title>
-  			<meta expr:content='data:blog.metaDescription.escaped' name='description'/>
 			<b:else/>
   			<title><data:view.title.escaped/> | <data:blog.title.escaped/></title>
   			<meta expr:content='data:blog.metaDescription.escaped' name='description'/>
 			</b:if>
             <b:if cond='!data:isFeed'>
               <link href='//fonts.googleapis.com' rel='preconnect'/>
+              <link crossorigin='anonymous' href='https://news.google.com' rel='preconnect'/>
               <link crossorigin='' href='//fonts.gstatic.com' rel='preconnect'/>
               <link href='//cdnjs.cloudflare.com' rel='preconnect'/>
               <link href='//cdn.jsdelivr.net' rel='preconnect'/>
@@ -1304,7 +1300,6 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display:none!important}
               <link href='//www.google-analytics.com' rel='dns-prefetch'/>
               <link href='//pagead2.googlesyndication.com' rel='dns-prefetch'/>
               <link expr:href='data:view.url.canonical' rel='canonical'/>
-              <link href='/sitemap.xml' rel='sitemap' title='Sitemap' type='application/xml'/>
               <!-- LCP preload: tells browser to fetch the hero image before it discovers it in the DOM -->
               <b:if cond='data:view.isPost and data:view.featuredImage'>
                 <link as='image' expr:href='resizeImage(data:view.featuredImage, 1200, &quot;16:9&quot;)' fetchpriority='high' rel='preload'/>
@@ -1326,18 +1321,9 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display:none!important}
                   <b:loop index='i' values='data:fonts' var='font'>
                     <b:if cond='not(data:font contains &quot;,&quot;)'>
                       <b:with value='&quot;https://fonts.googleapis.com/css2?family=&quot; + data:font + &quot;:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&amp;display=swap&quot;' var='fontLink'>
-                        <b:if cond='data:i == 0'>
-                          <link as='style' expr:href='data:fontLink' onload="this.onload=null;this.rel='stylesheet'" rel='preload'/>
-                          <noscript><link expr:href='data:fontLink' rel='stylesheet'/></noscript>
-                        </b:if>
-                        <b:if cond='data:i == 1 and (data:font not in [data:fonts[0]])'>
-                          <link as='style' expr:href='data:fontLink' onload="this.onload=null;this.rel='stylesheet'" rel='preload'/>
-                          <noscript><link expr:href='data:fontLink' rel='stylesheet'/></noscript>
-                        </b:if>
-                        <b:if cond='data:i == 2 and (data:font not in [data:fonts[0], data:fonts[1]])'>
-                          <link as='style' expr:href='data:fontLink' onload="this.onload=null;this.rel='stylesheet'" rel='preload'/>
-                          <noscript><link expr:href='data:fontLink' rel='stylesheet'/></noscript>
-                        </b:if>
+                        <b:tag cond='data:i == 0' expr:href='data:fontLink' name='link' rel='stylesheet'/>
+                        <b:tag cond='data:i == 1 and (data:font not in [data:fonts[0]])' expr:href='data:fontLink' name='link' rel='stylesheet'/>
+                        <b:tag cond='data:i == 2 and (data:font not in [data:fonts[0], data:fonts[1]])' expr:href='data:fontLink' name='link' rel='stylesheet'/>
                       </b:with>
                     </b:if>
                   </b:loop>
@@ -1348,7 +1334,7 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display:none!important}
                   <link href='https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&amp;display=swap' rel='stylesheet'/>
                 </noscript>
               </b:if>
-              <link as='style' href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.13.1/font/bootstrap-icons.min.css' onload="this.onload=null;this.rel='stylesheet'" rel='preload'/>
+              <link as='style' href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.13.1/font/bootstrap-icons.min.css' onload='this.onload=null;this.rel=&apos;stylesheet&apos;' rel='preload'/>
               <noscript><link href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.13.1/font/bootstrap-icons.min.css' rel='stylesheet'/></noscript>
             </b:if>
           </b:includable>
@@ -1396,7 +1382,7 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display:none!important}
               <b:tag name='script' type='text/javascript'>const noThumbnail = &quot;<b:eval expr='resizeImage(data:sourceUrl, 72, &quot;1:1&quot;)'/>&quot;;</b:tag>
               <b:elseif cond='data:widget.sectionId == &quot;main-logo&quot;'/>
               <a class='logo-img' expr:href='data:blog.homepageUrl.canonical' rel='home'>
-                <img expr:alt='data:blog.title' expr:data-src='data:sourceUrl' decoding='async' expr:height='data:height' expr:src='data:sourceUrl' expr:width='data:width' loading='lazy'>
+                <img expr:alt='data:blog.title' expr:data-src='data:sourceUrl' expr:height='data:height' expr:src='data:sourceUrl' expr:width='data:width' loading='lazy'>
                   <b:attr cond='data:link and (data:link contains &quot;googleusercontent.com&quot;)' expr:value='data:link' name='data-dark-src'/>
                 </img>
                 <b:if cond='data:view.isHomepage'>
@@ -1412,12 +1398,12 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display:none!important}
                     <b:attr name='rel' value='nofollow noopener'/>
                     <b:attr name='target' value='_blank'/>
                   </b:if>
-                  <img expr:alt='data:caption and (data:title == &quot;{ads}&quot;) ? data:caption : data:widget.instanceId' decoding='async' expr:height='data:height' expr:src='data:sourceUrl' expr:width='data:width' loading='lazy'/>
+                  <img expr:alt='data:caption and (data:title == &quot;{ads}&quot;) ? data:caption : data:widget.instanceId' expr:height='data:height' expr:src='data:sourceUrl' expr:width='data:width' loading='lazy'/>
                 </b:tag>
               </noscript>
               <b:elseif cond='data:widget.sectionId == &quot;footer-info&quot;'/>
               <a class='footer-logo' expr:href='data:blog.homepageUrl.canonical' rel='home'>
-                <img expr:alt='data:blog.title' expr:data-src='data:sourceUrl' decoding='async' expr:height='data:height' expr:src='data:sourceUrl' expr:width='data:width' loading='lazy'>
+                <img expr:alt='data:blog.title' expr:data-src='data:sourceUrl' expr:height='data:height' expr:src='data:sourceUrl' expr:width='data:width' loading='lazy'>
                   <b:attr cond='data:link and (data:link contains &quot;googleusercontent.com&quot;)' expr:value='data:link' name='data-dark-src'/>
                 </img>
               </a>
@@ -1433,7 +1419,7 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display:none!important}
                     <b:attr name='rel' value='nofollow noopener'/>
                     <b:attr name='target' value='_blank'/>
                   </b:if>
-                  <img expr:alt='data:caption and (data:title == &quot;{ads}&quot;) ? data:caption : data:widget.instanceId' decoding='async' expr:height='data:height' expr:src='data:sourceUrl' expr:width='data:width' loading='lazy'/>
+                  <img expr:alt='data:caption and (data:title == &quot;{ads}&quot;) ? data:caption : data:widget.instanceId' expr:height='data:height' expr:src='data:sourceUrl' expr:width='data:width' loading='lazy'/>
                 </b:tag>
                 <b:if cond='data:caption and (data:title != &quot;{ads}&quot;)'>
                   <p class='image-caption excerpt'>
@@ -1780,31 +1766,25 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display:none!important}
                 <b:with value='data:view.title.jsonEscaped' var='shareTitle'>
                   <ul class='share-b social color'>
                     <li class='facebook'>
-                      <!-- Facebook: reads og:image automatically from page meta -->
-                      <a class='bi-facebook window-open' expr:href='&quot;https://www.facebook.com/sharer.php?u=&quot; + data:shareUrl' rel='nofollow noopener noreferrer' title='Facebook'/>
+                      <a class='bi-facebook window-open' expr:href='&quot;https://www.facebook.com/sharer.php?u=&quot; + data:shareUrl' rel='nofollow noopener' title='Facebook'/>
                     </li>
                     <li class='twitter'>
-                      <!-- Twitter/X: include title text + via handle for attribution -->
-                      <a class='bi-twitter window-open' expr:href='&quot;https://twitter.com/intent/tweet?url=&quot; + data:shareUrl + &quot;&amp;text=&quot; + data:shareTitle + &quot;&amp;via=thebukitbesi&quot;' rel='nofollow noopener noreferrer' title='Twitter / X'/>
+                      <a class='bi-twitter window-open' expr:href='&quot;https://twitter.com/intent/tweet?url=&quot; + data:shareUrl' rel='nofollow noopener' title='Twitter'/>
                     </li>
                     <li class='whatsapp'>
-                      <!-- WhatsApp: wa.me universal link; double newline puts URL on its own line so WA generates rich preview with og:image -->
-                      <a class='bi-whatsapp window-open' expr:href='&quot;https://wa.me/?text=&quot; + data:shareTitle + &quot;%0A%0A&quot; + data:shareUrl' rel='nofollow noopener noreferrer' title='WhatsApp'/>
+                      <a class='bi-whatsapp window-open' expr:href='&quot;https://api.whatsapp.com/send?text=&quot; + data:shareTitle + &quot; | &quot; + data:shareUrl' rel='nofollow noopener' title='WhatsApp'/>
                     </li>
                     <li class='pinterest-p'>
-                      <!-- Pinterest: passes featured image directly via &media= param -->
-                      <a class='bi-pinterest window-open' expr:href='&quot;https://www.pinterest.com/pin/create/button/?url=&quot; + data:shareUrl + &quot;&amp;media=&quot; + data:view.featuredImage + &quot;&amp;description=&quot; + data:shareTitle' rel='nofollow noopener noreferrer' title='Pinterest'/>
+                      <a class='bi-pinterest window-open' expr:href='&quot;https://www.pinterest.com/pin/create/button/?url=&quot; + data:shareUrl + &quot;&amp;media=&quot; + data:view.featuredImage + &quot;&amp;description=&quot; + data:shareTitle' rel='nofollow noopener' title='Pinterest'/>
                     </li>
                     <li class='linkedin'>
-                      <!-- LinkedIn: new share endpoint (shareArticle deprecated) -->
-                      <a class='bi-linkedin window-open' expr:href='&quot;https://www.linkedin.com/sharing/share-offsite/?url=&quot; + data:shareUrl' rel='nofollow noopener noreferrer' title='LinkedIn'/>
+                      <a class='bi-linkedin window-open' expr:href='&quot;https://www.linkedin.com/shareArticle?mini=true&amp;url=&quot; + data:shareUrl + &quot;&amp;title=&quot; + data:shareTitle' rel='nofollow noopener' title='LinkedIn'/>
                     </li>
                     <li class='reddit'>
-                      <a class='bi-reddit window-open' expr:href='&quot;https://reddit.com/submit?url=&quot; + data:shareUrl + &quot;&amp;title=&quot; + data:shareTitle' rel='nofollow noopener noreferrer' title='Reddit'/>
+                      <a class='bi-reddit window-open' expr:href='&quot;https://reddit.com/submit?url=&quot; + data:shareUrl + &quot;&amp;title=&quot; + data:shareTitle' rel='nofollow noopener' title='Reddit'/>
                     </li>
                     <li class='telegram'>
-                      <!-- Telegram: t.me is the canonical short domain -->
-                      <a class='bi-telegram window-open' expr:href='&quot;https://t.me/share/url?url=&quot; + data:shareUrl + &quot;&amp;text=&quot; + data:shareTitle' rel='nofollow noopener noreferrer' title='Telegram'/>
+                      <a class='bi-telegram window-open' expr:href='&quot;https://telegram.me/share/url?url=&quot; + data:shareUrl + &quot;&amp;text=&quot; + data:shareTitle' rel='nofollow noopener' title='Telegram'/>
                     </li>
                     <li class='email'>
                       <a class='bi-email window-open' expr:href='&quot;mailto:?subject=&quot; + data:shareTitle + &quot;&amp;body=&quot; + data:shareUrl' rel='nofollow noopener' title='Email'/>
@@ -1873,7 +1853,7 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display:none!important}
             <b:tag name='script' type='text/javascript'>const pbt={blogView:<b:if cond='data:blog.view'>&quot;<data:blog.view/>&quot;<b:else/>false</b:if>,isRTL:<b:eval expr='data:blog.languageDirection == &quot;rtl&quot; ? &quot;true&quot; : &quot;false&quot;'/>,isMultiple:<b:eval expr='data:view.isMultipleItems ? &quot;true&quot; : &quot;false&quot;'/>,isSingle:<b:eval expr='data:view.isSingleItem ? &quot;true&quot; : &quot;false&quot;'/>,isPost:<b:eval expr='data:view.isPost ? &quot;true&quot; : &quot;false&quot;'/>,isPage:<b:eval expr='data:view.isPage ? &quot;true&quot; : &quot;false&quot;'/>,isBoxed:<b:eval expr='data:skin.vars.boxedMode == &quot;1px&quot; ? &quot;true&quot; : &quot;false&quot;'/>,isDark:<b:eval expr='data:skin.vars.darkMode == &quot;1px&quot; ? &quot;true&quot; : &quot;false&quot;'/>,userDarkMode:<b:eval expr='data:skin.vars.userDarkMode == &quot;1px&quot; ? &quot;true&quot; : &quot;false&quot;'/>,stickyMenu:<b:eval expr='data:skin.vars.stickyMenu == &quot;1px&quot; ? &quot;true&quot; : &quot;false&quot;'/>,hasCookie:<b:eval expr='data:widgets.Text any w =&gt; w.sectionId == &quot;cookie&quot; ? &quot;true&quot; : &quot;false&quot;'/>,postAuthor:<b:eval expr='data:widgets.Blog.first.allBylineItems.author ? &quot;true&quot; : &quot;false&quot;'/>,postDate:<b:eval expr='data:widgets.Blog.first.allBylineItems.timestamp ? &quot;true&quot; : &quot;false&quot;'/>,postAuthorLabel:&quot;<b:eval expr='data:widgets.Blog.first.allBylineItems.author.label ? data:widgets.Blog.first.allBylineItems.author.label : &quot;&quot;'/>&quot;,postDateLabel:&quot;<b:eval expr='data:widgets.Blog.first.allBylineItems.timestamp.label ? data:widgets.Blog.first.allBylineItems.timestamp.label : &quot;&quot;'/>&quot;,postCategory:<b:eval expr='data:skin.vars.postCategory == &quot;1px&quot; ? &quot;true&quot; : &quot;false&quot;'/>,postSummary:<b:eval expr='data:skin.vars.postSummary == &quot;1px&quot; ? &quot;true&quot; : &quot;false&quot;'/>,showMore:&quot;<data:messages.showMore/>&quot;,viewAll:&quot;<data:messages.viewAll/>&quot;,noResults:&quot;<data:messages.noResultsFound/>&quot;,noTitle:&quot;<data:messages.noTitle/>&quot;,noThumb:&quot;https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhG9GA0058_fE7q8dUjkpL56fvlwSQs-DyuNjRG1C3oYBoWDR2PYrDa0SKVYt6iEJ8pssbajfAujp0g51-SQimyZNawn0waVgbe8cwgMzSXRURuiG7bqguOahIkTzTgPOn67eoasTMjKkxPfqXg1ytQ4NMjLEAGpp3zKKtpo-PVacHSnidorgbmaOFlyQ/w72-h72-p-k-no-nu/ptb-nth.webp&quot;}</b:tag>
           </b:includable>
           <b:includable id='pbt-feeds'>
-            <code id='data'>{&quot;version&quot;:&quot;2.1.0&quot;,&quot;encoding&quot;:&quot;UTF-8&quot;,&quot;author&quot;:{&quot;name&quot;:&quot;The Bukit Besi&quot;,&quot;url&quot;:&quot;https://www.thebukitbesi.com/&quot;}<b:if cond='!data:posts.empty'>,&quot;posts&quot;:[<b:loop index='i' values='data:posts' var='post'><b:if cond='data:i != 0'>,</b:if>{&quot;id&quot;:&quot;<data:post.id/>&quot;,&quot;published&quot;:{&quot;date&quot;:&quot;<data:post.date.jsonEscaped/>&quot;,&quot;datetime&quot;:&quot;<data:post.date.iso8601.jsonEscaped/>&quot;},&quot;author&quot;:&quot;<data:post.author.name.jsonEscaped/>&quot;,<b:if cond='data:post.labels'>&quot;category&quot;:&quot;<data:post.labels.first.name.jsonEscaped/>&quot;,</b:if>&quot;title&quot;:&quot;<b:eval expr='data:post.title ? data:post.title.jsonEscaped : data:messages.noTitle.jsonEscaped'/>&quot;,&quot;link&quot;:&quot;<data:post.url.canonical.jsonEscaped/>&quot;,&quot;thumbnail&quot;:{&quot;src&quot;:&quot;<b:if cond='data:post.featuredImage'><b:eval expr='data:post.featuredImage.isYouTube ? resizeImage(data:post.featuredImage.youtubeMaxResDefaultUrl.jsonEscaped, 72, &quot;1:1&quot;) : resizeImage(data:post.featuredImage.jsonEscaped, 72, &quot;1:1&quot;)'/><b:else/>https://resources.blogblog.com/img/blank.gif</b:if>&quot;,&quot;source&quot;:&quot;<b:eval expr='data:post.featuredImage.isYouTube ? &quot;youtube&quot; : &quot;blogger&quot;'/>&quot;}<b:if cond='data:post.snippets.short'>,&quot;summary&quot;:&quot;<data:post.snippets.short.jsonEscaped/>&quot;</b:if>}</b:loop>]</b:if>}</code>
+            <code id='data'>{&quot;version&quot;:&quot;2.1.0&quot;,&quot;encoding&quot;:&quot;UTF-8&quot;,&quot;author&quot;:{&quot;name&quot;:&quot;Pro Blogger Templates&quot;,&quot;url&quot;:&quot;https://probloggertemplates.com/&quot;}<b:if cond='!data:posts.empty'>,&quot;posts&quot;:[<b:loop index='i' values='data:posts' var='post'><b:if cond='data:i != 0'>,</b:if>{&quot;id&quot;:&quot;<data:post.id/>&quot;,&quot;published&quot;:{&quot;date&quot;:&quot;<data:post.date.jsonEscaped/>&quot;,&quot;datetime&quot;:&quot;<data:post.date.iso8601.jsonEscaped/>&quot;},&quot;author&quot;:&quot;<data:post.author.name.jsonEscaped/>&quot;,<b:if cond='data:post.labels'>&quot;category&quot;:&quot;<data:post.labels.first.name.jsonEscaped/>&quot;,</b:if>&quot;title&quot;:&quot;<b:eval expr='data:post.title ? data:post.title.jsonEscaped : data:messages.noTitle.jsonEscaped'/>&quot;,&quot;link&quot;:&quot;<data:post.url.canonical.jsonEscaped/>&quot;,&quot;thumbnail&quot;:{&quot;src&quot;:&quot;<b:if cond='data:post.featuredImage'><b:eval expr='data:post.featuredImage.isYouTube ? resizeImage(data:post.featuredImage.youtubeMaxResDefaultUrl.jsonEscaped, 72, &quot;1:1&quot;) : resizeImage(data:post.featuredImage.jsonEscaped, 72, &quot;1:1&quot;)'/><b:else/>https://resources.blogblog.com/img/blank.gif</b:if>&quot;,&quot;source&quot;:&quot;<b:eval expr='data:post.featuredImage.isYouTube ? &quot;youtube&quot; : &quot;blogger&quot;'/>&quot;}<b:if cond='data:post.snippets.short'>,&quot;summary&quot;:&quot;<data:post.snippets.short.jsonEscaped/>&quot;</b:if>}</b:loop>]</b:if>}</code>
           </b:includable>
         </b:defaultmarkup>
         <b:defaultmarkup type='LinkList'>
@@ -1972,18 +1952,11 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display:none!important}
           <b:includable id='commentAuthorAvatar'/>
           <b:includable id='commentDeleteIcon' var='comment'/>
           <b:includable id='commentForm' var='post'>
-            <div class='comment-form'>
-              <a name='comment-form'/>
-              <b:include data='post' name='commentFormIframeSrc'/>
-              <iframe allowtransparency='allowtransparency' class='blogger-iframe-colorize blogger-comment-from-post' expr:height='data:cmtIframeInitialHeight ?: &quot;90px&quot;' frameborder='0' id='comment-editor' name='comment-editor' src='' width='100%'/>
-              <data:post.cmtfpIframe/>
-              <b:tag name='script' type='text/javascript'>
-                BLOG_CMT_createIframe(&#39;
-                <data:post.appRpcRelayPath/>
-                &#39;);
-              </b:tag>
-            </div>
-          </b:includable>
+  <div class='comment-form'>
+    <a name='comment-form'/>
+    <iframe allowtransparency='true' class='blogger-iframe-colorize blogger-comment-from-post' expr:height='data:cmtIframeInitialHeight ?: &quot;275px&quot;' expr:src='data:post.commentFormIframeSrc params { skin: &quot;contempo&quot; }' frameborder='0' id='comment-editor' name='comment-editor' width='100%'/>
+  </div>
+</b:includable>
           <b:includable id='commentFormIframeSrc' var='post'>
             <a expr:href='data:post.commentFormIframeSrc params { skin: &quot;soho&quot; }' id='comment-editor-src' rel='nofollow noopener' title='Comment Form Link'/>
           </b:includable>
@@ -2178,16 +2151,9 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display:none!important}
                   <data:allBylineItems.author.label/>
                 </span>
               </b:if>
-              <b:if cond='data:post.author.profileUrl'>
-                <!-- rel=author signals author entity to Google Knowledge Graph -->
-                <a class='author-name' expr:href='data:post.author.profileUrl' rel='author noopener noreferrer' target='_blank'>
-                  <data:post.author.name/>
-                </a>
-              <b:else/>
-                <span class='author-name'>
-                  <data:post.author.name/>
-                </span>
-              </b:if>
+              <span class='author-name'>
+                <data:post.author.name/>
+              </span>
             </span>
           </b:includable>
           <b:includable id='postBody' var='post'>
@@ -2326,22 +2292,17 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display:none!important}
                   </span>
                 </li>
                 <li class='facebook has-span'>
-                  <a class='bi-facebook sl window-open' expr:href='&quot;https://www.facebook.com/sharer.php?u=&quot; + data:post.url.canonical' rel='nofollow noopener noreferrer' title='Facebook'>
+                  <a class='bi-facebook sl window-open' expr:href='&quot;https://www.facebook.com/sharer.php?u=&quot; + data:post.url.canonical' rel='nofollow noopener' title='Facebook'>
                     <span>Facebook</span>
                   </a>
                 </li>
                 <li class='twitter has-span'>
-                  <!-- Twitter/X: title + via handle -->
-                  <a class='bi-twitter sl window-open' expr:href='&quot;https://twitter.com/intent/tweet?url=&quot; + data:post.url.canonical + &quot;&amp;text=&quot; + data:post.title.jsonEscaped + &quot;&amp;via=thebukitbesi&quot;' rel='nofollow noopener noreferrer' title='Twitter / X'>
+                  <a class='bi-twitter sl window-open' expr:href='&quot;https://twitter.com/intent/tweet?url=&quot; + data:post.url.canonical' rel='nofollow noopener' title='Twitter'>
                     <span>Twitter</span>
                   </a>
                 </li>
                 <li class='whatsapp'>
-                  <!-- wa.me universal link; double newline triggers rich link preview with featured image -->
-                  <a class='bi-whatsapp sl window-open' expr:href='&quot;https://wa.me/?text=&quot; + data:post.title.jsonEscaped + &quot;%0A%0A&quot; + data:post.url.canonical' rel='nofollow noopener noreferrer' title='WhatsApp'/>
-                </li>
-                <li class='telegram'>
-                  <a class='bi-telegram sl window-open' expr:href='&quot;https://t.me/share/url?url=&quot; + data:post.url.canonical + &quot;&amp;text=&quot; + data:post.title.jsonEscaped' rel='nofollow noopener noreferrer' title='Telegram'/>
+                  <a class='bi-whatsapp sl window-open' expr:href='&quot;https://api.whatsapp.com/send?text=&quot; + data:post.title.jsonEscaped + &quot; | &quot; + data:post.url.canonical' rel='nofollow noopener' title='WhatsApp'/>
                 </li>
                 <li class='email'>
                   <a class='bi-email sl window-open' expr:href='&quot;mailto:?subject=&quot; + data:post.title.jsonEscaped + &quot;&amp;body=&quot; + data:post.url.canonical' rel='nofollow noopener' title='Email'/>
@@ -2775,7 +2736,7 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display:none!important}
     }
   ]
 }
-<b:elseif cond='data:view.isSearch and !data:view.search.query and !data:view.search.label'/>
+<b:elseif cond='data:view.isSearch and !data:view.search.query'/>
 {
   &quot;@context&quot;: &quot;https://schema.org&quot;,
   &quot;@graph&quot;: [
@@ -2783,20 +2744,6 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display:none!important}
       &quot;@type&quot;: &quot;WebPage&quot;,
       &quot;name&quot;: &quot;<data:view.title.escaped/>&quot;,
       &quot;url&quot;: &quot;<data:view.url.canonical.jsonEscaped/>&quot;
-    }
-  ]
-}
-<b:elseif cond='data:view.isSearch and data:view.search.label'/>
-{
-  &quot;@context&quot;: &quot;https://schema.org&quot;,
-  &quot;@graph&quot;: [
-    {
-      &quot;@type&quot;: &quot;CollectionPage&quot;,
-      &quot;@id&quot;: &quot;<data:view.url.canonical.jsonEscaped/>&quot;,
-      &quot;name&quot;: &quot;<data:view.search.label.jsonEscaped/>&quot;,
-      &quot;url&quot;: &quot;<data:view.url.canonical.jsonEscaped/>&quot;,
-      &quot;inLanguage&quot;: &quot;<data:blog.locale.language/>&quot;,
-      &quot;isPartOf&quot;: {&quot;@id&quot;: &quot;<data:blog.homepageUrl.canonical.jsonEscaped/>#website&quot;}
     }
   ]
 }
@@ -3022,25 +2969,14 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display:none!important}
 </b:if></script>
       <script type='text/javascript'>
 //<![CDATA[
-(function() {
-  // Fix 1: HTTP → HTTPS redirect (catches old http:// links before Blogger can serve them)
-  if (window.location.protocol === 'http:') {
-    window.location.replace('https://' + window.location.host + window.location.pathname + window.location.search + window.location.hash);
-    return;
-  }
-  var canonical = document.querySelector("link[rel='canonical']");
-  if (!canonical) return;
-  var canonicalHref = canonical.href;
-  // Fix 2: Hard-redirect ?m=1 / ?m=0 to canonical — responsive theme has no mobile version
-  if (/[?&]m=[01]/.test(window.location.search)) {
-    window.location.replace(canonicalHref);
-    return;
-  }
-  // Fix 3: Keep browser URL bar in sync with canonical for other Blogger URL quirks
-  if (window.location.href !== canonicalHref) {
-    window.history.replaceState(null, null, canonicalHref);
-  }
-})();
+// Force Canonical URL - SEO Fix for Blogger ?m=1 redirect
+var canonicalUrl = document.querySelector("link[rel='canonical']");
+if (canonicalUrl) {
+    var canonicalHref = canonicalUrl.href;
+    if (window.location.href !== canonicalHref) {
+        window.history.replaceState(null, null, canonicalHref);
+    }
+}
 //]]>
 </script>
     </head>
@@ -3151,7 +3087,11 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display:none!important}
                         <b:section class='main-menu' id='main-menu' maxwidgets='1' name='Header Menu' showaddelement='no'>
                           <b:widget id='LinkList200' locked='true' title='' type='LinkList' version='2' visible='true'>
                             <b:widget-settings>
+                              <b:widget-setting name='text-8'>Contact</b:widget-setting>
+                              <b:widget-setting name='link-7'>/p/kalkulator-zakat.html</b:widget-setting>
+                              <b:widget-setting name='link-8'>/p/contact.html</b:widget-setting>
                               <b:widget-setting name='link-5'>{getPosts} $label={Direktori/Informasi/Islamik/Kesihatan/Resepi/Kewangan/}</b:widget-setting>
+                              <b:widget-setting name='link-6'>/p/kalkulator-faraid.html</b:widget-setting>
                               <b:widget-setting name='link-3'>/search/label/Teknologi</b:widget-setting>
                               <b:widget-setting name='link-4'>/search/label/Tutorial</b:widget-setting>
                               <b:widget-setting name='text-1'>About</b:widget-setting>
@@ -3160,6 +3100,8 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display:none!important}
                               <b:widget-setting name='text-2'>Pendidikan</b:widget-setting>
                               <b:widget-setting name='text-5'>Kategori</b:widget-setting>
                               <b:widget-setting name='text-4'>Tutorial</b:widget-setting>
+                              <b:widget-setting name='text-7'>Kalkulator Zakat</b:widget-setting>
+                              <b:widget-setting name='text-6'>Kalkulator Faraid</b:widget-setting>
                               <b:widget-setting name='sorting'>NONE</b:widget-setting>
                               <b:widget-setting name='link-1'>/p/about-me.html</b:widget-setting>
                               <b:widget-setting name='link-2'>/search/label/Pendidikan</b:widget-setting>
@@ -3297,7 +3239,7 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display:none!important}
                   </b:widget>
                 </b:section>
                 <b:section class='main' id='main' maxwidgets='1' name='Latest Posts' showaddelement='yes'>
-                  <b:widget id='Blog1' locked='true' title='Blog Posts' type='Blog' version='2' visible='true'>
+                  <b:widget id='Blog1' locked='true' title='Catatan Blog' type='Blog' version='2' visible='true'>
                     <b:widget-settings>
                       <b:widget-setting name='commentLabel'>$type={blogger}</b:widget-setting>
                       <b:widget-setting name='showShareButtons'>true</b:widget-setting>
@@ -3384,18 +3326,11 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display:none!important}
                     <b:includable id='commentAuthorAvatar'/>
                     <b:includable id='commentDeleteIcon' var='comment'/>
                     <b:includable id='commentForm' var='post'>
-                      <div class='comment-form'>
-                        <a name='comment-form'/>
-                        <b:include data='post' name='commentFormIframeSrc'/>
-                        <iframe allowtransparency='allowtransparency' class='blogger-iframe-colorize blogger-comment-from-post' expr:height='data:cmtIframeInitialHeight ?: &quot;90px&quot;' frameborder='0' id='comment-editor' name='comment-editor' src='' width='100%'/>
-                        <data:post.cmtfpIframe/>
-                        <b:tag name='script' type='text/javascript'>
-                          BLOG_CMT_createIframe(&#39;
-                          <data:post.appRpcRelayPath/>
-                          &#39;);
-                        </b:tag>
-                      </div>
-                    </b:includable>
+  <div class='comment-form'>
+    <a name='comment-form'/>
+    <iframe allowtransparency='true' class='blogger-iframe-colorize blogger-comment-from-post' expr:height='data:cmtIframeInitialHeight ?: &quot;275px&quot;' expr:src='data:post.commentFormIframeSrc params { skin: &quot;contempo&quot; }' frameborder='0' id='comment-editor' name='comment-editor' width='100%'/>
+  </div>
+</b:includable>
                     <b:includable id='commentFormIframeSrc' var='post'>
                       <a expr:href='data:post.commentFormIframeSrc params { skin: &quot;soho&quot; }' id='comment-editor-src' rel='nofollow noopener' title='Comment Form Link'/>
                     </b:includable>
@@ -4121,6 +4056,65 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display:none!important}
                         <b:include name='html-content'/>
                       </b:includable>
                     </b:widget>
+                    <b:widget id='FeaturedPost1' locked='false' title='Featured Post' type='FeaturedPost' version='2' visible='false'>
+                      <b:widget-settings>
+                        <b:widget-setting name='showSnippet'>true</b:widget-setting>
+                        <b:widget-setting name='showPostTitle'>true</b:widget-setting>
+                        <b:widget-setting name='postId'>1648503192705189672</b:widget-setting>
+                        <b:widget-setting name='showFirstImage'>true</b:widget-setting>
+                        <b:widget-setting name='useMostRecentPost'>false</b:widget-setting>
+                      </b:widget-settings>
+                      <b:includable id='main' var='this'>
+      <b:include name='widget-title'/>
+      <div class='widget-content'>
+        <b:loop values='data:posts' var='post'>
+          <b:include data='post' name='content'/>
+        </b:loop>
+      </div>
+    </b:includable>
+                      <b:includable id='blogThisShare'/>
+                      <b:includable id='bylineByName' var='byline'/>
+                      <b:includable id='bylineRegion' var='regionItems'/>
+                      <b:includable id='commentsLink'/>
+                      <b:includable id='commentsLinkIframe'/>
+                      <b:includable id='content' var='post'>
+      <b:include name='featured-content'/>
+    </b:includable>
+                      <b:includable id='emailPostIcon'/>
+                      <b:includable id='facebookShare'/>
+                      <b:includable id='footerBylines'/>
+                      <b:includable id='googlePlusShare'/>
+                      <b:includable id='headerByline'/>
+                      <b:includable id='linkShare'/>
+                      <b:includable id='otherSharingButton'/>
+                      <b:includable id='platformShare'/>
+                      <b:includable id='postAuthor'/>
+                      <b:includable id='postCommentsLink'/>
+                      <b:includable id='postJumpLink' var='post'/>
+                      <b:includable id='postLabels'/>
+                      <b:includable id='postLocation'/>
+                      <b:includable id='postReactions'/>
+                      <b:includable id='postShareButtons'/>
+                      <b:includable id='postTimestamp'/>
+                      <b:includable id='sharingButton'/>
+                      <b:includable id='sharingButtonContent'/>
+                      <b:includable id='sharingButtons'/>
+                      <b:includable id='sharingButtonsMenu'/>
+                      <b:includable id='sharingPlatformIcon'/>
+                      <b:includable id='snippetedPostByline'/>
+                      <b:includable id='snippetedPostContent'/>
+                      <b:includable id='snippetedPostThumbnail'/>
+                      <b:includable id='snippetedPostTitle'/>
+                      <b:includable id='snippetedPosts'/>
+                    </b:widget>
+                    <b:widget id='HTML6' locked='false' title='Stay Informed' type='HTML' version='2' visible='true'>
+                      <b:widget-settings>
+                        <b:widget-setting name='content'>{getMailchimp}</b:widget-setting>
+                      </b:widget-settings>
+                      <b:includable id='main'>
+      <b:include name='html-content'/>
+    </b:includable>
+                    </b:widget>
                   </b:section>
                 </aside>
               </b:if>
@@ -4314,7 +4308,7 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display:none!important}
         <b:if cond='data:view.isSingleItem'>
           <!-- Hidden Widgets -->
           <b:section class='hidden' deleted='true' id='hidden' maxwidgets='1' showaddelement='no'>
-            <b:widget id='ContactForm1' locked='true' title='Contact Form' type='ContactForm' version='2' visible='true'>
+            <b:widget id='ContactForm1' locked='true' title='Borang Maklumat Hubungan' type='ContactForm' version='2' visible='true'>
               <b:includable id='main' var='this'>
                 <b:include name='widget-title'/>
                 <b:include name='content'/>
