@@ -1312,49 +1312,6 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display:none!important}
               <meta content='#2563eb' name='msapplication-TileColor'/>
               <meta expr:content='data:skin.vars.browser_bg' name='theme-color'/>
               <b:include name='customOpenGraphMetaData'/>
-				  <b:if cond='data:view.isHomepage'>
-                <script id='homepage-jsonld' type='application/ld+json'>
-{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebSite",
-      "@id": "https://thebukitbesi.com/#website",
-      "url": "https://thebukitbesi.com/",
-      "name": "<b:eval expr='data:blog.title.jsonEscaped'/>",
-      "description": "<b:eval expr='data:blog.metaDescription.jsonEscaped'/>",
-      "inLanguage": "<data:blog.localeUnderscoreDelimited/>",
-      "publisher": {
-        "@id": "https://thebukitbesi.com/#organization"
-      }
-    },
-    {
-      "@type": "WebPage",
-      "@id": "https://thebukitbesi.com/#webpage",
-      "url": "https://thebukitbesi.com/",
-      "name": "<b:eval expr='data:blog.title.jsonEscaped'/>",
-      "description": "<b:eval expr='data:blog.metaDescription.jsonEscaped'/>",
-      "isPartOf": {
-        "@id": "https://thebukitbesi.com/#website"
-      },
-      "about": {
-        "@id": "https://thebukitbesi.com/#organization"
-      },
-      "inLanguage": "<data:blog.localeUnderscoreDelimited/>"
-    },
-    {
-      "@type": "Organization",
-      "@id": "https://thebukitbesi.com/#organization",
-      "name": "<b:eval expr='data:blog.title.jsonEscaped'/>",
-      "url": "https://thebukitbesi.com/",
-      "logo": {
-        "@type": "ImageObject",
-        "url": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgqjFdEWNgwNSHf8cuiBJ5SO6VLtkzs2xcmzsaEK7jELM2mLf5IB2oiMcnEQmeAzIokVd4pKnasNfrNAKj50Q8eGodMdghKT8EQVCc9ViaX7yebBtN_ByUgCGgZkF9KJp68K5l7xgovnldmexg9hdaPdA1TMb_4SVrfAuZ7TNY68vouUIHaE__kwBrL3mPF/s1600/bukit-besi-blog.webp"
-      }
-    }
-  ]
-}
-                </script>
               <b:if cond='data:blog.feedLinks'>
                 <data:blog.feedLinks/>
                 <data:blog.meTag/>
