@@ -4437,7 +4437,11 @@ if (canonicalUrl) {
         try {
           const response = await fetch(`/feeds/posts/default?alt=json&max-results=8&q=${encodeURIComponent(query)}`, { credentials: 'same-origin' });
           const entries = (await response.json()).feed.entry || [];
-          results.innerHTML = entries.map(entry => `<a href="${entry.link.find(link => link.rel === 'alternate').href}">${escapeHtml(entry.title.$t)}</a>`).join('') || `<span class="error-msg">${escapeHtml(pbt.noResults)}</span>`;
+          const links = entries.map(entry => {
+            const url = entry.link?.find(link => link.rel === 'alternate')?.href;
+            return url ? `<a href="${escapeHtml(url)}">${escapeHtml(entry.title?.$t)}</a>` : '';
+          }).filter(Boolean);
+          results.innerHTML = links.join('') || `<span class="error-msg">${escapeHtml(pbt.noResults)}</span>`;
         } catch (error) { results.innerHTML = `<span class="error-msg">${escapeHtml(pbt.noResults)}</span>`; }
       }, 300);
     });
