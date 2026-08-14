@@ -1050,7 +1050,6 @@ ins.adsbygoogle-noablate[data-anchor-shown="true"]{z-index:990!important}
 @media (max-width: 61.25rem) {
 .container{padding:0 1.5rem}
 .header-ads .container{padding:0}
-/* Keep the mobile header aligned with the content gutter, not the viewport edge. */
 .header-header .container{padding:0 1.5rem}
 .header-items{gap:1.25rem}
 .flex-left{gap:0}
@@ -1134,7 +1133,6 @@ ins.adsbygoogle-noablate[data-anchor-shown="true"]{z-index:990!important}
 @media (max-width: 30rem) {
 :root{--gap:2rem;--aspect-ratio:16/10;--aspect-ratio-2:16/10;--card-title:1.5rem}
 .container{padding:0 1.25rem}
-.header-header .container{padding:0 1.25rem}
 .main-search{top:1.25rem;max-width:calc(100% - 2.5rem);max-height:calc(100% - 2.5rem)}
 .featured-items .grid{padding:var(--gap) 1.25rem;margin:0 -1.25rem}
 .block2-grid{gap:1.25rem}
@@ -2243,6 +2241,40 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display:none!important}
           </b:includable>
           <b:includable id='postCommentsAndAd' var='post'>
             <b:include data='post' name='postMeta'/>
+            <b:if cond='data:view.isPost'>
+              <script id='post-jsonld' type='application/ld+json'>
+{
+  &quot;@context&quot;: &quot;https://schema.org&quot;,
+  &quot;@type&quot;: &quot;BlogPosting&quot;,
+  &quot;mainEntityOfPage&quot;: {
+    &quot;@type&quot;: &quot;WebPage&quot;,
+    &quot;@id&quot;: &quot;<data:post.url.canonical.jsonEscaped/>&quot;
+  },
+  &quot;headline&quot;: &quot;<data:post.title.jsonEscaped/>&quot;,
+  &quot;description&quot;: &quot;<data:view.description.jsonEscaped/>&quot;,
+  &quot;image&quot;: [
+    &quot;<b:eval expr='data:post.featuredImage ? resizeImage(data:post.featuredImage.jsonEscaped, 1200, &quot;16:9&quot;) : &quot;https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg5-p8tEVCMM7QDy-l92oo94Nc48N0c5ebiwQKr5hF5sj1p8NGZ0BZ4TuvG0i94FbOC0pf9ZvzUdKOYe7DeGIRnPAyZlFUvawCiPxY0ut7B0n5srvStf7TwDCtU2LdOh5nH_lHfHbFRjMviQBmD0kzd4VsFCSHKSb-pFp8dpEf38rYrjOqhWqh0HmqqzenH/s1600/the-bukit-besi-16x9.webp&quot;'/>&quot;
+  ],
+  &quot;datePublished&quot;: &quot;<data:post.date.iso8601.jsonEscaped/>&quot;,
+  &quot;dateModified&quot;: &quot;<b:eval expr='data:post.lastUpdated.iso8601 ? data:post.lastUpdated.iso8601.jsonEscaped : data:post.date.iso8601.jsonEscaped'/>&quot;,
+  &quot;author&quot;: {
+    &quot;@type&quot;: &quot;Person&quot;,
+    &quot;name&quot;: &quot;<data:post.author.name.jsonEscaped/>&quot;
+  },
+  &quot;publisher&quot;: {
+    &quot;@type&quot;: &quot;Organization&quot;,
+    &quot;name&quot;: &quot;<data:blog.title.jsonEscaped/>&quot;,
+    &quot;logo&quot;: {
+      &quot;@type&quot;: &quot;ImageObject&quot;,
+      &quot;url&quot;: &quot;https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgqjFdEWNgwNSHf8cuiBJ5SO6VLtkzs2xcmzsaEK7jELM2mLf5IB2oiMcnEQmeAzIokVd4pKnasNfrNAKj50Q8eGodMdghKT8EQVCc9ViaX7yebBtN_ByUgCGgZkF9KJp68K5l7xgovnldmexg9hdaPdA1TMb_4SVrfAuZ7TNY68vouUIHaE__kwBrL3mPF/s1600/bukit-besi-blog.webp&quot;,
+      &quot;width&quot;: 512,
+      &quot;height&quot;: 512
+    }
+  },
+  &quot;inLanguage&quot;: &quot;<data:blog.locale.language/>&quot;
+}
+              </script>
+            </b:if>
             <!-- In-Feed Ads -->
             <b:include cond='data:view.isMultipleItems and not data:view.search.label and not data:view.search.query and not data:view.isArchive' data='post' name='inlineAd'/>
             <b:tag class='post' expr:name='data:view.isMultipleItems ? &quot;div&quot; : &quot;article&quot;'>
@@ -2804,43 +2836,18 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display:none!important}
     }
   ]
 }
-<b:elseif cond='data:view.isPost and data:post.labels any (l =&gt; l.name == &quot;News&quot;)'/>
+<b:elseif cond='data:view.isPost'/>
 {
   &quot;@context&quot;: &quot;https://schema.org&quot;,
   &quot;@graph&quot;: [
     {
-      &quot;@type&quot;: &quot;NewsArticle&quot;,
-      &quot;mainEntityOfPage&quot;: {
-        &quot;@type&quot;: &quot;WebPage&quot;,
-        &quot;@id&quot;: &quot;<data:view.url.canonical.jsonEscaped/>&quot;
-      },
-      &quot;headline&quot;: &quot;<data:view.title.jsonEscaped/>&quot;,
-      &quot;image&quot;: [
-        &quot;<b:eval expr='data:view.featuredImage ? resizeImage(data:view.featuredImage, 1200, &quot;16:9&quot;) : &quot;https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg5-p8tEVCMM7QDy-l92oo94Nc48N0c5ebiwQKr5hF5sj1p8NGZ0BZ4TuvG0i94FbOC0pf9ZvzUdKOYe7DeGIRnPAyZlFUvawCiPxY0ut7B0n5srvStf7TwDCtU2LdOh5nH_lHfHbFRjMviQBmD0kzd4VsFCSHKSb-pFp8dpEf38rYrjOqhWqh0HmqqzenH/s1600/the-bukit-besi-16x9.webp&quot;'/>&quot;,
-        &quot;<b:eval expr='data:view.featuredImage ? resizeImage(data:view.featuredImage, 1200, &quot;4:3&quot;) : &quot;https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiDSlhyphenhyphenYzv3Py8HZGvH_UpQJlw5KqEZhwuEVtUANw5_CHFl1-7cKVJDy0Yx2ZIpwikCnJhDAXUexk7vm5j0J5ArCC6cHtPQZ99QJ-Qlz-0dCNs515WbJalsF_BsEIjS7Nt8BvjOVJr9HJR40qy59eEuZEIL0IIfQSuZH3nrMlLLAl3aSGe9vVhyphenhyphen0W7sLRV1/s1600/the-bukit-besi-4x3.webp&quot;'/>&quot;,
-        &quot;<b:eval expr='data:view.featuredImage ? resizeImage(data:view.featuredImage, 1200, &quot;1:1&quot;) : &quot;https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjThHXkRAhHLiF0ZHU90KC3jYwiFZrP0ChXTEMjC2AKHtJoLKqhCwvLzCztWZ6IswDReYnjGa_T6x6NXqIoQMYqMtG_dxV2ChwTUPLLSxEgvsjOLsnR6bOh3tHEnJMYJDhj0kT61aNZTPGzHN9QoaMuhcbd3zM9u39Vkw6F3YKbiIsABRHlpFuwyaL4wIvz/s1600/the-bukit-besi-1x1.webp&quot;'/>&quot;
-      ],
-      &quot;author&quot;: {
-        &quot;@type&quot;: &quot;Person&quot;,
-        &quot;name&quot;: &quot;<data:post.author.name.jsonEscaped/>&quot;,
-        &quot;url&quot;: &quot;<data:post.author.profileUrl.jsonEscaped/>&quot;
-      },
-      &quot;publisher&quot;: {
-        &quot;@type&quot;: &quot;Organization&quot;,
-        &quot;name&quot;: &quot;<data:blog.title.escaped/>&quot;,
-        &quot;logo&quot;: {
-          &quot;@type&quot;: &quot;ImageObject&quot;,
-          &quot;url&quot;: &quot;https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgqjFdEWNgwNSHf8cuiBJ5SO6VLtkzs2xcmzsaEK7jELM2mLf5IB2oiMcnEQmeAzIokVd4pKnasNfrNAKj50Q8eGodMdghKT8EQVCc9ViaX7yebBtN_ByUgCGgZkF9KJp68K5l7xgovnldmexg9hdaPdA1TMb_4SVrfAuZ7TNY68vouUIHaE__kwBrL3mPF/s1600/bukit-besi-blog.webp&quot;,
-          &quot;width&quot;: 512,
-          &quot;height&quot;: 512
-        }
-      }
-      <b:if cond='data:view.timestamp.iso8601'>,&quot;datePublished&quot;: &quot;<data:view.timestamp.iso8601/>&quot;</b:if>
-      <b:if cond='data:view.lastUpdated.iso8601'>,&quot;dateModified&quot;: &quot;<data:view.lastUpdated.iso8601/>&quot;</b:if>
-      ,&quot;inLanguage&quot;: &quot;<data:blog.locale.language/>&quot;
-      ,&quot;speakable&quot;: {&quot;@type&quot;: &quot;SpeakableSpecification&quot;, &quot;cssSelector&quot;: [&quot;.post-header .entry-title&quot;, &quot;.post-body p&quot;]}
-      <b:if cond='data:post.labels'>,&quot;keywords&quot;: &quot;<b:loop index='ki' values='data:post.labels' var='klabel'><b:if cond='data:ki != 0'>, </b:if><data:klabel.name.jsonEscaped/></b:loop>&quot;
-      ,&quot;articleSection&quot;: &quot;<data:post.labels.first.name.jsonEscaped/>&quot;</b:if>
+      &quot;@type&quot;: &quot;WebPage&quot;,
+      &quot;@id&quot;: &quot;<data:view.url.canonical.jsonEscaped/>&quot;,
+      &quot;url&quot;: &quot;<data:view.url.canonical.jsonEscaped/>&quot;,
+      &quot;name&quot;: &quot;<data:view.title.jsonEscaped/>&quot;,
+      &quot;description&quot;: &quot;<data:view.description.jsonEscaped/>&quot;,
+      &quot;inLanguage&quot;: &quot;<data:blog.locale.language/>&quot;,
+      &quot;isPartOf&quot;: {&quot;@id&quot;: &quot;<data:blog.homepageUrl.canonical.jsonEscaped/>#website&quot;}
     },
     {
       &quot;@type&quot;: &quot;BreadcrumbList&quot;,
@@ -2850,12 +2857,12 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display:none!important}
           &quot;position&quot;: 1,
           &quot;name&quot;: &quot;Home&quot;,
           &quot;item&quot;: &quot;<data:blog.homepageUrl.jsonEscaped/>&quot;
-        },
+        }<b:if cond='data:post.labels'>,
         {
           &quot;@type&quot;: &quot;ListItem&quot;,
           &quot;position&quot;: 2,
-          &quot;name&quot;: &quot;News&quot;,
-          &quot;item&quot;: &quot;<data:blog.homepageUrl.canonical.jsonEscaped/>search/label/News&quot;
+          &quot;name&quot;: &quot;<data:post.labels.first.name.jsonEscaped/>&quot;,
+          &quot;item&quot;: &quot;<data:post.labels.first.url.canonical.jsonEscaped/>&quot;
         },
         {
           &quot;@type&quot;: &quot;ListItem&quot;,
@@ -2863,74 +2870,14 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display:none!important}
           &quot;name&quot;: &quot;<data:view.title.jsonEscaped/>&quot;,
           &quot;item&quot;: &quot;<data:view.url.canonical.jsonEscaped/>&quot;
         }
-      ]
-    }
-  ]
-}
-<b:elseif cond='data:view.isPost'/>
-{
-  &quot;@context&quot;: &quot;https://schema.org&quot;,
-  &quot;@graph&quot;: [
-    {
-      &quot;@type&quot;: &quot;BlogPosting&quot;,
-      &quot;mainEntityOfPage&quot;: {
-        &quot;@type&quot;: &quot;WebPage&quot;,
-        &quot;@id&quot;: &quot;<data:view.url.canonical.jsonEscaped/>&quot;
-      },
-      &quot;headline&quot;: &quot;<data:view.title.jsonEscaped/>&quot;,
-      &quot;image&quot;: [
-        &quot;<b:eval expr='data:view.featuredImage ? resizeImage(data:view.featuredImage, 1200, &quot;16:9&quot;) : &quot;https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg5-p8tEVCMM7QDy-l92oo94Nc48N0c5ebiwQKr5hF5sj1p8NGZ0BZ4TuvG0i94FbOC0pf9ZvzUdKOYe7DeGIRnPAyZlFUvawCiPxY0ut7B0n5srvStf7TwDCtU2LdOh5nH_lHfHbFRjMviQBmD0kzd4VsFCSHKSb-pFp8dpEf38rYrjOqhWqh0HmqqzenH/s1600/the-bukit-besi-16x9.webp&quot;'/>&quot;,
-        &quot;<b:eval expr='data:view.featuredImage ? resizeImage(data:view.featuredImage, 1200, &quot;4:3&quot;) : &quot;https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiDSlhyphenhyphenYzv3Py8HZGvH_UpQJlw5KqEZhwuEVtUANw5_CHFl1-7cKVJDy0Yx2ZIpwikCnJhDAXUexk7vm5j0J5ArCC6cHtPQZ99QJ-Qlz-0dCNs515WbJalsF_BsEIjS7Nt8BvjOVJr9HJR40qy59eEuZEIL0IIfQSuZH3nrMlLLAl3aSGe9vVhyphenhyphen0W7sLRV1/s1600/the-bukit-besi-4x3.webp&quot;'/>&quot;,
-        &quot;<b:eval expr='data:view.featuredImage ? resizeImage(data:view.featuredImage, 1200, &quot;1:1&quot;) : &quot;https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjThHXkRAhHLiF0ZHU90KC3jYwiFZrP0ChXTEMjC2AKHtJoLKqhCwvLzCztWZ6IswDReYnjGa_T6x6NXqIoQMYqMtG_dxV2ChwTUPLLSxEgvsjOLsnR6bOh3tHEnJMYJDhj0kT61aNZTPGzHN9QoaMuhcbd3zM9u39Vkw6F3YKbiIsABRHlpFuwyaL4wIvz/s1600/the-bukit-besi-1x1.webp&quot;'/>&quot;
-      ],
-      &quot;author&quot;: {
-        &quot;@type&quot;: &quot;Person&quot;,
-        &quot;name&quot;: &quot;<data:post.author.name.jsonEscaped/>&quot;,
-        &quot;url&quot;: &quot;<data:post.author.profileUrl.jsonEscaped/>&quot;
-      },
-      &quot;publisher&quot;: {
-        &quot;@type&quot;: &quot;Organization&quot;,
-        &quot;name&quot;: &quot;<data:blog.title.escaped/>&quot;,
-        &quot;logo&quot;: {
-          &quot;@type&quot;: &quot;ImageObject&quot;,
-          &quot;url&quot;: &quot;https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgqjFdEWNgwNSHf8cuiBJ5SO6VLtkzs2xcmzsaEK7jELM2mLf5IB2oiMcnEQmeAzIokVd4pKnasNfrNAKj50Q8eGodMdghKT8EQVCc9ViaX7yebBtN_ByUgCGgZkF9KJp68K5l7xgovnldmexg9hdaPdA1TMb_4SVrfAuZ7TNY68vouUIHaE__kwBrL3mPF/s1600/bukit-besi-blog.webp&quot;,
-          &quot;width&quot;: 512,
-          &quot;height&quot;: 512
-        }
-      }
-      <b:if cond='data:view.timestamp.iso8601'>,&quot;datePublished&quot;: &quot;<data:view.timestamp.iso8601/>&quot;</b:if>
-      <b:if cond='data:view.lastUpdated.iso8601'>,&quot;dateModified&quot;: &quot;<data:view.lastUpdated.iso8601/>&quot;</b:if>
-      <b:if cond='data:post.numberOfComments'>,&quot;commentCount&quot;: <data:post.numberOfComments/></b:if>
-      ,&quot;inLanguage&quot;: &quot;<data:blog.locale.language/>&quot;
-      ,&quot;speakable&quot;: {&quot;@type&quot;: &quot;SpeakableSpecification&quot;, &quot;cssSelector&quot;: [&quot;.post-header .entry-title&quot;, &quot;.post-body p&quot;]}
-      ,&quot;isPartOf&quot;: {&quot;@id&quot;: &quot;<data:blog.homepageUrl.canonical.jsonEscaped/>#website&quot;}
-      <b:if cond='data:post.labels'>,&quot;keywords&quot;: &quot;<b:loop index='ki' values='data:post.labels' var='klabel'><b:if cond='data:ki != 0'>, </b:if><data:klabel.name.jsonEscaped/></b:loop>&quot;
-      ,&quot;articleSection&quot;: &quot;<data:post.labels.first.name.jsonEscaped/>&quot;</b:if>
-    },
-    {
-      &quot;@type&quot;: &quot;BreadcrumbList&quot;,
-      &quot;itemListElement&quot;: [
+<b:else/>,
         {
           &quot;@type&quot;: &quot;ListItem&quot;,
-          &quot;position&quot;: 1,
-          &quot;name&quot;: &quot;Home&quot;,
-          &quot;item&quot;: &quot;<data:blog.homepageUrl.jsonEscaped/>&quot;
-        }
-        <b:if cond='data:post.labels'>
-          ,{
-            &quot;@type&quot;: &quot;ListItem&quot;,
-            &quot;position&quot;: 2,
-            &quot;name&quot;: &quot;<data:post.labels.first.name.jsonEscaped/>&quot;,
-            &quot;item&quot;: &quot;<data:post.labels.first.url.canonical.jsonEscaped/>&quot;
-          }
-        </b:if>
-        ,{
-          &quot;@type&quot;: &quot;ListItem&quot;,
-          &quot;position&quot;: <b:eval expr='data:post.labels ? 3 : 2'/>,
+          &quot;position&quot;: 2,
           &quot;name&quot;: &quot;<data:view.title.jsonEscaped/>&quot;,
           &quot;item&quot;: &quot;<data:view.url.canonical.jsonEscaped/>&quot;
         }
-      ]
+</b:if>      ]
     }
   ]
 }
@@ -2990,8 +2937,6 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display:none!important}
       &quot;inLanguage&quot;: &quot;<data:blog.locale.language/>&quot;,
       &quot;isPartOf&quot;: {&quot;@id&quot;: &quot;<data:blog.homepageUrl.canonical.jsonEscaped/>#website&quot;},
       &quot;publisher&quot;: {&quot;@id&quot;: &quot;<data:blog.homepageUrl.canonical.jsonEscaped/>#organization&quot;}
-      <b:if cond='data:view.timestamp.iso8601'>,&quot;datePublished&quot;: &quot;<data:view.timestamp.iso8601/>&quot;</b:if>
-      <b:if cond='data:view.lastUpdated.iso8601'>,&quot;dateModified&quot;: &quot;<data:view.lastUpdated.iso8601/>&quot;</b:if>
     },
     {
       &quot;@type&quot;: &quot;BreadcrumbList&quot;,
@@ -3631,6 +3576,40 @@ if (canonicalUrl) {
                     </b:includable>
                     <b:includable id='postCommentsAndAd' var='post'>
                       <b:include data='post' name='postMeta'/>
+                      <b:if cond='data:view.isPost'>
+                        <script id='post-jsonld' type='application/ld+json'>
+{
+  &quot;@context&quot;: &quot;https://schema.org&quot;,
+  &quot;@type&quot;: &quot;BlogPosting&quot;,
+  &quot;mainEntityOfPage&quot;: {
+    &quot;@type&quot;: &quot;WebPage&quot;,
+    &quot;@id&quot;: &quot;<data:post.url.canonical.jsonEscaped/>&quot;
+  },
+  &quot;headline&quot;: &quot;<data:post.title.jsonEscaped/>&quot;,
+  &quot;description&quot;: &quot;<data:view.description.jsonEscaped/>&quot;,
+  &quot;image&quot;: [
+    &quot;<b:eval expr='data:post.featuredImage ? resizeImage(data:post.featuredImage.jsonEscaped, 1200, &quot;16:9&quot;) : &quot;https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg5-p8tEVCMM7QDy-l92oo94Nc48N0c5ebiwQKr5hF5sj1p8NGZ0BZ4TuvG0i94FbOC0pf9ZvzUdKOYe7DeGIRnPAyZlFUvawCiPxY0ut7B0n5srvStf7TwDCtU2LdOh5nH_lHfHbFRjMviQBmD0kzd4VsFCSHKSb-pFp8dpEf38rYrjOqhWqh0HmqqzenH/s1600/the-bukit-besi-16x9.webp&quot;'/>&quot;
+  ],
+  &quot;datePublished&quot;: &quot;<data:post.date.iso8601.jsonEscaped/>&quot;,
+  &quot;dateModified&quot;: &quot;<b:eval expr='data:post.lastUpdated.iso8601 ? data:post.lastUpdated.iso8601.jsonEscaped : data:post.date.iso8601.jsonEscaped'/>&quot;,
+  &quot;author&quot;: {
+    &quot;@type&quot;: &quot;Person&quot;,
+    &quot;name&quot;: &quot;<data:post.author.name.jsonEscaped/>&quot;
+  },
+  &quot;publisher&quot;: {
+    &quot;@type&quot;: &quot;Organization&quot;,
+    &quot;name&quot;: &quot;<data:blog.title.jsonEscaped/>&quot;,
+    &quot;logo&quot;: {
+      &quot;@type&quot;: &quot;ImageObject&quot;,
+      &quot;url&quot;: &quot;https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgqjFdEWNgwNSHf8cuiBJ5SO6VLtkzs2xcmzsaEK7jELM2mLf5IB2oiMcnEQmeAzIokVd4pKnasNfrNAKj50Q8eGodMdghKT8EQVCc9ViaX7yebBtN_ByUgCGgZkF9KJp68K5l7xgovnldmexg9hdaPdA1TMb_4SVrfAuZ7TNY68vouUIHaE__kwBrL3mPF/s1600/bukit-besi-blog.webp&quot;,
+      &quot;width&quot;: 512,
+      &quot;height&quot;: 512
+    }
+  },
+  &quot;inLanguage&quot;: &quot;<data:blog.locale.language/>&quot;
+}
+                        </script>
+                      </b:if>
                       <!-- In-Feed Ads -->
                       <b:include cond='data:view.isMultipleItems and not data:view.search.label and not data:view.search.query and not data:view.isArchive' data='post' name='inlineAd'/>
                       <b:tag class='post' expr:name='data:view.isMultipleItems ? &quot;div&quot; : &quot;article&quot;'>
