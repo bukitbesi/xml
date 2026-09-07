@@ -6,6 +6,26 @@ Format: `[version] YYYY-MM-DD`
 
 ---
 
+## [2.2.1] — 2026-09-07
+
+### Fixed — Widget rendering / thumbnails
+- **Below-the-fold `getPosts` widgets (Terkini, Islamik, Direktori, Bantuan Kerajaan, etc.) could render with empty thumbnails** — `loadWidget()` fetches a widget's posts once it nears the viewport (IntersectionObserver, 300px margin), then called `images(target)`, which re-checked visibility with its own, narrower 240px margin. Any timing/scroll mismatch between the two checks left thumbnails permanently queued on an observer that had already fired and would not fire again, so the image never loaded even though the post content was on-screen. `images()` now accepts an `eager` flag; the three call sites that inject content that is already known to be on/near-screen (`loadWidget`, live search results, and “Load more” pagination) pass it so thumbnails render immediately instead of re-entering a second lazy-load queue. Confirmed with a Playwright reproduction (mocked Blogger feed JSON) that failed before the fix and passes after.
+
+### Changed — Runtime rewrite (carried over from the 2.2.x branch)
+- Site JS rewritten as a single vanilla-JS runtime (`tbb-runtime-v221`) — no jQuery or other DOM library at any point in this template's history on this branch; verified there are zero jQuery references in the shipped markup or script.
+- Feed loading now uses `AbortController`, in-flight request de-duplication, and `IntersectionObserver`-gated fetches for below-the-fold widgets (was a plain `scroll` listener) — reduces homepage network/CPU work prior to LCP.
+- Consolidated three previously separate inline `<script>` blocks (YouTube placeholder activation, responsive table wrapping, image alt-text fallback) into the single runtime script — fewer parser-blocking script tags, easier to audit, nothing duplicated.
+- Removed the client-side "force canonical URL" `history.replaceState` script — canonical URLs are now purely declarative (`<link rel="canonical">`), which is what search engines expect; rewriting the URL after the fact was unnecessary and could mask real redirect issues.
+- Pinned `master-ads-injector.js` to a specific commit SHA instead of `@main`, so the ad script can't change unexpectedly on this template's next Blogger publish.
+- Removed a duplicate `<meta name="description">` tag on Page views (`data:blog.metaDescription` was emitted twice).
+- Fixed `WebSite`/`WebPage`/`Organization` JSON-LD `@id`/`url` values to use the canonical `www.thebukitbesi.com` host consistently (previously mixed bare-domain and `www` variants, which fragments the `@graph` for structured-data consumers).
+
+### Added — External hosting
+- Split the supplemental UI stylesheet and the runtime script out of `asset/tbb.xml` into standalone files ready to host on a CDN once testing is complete: `asset/src/tbb.v2.2.1.css` and `asset/src/tbb.v2.2.1.js`. `asset/tbb.xml` still ships both **inline** (matching `2.2.0`'s approach) so it stays a single paste-and-test file in Blogger; swap the inline `<style id="tbb-ui-v221">` / `<script id="tbb-runtime-v221">` blocks for `<link rel="stylesheet">` / `<script src>` tags pointing at the hosted files (e.g. via jsdelivr from this repo, same pattern already used for `master-ads-injector.js`) when ready to go external.
+- Note for future work: the `getPosts` shortcode widgets (Terkini, Islamik, Direktori, etc.) render their post cards entirely client-side via a fetch to Blogger's JSON feed endpoint — the raw server HTML for those sections has no post markup at all. That's fine for browsers and for crawlers that fully execute JS and scroll the page, but it means any crawler or AI/answer-engine fetcher that only reads static HTML (or a single non-scrolled render) sees empty widgets. If AEO/LLM-citation visibility for these specific sections matters, the durable fix is moving them to a server-rendered Blogger widget (e.g. a native label-search or Blog widget) instead of an AJAX shortcode — a larger, separate change from this fix.
+
+---
+
 ## [2.1.2] — 2026-04-05
 
 ### Fixed — SEO & Meta Tags

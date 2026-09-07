@@ -1,0 +1,48 @@
+/* TBB 2.2.1: supplements the original Blogger skin; header styling stays there. */
+:root{--tbb-card-pad:clamp(.875rem,2.4vw,1.25rem);--tbb-card-gap:clamp(.75rem,2vw,1rem);--tbb-thumb-sm:6.25rem;--tbb-thumb-radius:.65rem}
+.content-section .widget:not(.is-ad),.sidebar .widget:not(.is-ad){border:1px solid var(--border-color);border-radius:.75rem;background:var(--outer-bg);min-width:0}
+.content-section .widget:not(.is-ad)>.widget-title,.sidebar .widget:not(.is-ad)>.widget-title{padding:var(--tbb-card-pad) var(--tbb-card-pad) 0;margin-bottom:0}
+.content-section .widget:not(.is-ad)>.widget-content,.sidebar .widget:not(.is-ad)>.widget-content{padding:var(--tbb-card-pad);min-width:0}
+.content-section .block1-items,.content-section .block2-items,.block1-list,.sidebar .side-items{gap:var(--tbb-card-gap)}
+.block1-list .post,.featured-items .grid .post{grid-template-columns:minmax(0,var(--tbb-thumb-sm)) minmax(0,1fr);gap:var(--tbb-card-gap);align-items:center}
+.block1-list .entry-thumbnail,.featured-items .grid .entry-thumbnail{aspect-ratio:4/3;border-radius:var(--tbb-thumb-radius)}
+.block1-list .entry-title{font-size:.95rem;line-height:1.35}
+.blog-posts{gap:clamp(1rem,2.5vw,1.5rem)}
+.blog-posts>.post:not(.ad-type){min-width:0;border-radius:.75rem}
+.blog-posts .entry-thumbnail{border-radius:.75rem}
+.blog-posts.grid-items>.post:not(.ad-type){grid-template-columns:minmax(0,1fr)}
+.blog-posts.grid-items>.post>.entry-thumbnail{width:100%;aspect-ratio:16/10}
+.type-story .story-items{width:auto;min-width:0}
+.content-section .widget.type-story{margin-inline:0;padding-inline:0;overflow:hidden}
+.content-section .type-story>.widget-content{margin-inline:0;overflow-x:auto}
+.tbb-feed-error{padding:1rem;color:var(--meta-color);font-size:.9rem;line-height:1.6}
+.tbb-feed-error a{color:var(--accent-color);text-decoration:underline}
+.tbb-feed-error button{background:var(--btn-bg);color:var(--btn-color);padding:.65rem .85rem;margin:.5rem 0}
+.tbb-mega-labels{display:flex;flex-wrap:wrap;gap:.75rem;padding-block:1rem}
+.tbb-mega-labels a{color:var(--title-color)}
+.mobile-menu .has-sub.expanded>.sub{display:block}
+.mobile-menu .has-sub:not(.expanded)>.sub{display:none}
+.main-nav li:focus-within>.ul{visibility:visible;opacity:1;transform:none}
+.table-responsive-wrapper{display:block;width:100%;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.post-body .table-responsive-wrapper table{display:table}
+.post-body .tbb-video-frame{display:block;width:100%;height:auto;aspect-ratio:16/9;border:0}
+.tbb-toc{background:var(--gray-bg);border-radius:.75rem;padding:1rem 1.25rem;margin-bottom:1.5rem;color:var(--title-color)}
+.tbb-toc summary{cursor:pointer;font-weight:700}
+.post-body .tbb-toc ol{margin:1rem 0 0;padding-inline-start:1.5rem}
+.post-body .tbb-toc li{margin:.5rem 0;list-style:decimal}
+.tbb-toc a{color:var(--accent-color)}
+.menu-toggle:focus-visible,.search-toggle:focus-visible,.darkmode-toggle:focus-visible,.mobile-menu a:focus-visible,.tbb-feed-error button:focus-visible{outline:2px solid var(--accent-color);outline-offset:3px}
+@media(max-width:680px){
+ :root{--tbb-card-pad:.875rem;--tbb-card-gap:.75rem;--tbb-thumb-sm:6rem}
+ .content-section,.main-wrap,.sidebar-wrap{gap:1rem}
+ .content-section .widget:not(.is-ad),.sidebar .widget:not(.is-ad){border-radius:.65rem}
+ .featured-items .grid .post{grid-template-columns:minmax(0,6.4rem) minmax(0,1fr)}
+ .featured-items .grid .entry-title{font-size:.95rem;line-height:1.32}
+ .blog-posts.grid-items{grid-template-columns:minmax(0,1fr)}
+ .blog-posts>.post:not(.ad-type){grid-template-columns:minmax(0,1fr);gap:.875rem}
+ .blog-posts>.post>.entry-thumbnail{width:100%;aspect-ratio:16/10}
+ .blog-posts .entry-meta{flex-direction:row;align-items:center;flex-wrap:wrap}
+ .content-section .story-items{grid-template-columns:repeat(3,minmax(12.5rem,1fr));width:max-content;max-width:none;gap:.75rem;padding:0}
+}
+@media(max-width:390px){:root{--tbb-thumb-sm:5.5rem}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}.header-inner,.main-search,.slide-menu,.share-modal{transition:none}.loader svg,.loader circle{animation:none}}
