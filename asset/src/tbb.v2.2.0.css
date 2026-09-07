@@ -1,0 +1,35 @@
+/* The Bukit Besi UI layer v2.2.0 — loaded after Blogger critical CSS. */
+:root{--tbb-card-pad:clamp(.875rem,2.4vw,1.25rem);--tbb-card-gap:clamp(.75rem,2vw,1rem);--tbb-thumb-sm:6.25rem;--tbb-thumb-radius:.65rem}
+.widget-content,.post,.entry-thumbnail{min-width:0}
+.widget-title{gap:.75rem}
+.widget-title .title{overflow-wrap:normal;word-break:normal}
+.content-section .widget:not(.is-ad),.sidebar .widget:not(.is-ad){border:1px solid var(--border-color);border-radius:.75rem;background:var(--outer-bg);overflow:hidden}
+.content-section .widget:not(.is-ad)>.widget-title,.sidebar .widget:not(.is-ad)>.widget-title{padding:var(--tbb-card-pad) var(--tbb-card-pad) 0}
+.content-section .widget:not(.is-ad)>.widget-content,.sidebar .widget:not(.is-ad)>.widget-content{padding:var(--tbb-card-pad)}
+.content-section .block1-items,.content-section .block2-items,.sidebar .side-items{gap:var(--tbb-card-gap)}
+.side-items .post,.block1-items .grid .post,.featured-items .grid .post{grid-template-columns:minmax(0,var(--tbb-thumb-sm)) minmax(0,1fr);gap:var(--tbb-card-gap);align-items:center}
+.side-items .entry-thumbnail,.block1-items .grid .entry-thumbnail,.featured-items .grid .entry-thumbnail{aspect-ratio:4/3;border-radius:var(--tbb-thumb-radius)}
+.side-items .entry-title,.block1-items .grid .entry-title{font-size:.95rem;line-height:1.35}
+.blog-posts{gap:clamp(1rem,2.5vw,1.5rem)}
+.blog-posts .post{border-radius:.75rem}
+.blog-posts .entry-thumbnail{border-radius:.75rem}
+.post-body img{height:auto;max-width:100%}
+.post-body iframe,.post-body video{max-width:100%}
+.table-responsive-wrapper{display:block;width:100%;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.is-ad .widget-content{contain:layout paint;overflow:hidden;min-height:90px}
+.is-ad .widget-content:has(ins[data-ad-status="unfilled"]){min-height:0}
+ins.adsbygoogle[data-ad-status="unfilled"]{display:none!important}
+@media(max-width:680px){
+ :root{--tbb-card-pad:.875rem;--tbb-card-gap:.75rem;--tbb-thumb-sm:6rem}
+ .content-wrap{padding-block:1rem}
+ .content-section,.main-wrap,.sidebar-wrap{gap:1rem}
+ .content-section .widget:not(.is-ad),.sidebar .widget:not(.is-ad){border-radius:.65rem}
+ .featured{border-radius:0}
+ .featured-items .grid{padding:1rem;margin-inline:-.875rem}
+ .featured-items .grid .post{grid-template-columns:minmax(0,6.4rem) minmax(0,1fr)}
+ .featured-items .grid .entry-title{font-size:.95rem;line-height:1.32}
+ .blog-posts:not(.grid-style) .post{display:grid;grid-template-columns:minmax(0,8rem) minmax(0,1fr);gap:.875rem;align-items:start}
+ .blog-posts:not(.grid-style) .entry-thumbnail{aspect-ratio:4/3}
+}
+@media(max-width:390px){:root{--tbb-thumb-sm:5.5rem}.blog-posts:not(.grid-style) .post{grid-template-columns:minmax(0,7rem) minmax(0,1fr)}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
