@@ -1181,7 +1181,7 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display:none!important}
 .is-ad .widget-content{min-height:90px}
 .is-ad .widget-content:has(ins[data-ad-status="unfilled"]){min-height:0!important}
 #post-ads-3 .widget-content{min-height:280px}
-.footer-ads .widget-content,.header-ads .widget-content{min-height:90px}.video-responsive{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;background-color:#000}.video-responsive iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}.videoyoutube{margin-bottom:1.5em}.table-responsive-wrapper{display:block;width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;margin-bottom:1.5em}.table-responsive-wrapper table{width:100%;min-width:600px;border-collapse:collapse}
+.footer-ads .widget-content,.header-ads .widget-content{min-height:90px}.video-responsive{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;background-color:#000}.video-responsive iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}.videoyoutube{margin-bottom:1.5em}.table-responsive-wrapper{display:block;width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;margin-bottom:1.5em}.table-responsive-wrapper table{width:100%;min-width:600px;border-collapse:collapse}}
 .embed-container {position:relative; padding-bottom:56.25%; height:0; overflow:hidden; max-width:100%;}
 .embed-container iframe, .embed-container object, .embed-container embed {position:absolute; top:0; left:0; width:100%; height:100%;}]]></b:skin>
         <style id='tbb-ui-v221' type='text/css'><![CDATA[
