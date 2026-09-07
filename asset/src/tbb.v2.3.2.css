@@ -1,0 +1,91 @@
+/* TBB 2.3.2 enterprise visual layer — unified spacing, compact story cards, MailChimp CTA, ad-gap collapse. */
+:root{--tbb-card-pad:clamp(1rem,2.2vw,1.25rem);--tbb-card-gap:clamp(.75rem,1.8vw,1rem);--tbb-section-gap:clamp(1rem,2.2vw,1.5rem);--tbb-thumb-sm:6.25rem;--tbb-thumb-radius:.65rem;--tbb-card-radius:.875rem}
+.widget-content,.post,.entry-thumbnail{min-width:0}
+.widget-title{gap:.75rem}
+.widget-title .title{overflow-wrap:normal;word-break:normal}
+.content-section .widget:not(.is-ad),.sidebar .widget:not(.is-ad){border:1px solid var(--border-color);border-radius:var(--tbb-card-radius);background:var(--outer-bg);min-width:0;overflow:hidden}
+.content-section .widget:not(.is-ad)>.widget-title,.sidebar .widget:not(.is-ad)>.widget-title{padding:var(--tbb-card-pad) var(--tbb-card-pad) 0;margin:0}
+.content-section .widget:not(.is-ad)>.widget-content,.sidebar .widget:not(.is-ad)>.widget-content{padding:var(--tbb-card-pad);min-width:0}
+.content-section,.main-wrap,.sidebar-wrap{gap:var(--tbb-section-gap)}
+.content-section .block1-items,.content-section .block2-items,.block1-list,.sidebar .side-items{gap:var(--tbb-card-gap)}
+.block1-list .post,.featured-items .grid .post{grid-template-columns:minmax(0,var(--tbb-thumb-sm)) minmax(0,1fr);gap:var(--tbb-card-gap);align-items:center}
+.block1-list .entry-thumbnail,.featured-items .grid .entry-thumbnail{aspect-ratio:4/3;border-radius:var(--tbb-thumb-radius)}
+.block1-list .entry-title{font-size:.95rem;line-height:1.35}
+.blog-posts{gap:clamp(1rem,2.5vw,1.5rem)}
+.blog-posts>.post:not(.ad-type){min-width:0;border-radius:.75rem}
+.blog-posts .entry-thumbnail{border-radius:.75rem}
+.blog-posts.grid-items>.post:not(.ad-type){grid-template-columns:minmax(0,1fr)}
+.blog-posts.grid-items>.post>.entry-thumbnail{width:100%;aspect-ratio:16/10}
+.type-story .story-items{width:auto;min-width:0}
+.content-section .widget.type-story{margin-inline:0;padding-inline:0;overflow:hidden}
+.content-section .type-story>.widget-content{margin-inline:0;overflow-x:auto;overscroll-behavior-inline:contain;-webkit-overflow-scrolling:touch;scrollbar-width:thin}
+.content-section .story-items{align-items:stretch}
+.content-section .story-items .post{aspect-ratio:4/5;min-height:0;border-radius:.75rem;overflow:hidden}
+.content-section .story-items .card .entry-header{padding:.9rem;gap:.45rem}
+.content-section .story-items .entry-tag{display:inline-flex;align-items:center;align-self:flex-start;width:auto;max-width:100%;min-height:1.75rem;padding:.3rem .65rem;border-radius:999px;font-size:.7rem;line-height:1.1;font-weight:700;letter-spacing:.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.content-section .story-items .entry-title{font-size:1rem;line-height:1.28;-webkit-line-clamp:3}
+.content-section .story-items .entry-meta{font-size:.76rem;line-height:1.25;gap:.4rem;opacity:.92}
+.content-section .story-items .author-name{max-width:8.5rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tbb-feed-error{padding:1rem;color:var(--meta-color);font-size:.9rem;line-height:1.6}
+.tbb-feed-error a{color:var(--accent-color);text-decoration:underline}
+.tbb-feed-error button{background:var(--btn-bg);color:var(--btn-color);padding:.65rem .85rem;margin:.5rem 0}
+.tbb-mega-labels{display:flex;flex-wrap:wrap;gap:.75rem;padding-block:1rem}
+.tbb-mega-labels a{color:var(--title-color)}
+.mobile-menu .has-sub.expanded>.sub{display:block}
+.mobile-menu .has-sub:not(.expanded)>.sub{display:none}
+.main-nav li:focus-within>.ul{visibility:visible;opacity:1;transform:none}
+.table-responsive-wrapper{display:block;width:100%;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.post-body .table-responsive-wrapper table{display:table}
+.post-body .tbb-video-frame{display:block;width:100%;height:auto;aspect-ratio:16/9;border:0}
+.post-body .tbb-toc{background:var(--gray-bg);border-radius:.75rem;padding:1rem 1.25rem;margin-bottom:1.5rem;color:var(--title-color)}
+.post-body .tbb-toc summary{cursor:pointer;font-weight:700}
+.post-body .tbb-toc ol{margin:1rem 0 0;padding-inline-start:1.5rem}
+.post-body .tbb-toc li{margin:.5rem 0;list-style:decimal}
+.tbb-toc a{color:var(--accent-color)}
+.menu-toggle:focus-visible,.search-toggle:focus-visible,.darkmode-toggle:focus-visible,.mobile-menu a:focus-visible,.tbb-feed-error button:focus-visible,.MailChimp input:focus-visible,.MailChimp button:focus-visible{outline:2px solid var(--accent-color);outline-offset:3px}
+
+/* Actual TBB newsletter widget is HTML6 rendered as .MailChimp via {getMailchimp}. */
+.sidebar .MailChimp,.content-section .MailChimp{border:0!important;background:linear-gradient(145deg,#0f172a 0%,#173a88 100%)!important;color:#fff!important;box-shadow:0 14px 34px rgb(15 23 42 / 16%);border-radius:1rem!important;overflow:hidden}
+.sidebar .MailChimp>.widget-title,.content-section .MailChimp>.widget-title{padding:1.4rem 1.4rem .2rem!important;margin:0!important}
+.sidebar .MailChimp>.widget-title .title,.content-section .MailChimp>.widget-title .title{color:#fff!important;font-size:1.35rem!important;line-height:1.25!important;font-weight:700!important}
+.sidebar .MailChimp>.widget-content,.content-section .MailChimp>.widget-content{padding:.9rem 1.4rem 1.4rem!important}
+.MailChimp .mailchimp-text{color:rgb(255 255 255 / 78%)!important;font-size:.98rem!important;line-height:1.55!important;margin:0 0 1rem!important}
+.MailChimp form{display:grid!important;gap:.85rem!important;margin:0!important}
+.MailChimp .mailchimp-email-address{width:100%!important;height:auto!important;min-height:3.2rem!important;background:#fff!important;color:#111827!important;border:1px solid rgb(255 255 255 / 38%)!important;border-radius:.78rem!important;padding:.8rem 1rem!important;margin:0!important;font-size:1rem!important;line-height:1.3!important;box-shadow:none!important;outline:none!important}
+.MailChimp .mailchimp-email-address::placeholder{color:#6b7280!important;opacity:1!important}
+.MailChimp .mailchimp-email-address:focus{box-shadow:0 0 0 3px rgb(37 99 235 / 24%)!important}
+.MailChimp .mailchimp-submit{display:flex!important;align-items:center!important;justify-content:center!important;width:100%!important;height:auto!important;min-height:3.2rem!important;background:#2563eb!important;color:#fff!important;border:0!important;border-radius:.78rem!important;padding:.8rem 1rem!important;margin:0!important;font-size:1rem!important;font-weight:600!important;line-height:1.3!important;cursor:pointer!important;transition:filter .2s ease,transform .2s ease!important}
+.MailChimp .mailchimp-submit:hover{filter:brightness(1.06)}
+.MailChimp .mailchimp-submit:active{transform:translateY(1px)}
+
+/* Ads: preserve filled inventory but collapse unfilled/empty wrappers to prevent large mobile dead zones. */
+.is-ad .widget-content{contain:layout paint;overflow:hidden;min-height:90px}
+.is-ad .widget-content:has(ins[data-ad-status='unfilled']){min-height:0!important;padding-block:0!important}
+ins.adsbygoogle[data-ad-status='unfilled']{display:none!important}
+.sidebar .widget.is-ad:has(.widget-content:empty),.content-section .widget.is-ad:has(.widget-content:empty){display:none!important}
+.sidebar .widget.is-ad:has(ins[data-ad-status='unfilled']),.content-section .widget.is-ad:has(ins[data-ad-status='unfilled']){display:none!important}
+.content-section .widget:not(.is-ad):empty,.sidebar .widget:not(.is-ad):empty{display:none!important}
+.content-section .widget-content:empty,.sidebar .widget-content:empty{padding-block:0!important;min-height:0!important}
+
+@media(max-width:680px){
+ :root{--tbb-card-pad:1rem;--tbb-card-gap:.75rem;--tbb-section-gap:1rem;--tbb-thumb-sm:6rem;--tbb-card-radius:.75rem}
+ .content-wrap{padding-block:1rem}
+ .content-section .widget:not(.is-ad),.sidebar .widget:not(.is-ad){border-radius:var(--tbb-card-radius)}
+ .featured-items .grid .post{grid-template-columns:minmax(0,6.4rem) minmax(0,1fr)}
+ .featured-items .grid .entry-title{font-size:.95rem;line-height:1.32}
+ .blog-posts.grid-items{grid-template-columns:minmax(0,1fr)}
+ .blog-posts>.post:not(.ad-type){grid-template-columns:minmax(0,1fr);gap:.875rem}
+ .blog-posts>.post>.entry-thumbnail{width:100%;aspect-ratio:16/10}
+ .blog-posts .entry-meta{flex-direction:row;align-items:center;flex-wrap:wrap}
+ .content-section .story-items{grid-template-columns:repeat(3,minmax(9.4rem,9.4rem));width:max-content;max-width:none;gap:.75rem;padding:0}
+ .content-section .story-items .post{aspect-ratio:4/5}
+ .content-section .story-items .card .entry-header{padding:.8rem}
+ .content-section .story-items .entry-tag{min-height:1.6rem;padding:.25rem .55rem;font-size:.65rem;max-width:8rem}
+ .content-section .story-items .entry-title{font-size:.94rem;line-height:1.27;-webkit-line-clamp:3}
+ .content-section .story-items .entry-meta{font-size:.72rem}
+ .sidebar .MailChimp>.widget-title,.content-section .MailChimp>.widget-title{padding:1.2rem 1.2rem .15rem!important}
+ .sidebar .MailChimp>.widget-content,.content-section .MailChimp>.widget-content{padding:.85rem 1.2rem 1.2rem!important}
+ .MailChimp .mailchimp-text{font-size:.94rem!important}
+}
+@media(max-width:390px){:root{--tbb-thumb-sm:5.5rem}.content-section .story-items{grid-template-columns:repeat(3,minmax(9rem,9rem))}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}.header-inner,.main-search,.slide-menu,.share-modal{transition:none}.loader svg,.loader circle{animation:none}.MailChimp .mailchimp-submit{transition:none!important}}
