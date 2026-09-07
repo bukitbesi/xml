@@ -1184,6 +1184,7 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display:none!important}
 .footer-ads .widget-content,.header-ads .widget-content{min-height:90px}.video-responsive{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;background-color:#000}.video-responsive iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}.videoyoutube{margin-bottom:1.5em}.table-responsive-wrapper{display:block;width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;margin-bottom:1.5em}.table-responsive-wrapper table{width:100%;min-width:600px;border-collapse:collapse}}
 .embed-container {position:relative; padding-bottom:56.25%; height:0; overflow:hidden; max-width:100%;}
 .embed-container iframe, .embed-container object, .embed-container embed {position:absolute; top:0; left:0; width:100%; height:100%;}]]></b:skin>
+        <link href='https://cdn.jsdelivr.net/gh/bukitbesi/xml@008b5879aa79e31b2cc1cfe8fd03b909d4ac0aa3/asset/src/tbb.v2.2.1.css' id='tbb-ui-v221' rel='stylesheet'/>
       </b:if>
       <b:defaultmarkups>
         <b:defaultmarkup type='Common'>
@@ -1269,7 +1270,6 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display:none!important}
 			<b:elseif cond='data:view.isPage'/>
   			<title><data:view.title.escaped/> | <data:blog.title.escaped/></title>
   			<meta expr:content='data:view.description.escaped' name='description'/>
-  			<meta expr:content='data:blog.metaDescription.escaped' name='description'/>
 			<b:elseif cond='data:view.isSearch and data:view.search.query'/>
   			<title>Search for: <data:view.search.query.escaped/> | <data:blog.title.escaped/></title>
   			<meta expr:content='&quot;Search results for the query: &quot; + data:view.search.query.escaped' name='description'/>
@@ -1321,34 +1321,34 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display:none!important}
   "@graph": [
     {
       "@type": "WebSite",
-      "@id": "https://thebukitbesi.com/#website",
-      "url": "https://thebukitbesi.com/",
+      "@id": "https://www.thebukitbesi.com/#website",
+      "url": "https://www.thebukitbesi.com/",
       "name": "<b:eval expr='data:blog.title.jsonEscaped'/>",
       "description": "<b:eval expr='data:blog.metaDescription.jsonEscaped'/>",
       "inLanguage": "<data:blog.localeUnderscoreDelimited/>",
       "publisher": {
-        "@id": "https://thebukitbesi.com/#organization"
+        "@id": "https://www.thebukitbesi.com/#organization"
       }
     },
     {
       "@type": "WebPage",
-      "@id": "https://thebukitbesi.com/#webpage",
-      "url": "https://thebukitbesi.com/",
+      "@id": "https://www.thebukitbesi.com/#webpage",
+      "url": "https://www.thebukitbesi.com/",
       "name": "<b:eval expr='data:blog.title.jsonEscaped'/>",
       "description": "<b:eval expr='data:blog.metaDescription.jsonEscaped'/>",
       "isPartOf": {
-        "@id": "https://thebukitbesi.com/#website"
+        "@id": "https://www.thebukitbesi.com/#website"
       },
       "about": {
-        "@id": "https://thebukitbesi.com/#organization"
+        "@id": "https://www.thebukitbesi.com/#organization"
       },
       "inLanguage": "<data:blog.localeUnderscoreDelimited/>"
     },
     {
       "@type": "Organization",
-      "@id": "https://thebukitbesi.com/#organization",
+      "@id": "https://www.thebukitbesi.com/#organization",
       "name": "<b:eval expr='data:blog.title.jsonEscaped'/>",
-      "url": "https://thebukitbesi.com/",
+      "url": "https://www.thebukitbesi.com/",
       "logo": {
         "@type": "ImageObject",
         "url": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgqjFdEWNgwNSHf8cuiBJ5SO6VLtkzs2xcmzsaEK7jELM2mLf5IB2oiMcnEQmeAzIokVd4pKnasNfrNAKj50Q8eGodMdghKT8EQVCc9ViaX7yebBtN_ByUgCGgZkF9KJp68K5l7xgovnldmexg9hdaPdA1TMb_4SVrfAuZ7TNY68vouUIHaE__kwBrL3mPF/s1600/bukit-besi-blog.webp"
@@ -3013,18 +3013,7 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display:none!important}
   ]
 }
 </b:if></script>
-      <script type='text/javascript'>
-//<![CDATA[
-// Force Canonical URL - SEO Fix for Blogger ?m=1 redirect
-var canonicalUrl = document.querySelector("link[rel='canonical']");
-if (canonicalUrl) {
-    var canonicalHref = canonicalUrl.href;
-    if (window.location.href !== canonicalHref) {
-        window.history.replaceState(null, null, canonicalHref);
-    }
-}
-//]]>
-</script>
+      <!-- Canonical stays declarative; preserve preview URLs and article fragments. -->
     </head>
     <b:include name='html-attrs'/>
     <body>
@@ -4366,233 +4355,14 @@ if (canonicalUrl) {
           </b:section>
         </b:if>
         <!-- Site scripts: vanilla JavaScript; no third-party DOM-library dependency. -->
-        <b:tag name='script' type='text/javascript'><![CDATA[
-/* Vanilla site interactions: intentionally has no third-party DOM-library dependency. */
-(function () {
-  'use strict';
-  const $ = (selector, context = document) => Array.from(context.querySelectorAll(selector));
-  const body = document.body;
-  const escapeHtml = value => String(value || '').replace(/[&<>"]/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[character]));
-  const getSetting = (source, name) => {
-    const match = String(source || '').match(new RegExp('(?:^|\\s)\\$' + name + '=\\{([^}]*)\\}'));
-    return match ? match[1].trim() : '';
-  };
-  const inView = element => element.getBoundingClientRect().top < window.innerHeight + 160;
-
-  function lazyImage(element) {
-    const source = element.dataset.src;
-    if (!source || element.classList.contains('pbt-lazy')) return;
-    const image = new Image();
-    image.onload = () => {
-      element.style.backgroundImage = `url("${image.src}")`;
-      element.classList.add('pbt-lazy');
-    };
-    image.src = source;
-  }
-  function watchLazyImages() {
-    const targets = $('.thumbnail[data-src], .avatar[data-src]');
-    if (!('IntersectionObserver' in window)) return targets.forEach(lazyImage);
-    const observer = new IntersectionObserver(entries => entries.forEach(entry => {
-      if (entry.isIntersecting) { lazyImage(entry.target); observer.unobserve(entry.target); }
-    }), { rootMargin: '160px' });
-    targets.forEach(target => observer.observe(target));
-  }
-
-  function buildMenu(menu) {
-    const links = $('a', menu);
-    [1, 2].forEach(level => {
-      let parent;
-      links.forEach((link, index) => {
-        const label = link.textContent.trim();
-        const next = links[index + 1] && links[index + 1].textContent.trim();
-        if (!label.startsWith('_') && next && next.startsWith('_')) {
-          parent = link.parentElement;
-          const list = document.createElement('ul');
-          list.className = `ul sub sm-${level}`;
-          parent.appendChild(list);
-        }
-        if (label.startsWith('_') && parent) {
-          link.textContent = label.replace(/^_+/, '');
-          parent.querySelector(`.sm-${level}`).appendChild(link.parentElement);
-        }
-      });
-    });
-    $('.sub', menu).forEach(list => list.parentElement.classList.add('has-sub'));
-    const widget = menu.querySelector('.widget');
-    if (widget) widget.classList.add('is-ready');
-  }
-
-  function closePanels() { body.classList.remove('menu-on', 'search-on', 'share-on'); }
-  function setCookie(name, value, days) {
-    const expires = new Date(Date.now() + days * 864e5).toUTCString();
-    document.cookie = `${encodeURIComponent(name)}=${encodeURIComponent(value)}; expires=${expires}; path=/; SameSite=Lax`;
-  }
-  function getCookie(name) {
-    const prefix = `${encodeURIComponent(name)}=`;
-    return document.cookie.split('; ').find(item => item.startsWith(prefix))?.slice(prefix.length);
-  }
-
-  function postCard(post) {
-    const link = post.url || '#';
-    const title = escapeHtml(post.title || pbt.noTitle);
-    const image = post.thumbnail ? `<a class="entry-thumbnail" href="${link}"><div class="thumbnail" data-src="${post.thumbnail}"></div></a>` : '';
-    return `<article class="post">${image}<div class="entry-header"><h2 class="entry-title"><a href="${link}">${title}</a></h2></div></article>`;
-  }
-  async function loadFeed(target, options = {}) {
-    if (!target || target.dataset.loaded) return;
-    target.dataset.loaded = 'true';
-    const label = options.label && options.label !== 'recent' ? `/label/${encodeURIComponent(options.label)}` : '';
-    const url = `/feeds/posts/default${label}?alt=json&max-results=${options.count || 4}`;
-    try {
-      const response = await fetch(url, { credentials: 'same-origin' });
-      if (!response.ok) throw new Error('Feed request failed');
-      const entries = (await response.json()).feed.entry || [];
-      const posts = entries.map(entry => ({
-        title: entry.title?.$t,
-        url: entry.link?.find(link => link.rel === 'alternate')?.href,
-        thumbnail: entry.media$thumbnail?.url
-      }));
-      target.innerHTML = posts.map(postCard).join('') || `<span class="error-msg">${escapeHtml(pbt.noResults)}</span>`;
-      watchLazyImages();
-    } catch (error) {
-      target.innerHTML = `<span class="error-msg">${escapeHtml(pbt.noResults)}</span>`;
-    }
-  }
-  function loadShortcodes() {
-    $('.getPosts .widget-content').forEach(target => {
-      const source = target.dataset.shortcode;
-      if (!source) return;
-      const label = getSetting(source, 'label') || 'recent';
-      const count = Number(getSetting(source, 'results')) || (target.closest('.featured') ? 4 : 5);
-      const load = () => { if (inView(target)) { loadFeed(target, { label, count }); window.removeEventListener('scroll', load); } };
-      window.addEventListener('scroll', load, { passive: true }); load();
-    });
-  }
-  function search() {
-    const input = document.querySelector('.main-search input');
-    const results = document.querySelector('.search-results');
-    if (!input || !results) return;
-    let timer;
-    input.addEventListener('input', () => {
-      clearTimeout(timer);
-      const query = input.value.trim();
-      if (!query) { results.innerHTML = ''; return; }
-      timer = setTimeout(async () => {
-        try {
-          const response = await fetch(`/feeds/posts/default?alt=json&max-results=8&q=${encodeURIComponent(query)}`, { credentials: 'same-origin' });
-          const entries = (await response.json()).feed.entry || [];
-          const links = entries.map(entry => {
-            const url = entry.link?.find(link => link.rel === 'alternate')?.href;
-            return url ? `<a href="${escapeHtml(url)}">${escapeHtml(entry.title?.$t)}</a>` : '';
-          }).filter(Boolean);
-          results.innerHTML = links.join('') || `<span class="error-msg">${escapeHtml(pbt.noResults)}</span>`;
-        } catch (error) { results.innerHTML = `<span class="error-msg">${escapeHtml(pbt.noResults)}</span>`; }
-      }, 300);
-    });
-  }
-
-  function initMobileMenu() {
-    const source = document.querySelector('.main-nav');
-    const destination = document.querySelector('.mobile-menu');
-    if (!source || !destination || destination.children.length) return;
-    const nav = source.cloneNode(true);
-    nav.className = 'mobile-nav';
-    $('.ul', nav).forEach(list => list.className = 'sub');
-    $('.type-mega .ul, .mega', nav).forEach(item => item.remove());
-    destination.appendChild(nav);
-    $('.has-sub > a', destination).forEach(link => link.addEventListener('click', event => {
-      event.preventDefault();
-      const item = link.parentElement;
-      item.classList.toggle('expanded');
-      const sub = item.querySelector(':scope > .sub');
-      if (sub) sub.style.display = item.classList.contains('expanded') ? 'block' : 'none';
-    }));
-    const logo = document.querySelector('.main-logo a');
-    const mobileLogo = document.querySelector('.mobile-logo');
-    if (logo && mobileLogo) {
-      const clone = logo.cloneNode(true);
-      clone.querySelectorAll('h1').forEach(element => element.remove());
-      mobileLogo.appendChild(clone);
-    }
-  }
-  function initStickyHeader() {
-    const header = document.querySelector('.header-inner');
-    if (!header || !pbt.stickyMenu) return;
-    let lastY = window.scrollY;
-    window.addEventListener('scroll', () => {
-      const y = window.scrollY;
-      header.classList.toggle('is-fixed', y > header.offsetHeight * 2);
-      header.classList.toggle('show', y > header.offsetHeight * 2 && y < lastY);
-      lastY = y;
-    }, { passive: true });
-  }
-
-  document.addEventListener('DOMContentLoaded', () => {
-    $('.main-nav').forEach(buildMenu);
-    initMobileMenu(); initStickyHeader(); watchLazyImages(); loadShortcodes(); search();
-    $('.menu-toggle, .hide-mobile-menu').forEach(button => button.addEventListener('click', () => body.classList.toggle('menu-on')));
-    $('.overlay-bg').forEach(element => element.addEventListener('click', closePanels));
-    $('.search-toggle').forEach(button => button.addEventListener('click', () => { body.classList.add('search-on'); setTimeout(() => document.querySelector('.main-search input')?.focus(), 0); }));
-    $('.main-search .close, .hide-modal').forEach(button => button.addEventListener('click', closePanels));
-    $('.share-toggle, .post-share .show-more button').forEach(button => button.addEventListener('click', () => body.classList.add('share-on')));
-    document.addEventListener('keydown', event => { if (event.key === 'Escape') closePanels(); });
-    $('.to-top').forEach(button => {
-      window.addEventListener('scroll', () => button.classList.toggle('show', window.scrollY >= 100), { passive: true });
-      button.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-    });
-    $('.post-body table').forEach(table => {
-      if (!table.parentElement.classList.contains('table-responsive-wrapper')) {
-        const wrapper = document.createElement('div'); wrapper.className = 'table-responsive-wrapper';
-        table.before(wrapper); wrapper.appendChild(table);
-      }
-    });
-    $('.post-body img').forEach(image => { if (!image.alt) image.alt = document.title.split(' - ')[0]; });
-    const consent = document.querySelector('.cookie-consent');
-    if (consent && !getCookie('cookie_consent')) {
-      consent.style.display = 'block'; requestAnimationFrame(() => consent.classList.add('visible'));
-      consent.querySelector('.consent-button')?.addEventListener('click', () => { setCookie('cookie_consent', 'true', 7); consent.classList.remove('visible'); });
-    }
-  });
-}());
-]]></b:tag>
+        <script defer='defer' expr:data-blog-url='data:blog.homepageUrl.canonical' id='tbb-runtime-v221' src='https://cdn.jsdelivr.net/gh/bukitbesi/xml@008b5879aa79e31b2cc1cfe8fd03b909d4ac0aa3/asset/src/tbb.v2.2.1.js' type='text/javascript'/>
       </b:if>
       <!-- Blogger Scripts -->
       <b:if cond='data:isFeed'>
         <b:eval expr='&quot;&lt;!--&quot;'/>
       </b:if>
-      <script type='text/javascript'>
-//<![CDATA[
-if ('serviceWorker' in navigator) {
-	window.addEventListener('load', () => {
-		navigator.serviceWorker.register('https://tbbcom.github.io/on/sw.js')
-			.then(r => console.log('✅ SW scope:', r.scope))
-			.catch(e => console.error('❌ SW failed:', e));
-	});
-}
-//]]>
-</script>
       <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-<script>
-//<![CDATA[function activateYouTubePlaceholders(){const e=document.querySelectorAll(".video-youtube[data-src]");e.forEach(function(e){const t="https:"+e.getAttribute("data-src"),r=document.createElement("iframe");r.setAttribute("src",t),r.setAttribute("frameborder","0"),r.setAttribute("allowfullscreen","true"),r.setAttribute("allow","accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"),e.parentNode.replaceChild(r,e)})}document.addEventListener("DOMContentLoaded",activateYouTubePlaceholders);//]]>
-</script>
-<script>
-//<![CDATA[document.addEventListener("DOMContentLoaded",function(){const e=document.querySelectorAll(".post-body table");e.forEach(function(e){if("table-responsive-wrapper"!==e.parentElement.className){const t=document.createElement("div");t.className="table-responsive-wrapper",e.parentNode.insertBefore(t,e),t.appendChild(e)}})});//]]>
-</script>
-      <script defer='defer' src='https://cdn.jsdelivr.net/gh/tbbcom/on@main/master-ads-injector.js'/>
-    <script>
-//<![CDATA[
-(function() {
-    var postImages = document.querySelectorAll('.post-body img');
-    var postTitle = document.title.split(' - ')[0]; // Gets the post title, cleans blog name
-    for (var i = 0; i < postImages.length; i++) {
-        if (!postImages[i].alt || postImages[i].alt === '') {
-            postImages[i].alt = postTitle;
-            postImages[i].title = postTitle; // Bonus: adds a title attribute too
-        }
-    }
-})();
-//]]>
-</script>
+      <script defer='defer' src='https://cdn.jsdelivr.net/gh/tbbcom/on@0dca42de260846ac87d369048af6ab3e86e95e4e/master-ads-injector.js'/>
     </body>
     <b:if cond='data:isFeed'>
       <b:eval expr='&quot;--&gt;&lt;/body&gt;&quot;'/>
