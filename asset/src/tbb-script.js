@@ -21,8 +21,21 @@ var pbtSafe=(typeof pbt!=='undefined')?pbt:{};
 var lazyIO=('IntersectionObserver' in w)?new IntersectionObserver(function(entries,obs){
  entries.forEach(function(en){if(en.isIntersecting){applyLazy(en.target);obs.unobserve(en.target)}});
 },{rootMargin:'300px 0px'}):null;
+/* Blogger's own image CDN serves whatever size is baked into the URL's w{n}-h{n} segment.
+   The template always emits a 72x72 placeholder (see postThumbnail/avatar includables), so
+   without resizing here every hero/thumbnail image would render as a blurry 72px image
+   stretched to fill its box. Ports the original pbtLazy plugin's resize-to-rendered-size step. */
+function resizeSrc(u,box){
+ if(!box||!box.width)return u;
+ var w=Math.max(1,Math.round(box.width*1.1)),h=Math.max(1,Math.round(box.height*1.1));
+ var size='w'+w+'-h'+h+'-p-k-no-nu-rw';
+ if(/=?w72-h72-p-k-no-nu/.test(u))return u.replace(/=w72-h72-p-k-no-nu/,'='+size).replace(/\/w72-h72-p-k-no-nu/,'/'+size);
+ return u;
+}
 function applyLazy(el){
  var u=el.getAttribute('data-src');if(!u)return;
+ var box=el.getBoundingClientRect();
+ u=resizeSrc(u,box);
  if(el.tagName==='IMG')el.src=u;else el.style.backgroundImage='url("'+u.replace(/"/g,'%22')+'")';
  el.classList.add('pbt-lazy');el.removeAttribute('data-src');
 }
@@ -79,7 +92,12 @@ function postFromEntry(e){
 function imgHtml(post,opts){
  opts=opts||{};
  var badge=(opts.icon!==false&&post.isVideo)?'<span class="yt-img'+(opts.size?':x'+opts.size:'')+'"></span>':'';
- var inner='<div class="thumbnail" data-src="'+esc(post.img)+'"></div>'+badge;
+ /* These widgets are built from an already-fetched feed response, so the image URL is on hand
+    immediately - paint it straight away (class pbt-lazy triggers the opacity:0->1 CSS transition)
+    instead of routing it through data-src + IntersectionObserver a second time, which was leaving
+    thumbnails permanently blank whenever the observer never got a chance to re-check the element. */
+ var style=post.img?' style="background-image:url(&quot;'+esc(post.img).replace(/"/g,'&quot;')+'&quot;)"':'';
+ var inner='<div class="thumbnail pbt-lazy"'+style+'></div>'+badge;
  if(opts.link===false)return '<div class="entry-thumbnail">'+inner+'</div>';
  var tgt=opts.target?' target="'+esc(opts.target)+'"':'';
  return '<a class="entry-thumbnail" href="'+esc(post.url)+'"'+tgt+'>'+inner+'</a>';
@@ -123,7 +141,7 @@ function buildItemsHtml(type,posts,extra){
    }
    return html+'</div>';
   case 'block2':
-   html='<div class="block2-items"><a class="post card cs entry-inner" href="'+esc(posts[0].url)+'">'+imgHtml(posts[0],{link:false})+'<div class="entry-header">'+tagHtml(posts[0])+titleHtml(posts[0],{link:false})+metaHtml(posts[0])+'</div></a>';
+   html='<div class="block2-items"><div class="post card cs"><a class="entry-inner" href="'+esc(posts[0].url)+'">'+imgHtml(posts[0],{link:false})+'<div class="entry-header">'+tagHtml(posts[0])+titleHtml(posts[0],{link:false})+metaHtml(posts[0])+'</div></a></div>';
    if(posts.length>1){
     html+='<div class="block2-grid">';
     for(i=1;i<posts.length;i++)html+=postCardHtml(posts[i],{summary:true});
@@ -140,7 +158,7 @@ function buildItemsHtml(type,posts,extra){
    return html+'</div>';
   case 'story':
    html='<div class="story-items">';
-   posts.forEach(function(p){html+='<a class="post card cs entry-inner" href="'+esc(p.url)+'">'+imgHtml(p,{link:false})+'<div class="entry-header">'+titleHtml(p,{link:false})+metaHtml(p,{author:false})+'</div></a>'});
+   posts.forEach(function(p){html+='<div class="post card cs"><a class="entry-inner" href="'+esc(p.url)+'">'+imgHtml(p,{link:false})+'<div class="entry-header">'+titleHtml(p,{link:false})+metaHtml(p,{author:false})+'</div></a></div>'});
    return html+'</div>';
   case 'featured':
    html='<div class="featured-items'+(posts.length>1?'':' single')+'"><div class="first"><a class="entry-inner flex-c" href="'+esc(posts[0].url)+'"><div class="container">'+imgHtml(posts[0],{icon:false,link:false})+'<div class="entry-header">'+tagHtml(posts[0])+titleHtml(posts[0],{link:false})+metaHtml(posts[0])+'</div></div></a></div>';
@@ -248,11 +266,18 @@ function initFeeds(){
    on(mega,'mouseenter',function(){if(mega.classList.contains('loaded')||!box2)return;mega.classList.add('loaded');loadSection(box2,{type:'mega',num:5,label:label})},{once:true});
   }
  });
- var related=q('#related-posts .related-wrap');
+ /* The "Related Posts" widget slot (#related-posts) and the actual .related-wrap markup it
+    configures are two SEPARATE elements in this theme: the widget slot only carries the
+    $label=/$results= config on a bare, empty div, while .related-wrap (with the .related-tag
+    holding the current post's id/label) is inserted separately just before the comments block.
+    Scoping the lookup to "#related-posts .related-wrap" (as if one contained the other) never
+    matched anything, which is why the related-posts section silently rendered nothing. */
+ var relatedCfg=q('#related-posts [data-shortcode]');
+ var related=q('.related-wrap');
  if(related){
   var tag=q('.related-tag',related),el=q('.widget-content',related);
   if(tag&&el){
-   var relLabel=tag.getAttribute('data-label')||'',relId=tag.getAttribute('data-id')||'',sc=el.getAttribute('data-shortcode');
+   var relLabel=tag.getAttribute('data-label')||'',relId=tag.getAttribute('data-id')||'',sc=relatedCfg?relatedCfg.getAttribute('data-shortcode'):'';
    var results=attr(sc,'results',''),wantLabel=attr(sc,'label','');
    var n=results?parseInt(results,10)+1:4;
    var useLabel=(wantLabel&&wantLabel!==relLabel&&wantLabel!=='related')?wantLabel:relLabel;
@@ -614,6 +639,6 @@ function initRetry(){
   loadSection(el,{type:type,num:6});
  });
 }
-function start(){initMenu();initUI();initFeeds();initPost();initAds();initRetry();getPostCard()}
+function start(){initMenu();initUI();initFeeds();initPost();initAds();initRetry();getPostCard();observeLazy(d)}
 if(d.readyState==='loading')on(d,'DOMContentLoaded',start);else start();
 })();
