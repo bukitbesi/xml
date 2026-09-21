@@ -37,19 +37,36 @@ function renderWidget(el,entries,type){
  } else el.innerHTML='<div class="'+cls+'">'+entries.map(function(e,i){return card(e,type==='block1'&&i===0)}).join('')+'</div>';
 }
 var jsonpN=0;
+/* Use the blog's real canonical origin (set server-side in the `pbt` config object), not location.origin -
+   inside Blogger's own draft/preview iframe, location.origin is draft.blogger.com/www.blogger.com, which
+   has no /feeds/posts/default/ for this blog, so every JSONP request 404'd and every {getPosts} widget
+   rendered permanently empty. pbt.homeUrl is always the real https://www.thebukitbesi.com/, in preview and live. */
+function feedBase(){
+ try{if(typeof pbt!=='undefined'&&pbt.homeUrl)return pbt.homeUrl.replace(/\/$/,'')+'/feeds/posts/default/'}catch(e){}
+ return location.origin+'/feeds/posts/default/';
+}
 function feed(label,n,cb){
- var name='__tbbFeed'+(++jsonpN),s=d.createElement('script'),base=location.origin+'/feeds/posts/default/';
- w[name]=function(data){try{cb((data&&data.feed&&data.feed.entry)||[])}finally{delete w[name];s.remove()}};
- s.onerror=function(){delete w[name];s.remove();cb([])};
- s.src=base+(label?'-/'+encodeURIComponent(label)+'/':'')+'?alt=json-in-script&max-results='+n+'&callback='+name;
+ var name='__tbbFeed'+(++jsonpN),s=d.createElement('script'),done=false;
+ function finish(entries){if(done)return;done=true;clearTimeout(timer);try{delete w[name]}catch(e){}if(s.parentNode)s.parentNode.removeChild(s);cb(entries||[])}
+ var timer=setTimeout(function(){finish([])},9000);
+ w[name]=function(data){finish((data&&data.feed&&data.feed.entry)||[])};
+ s.onerror=function(){finish([])};
+ s.src=feedBase()+(label?'-/'+encodeURIComponent(label)+'/':'')+'?alt=json-in-script&max-results='+n+'&callback='+name;
  d.head.appendChild(s);
 }
-function initFeeds(){
- qa('.widget-content[data-shortcode]').forEach(function(el){
-  var sc=el.getAttribute('data-shortcode')||'',type=attr(sc,'type','grid'),labels=attr(sc,'label','').split('/').filter(Boolean),label=labels[0]||'',n=parseInt(attr(sc,'results',el.closest('.featured')?'4':'6'),10)||6;
-  el.setAttribute('aria-busy','true');
-  feed(label,n,function(entries){renderWidget(el,entries,type);el.removeAttribute('aria-busy')});
+function loadFeedWidget(el){
+ var sc=el.getAttribute('data-shortcode')||'',type=attr(sc,'type','grid'),labels=attr(sc,'label','').split('/').filter(Boolean),label=labels[0]||'',n=parseInt(attr(sc,'results',el.closest('.featured')?'4':'6'),10)||6;
+ el.removeAttribute('aria-hidden');el.setAttribute('aria-busy','true');
+ feed(label,n,function(entries){
+  el.removeAttribute('aria-busy');
+  if(entries&&entries.length)renderWidget(el,entries,type);
+  else el.innerHTML='<p class="error-msg">'+(typeof pbt!=='undefined'&&pbt.noResults?pbt.noResults:'Tiada catatan ditemui.')+' <button type="button" class="retry-feed">Cuba lagi</button></p>';
  });
+}
+function initFeeds(){
+ var els=qa('.widget-content[data-shortcode]'),i=0;
+ (function next(){if(i>=els.length)return;loadFeedWidget(els[i++]);setTimeout(next,150)})();
+ on(d,'click',function(e){var b=e.target&&e.target.closest&&e.target.closest('.retry-feed');if(!b)return;var el=b.closest('.widget-content');if(el)loadFeedWidget(el)});
 }
 function initLazy(){
  qa('[data-src]').forEach(function(el){
