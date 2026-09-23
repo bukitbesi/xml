@@ -941,7 +941,8 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display:none!important}
   contain: layout style;
 }
 .is-ad .widget-content:has(ins[data-ad-status="unfilled"]),
-.footer-ads .widget-content:has(ins[data-ad-status="unfilled"]) {
+.footer-ads .widget-content:has(ins[data-ad-status="unfilled"]),
+.header-ads .widget-content:has(ins[data-ad-status="unfilled"]) {
   min-height: 0 !important;
 }
 #post-ads-3 .widget-content { min-height: 320px; }
