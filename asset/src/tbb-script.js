@@ -635,7 +635,7 @@ function initAds(){
    Dropped during the vanilla rewrite, which silently killed the pinned mobile header
    (and the anchor-ad slot riding along with it) with no error, just no .is-fixed/.show. */
 function initStickyHeader(){
- if(!pbtSafe.stickyMenu)return;
+ if(pbtSafe.stickyMenu==='false')return;
  var header=q('.header-inner'),mainHeader=q('.main-header');
  if(!header||!mainHeader)return;
  var lastY=w.scrollY;
