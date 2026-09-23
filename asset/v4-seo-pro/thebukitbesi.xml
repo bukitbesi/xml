@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html>
-<html b:css='false' b:defaultwidgetversion='2' b:layoutsVersion='3' b:responsive='true' b:templateVersion='2.1.0' expr:class='data:blog.languageDirection' expr:dir='data:blog.languageDirection' expr:lang='data:blog.localeUnderscoreDelimited' xmlns='http://www.w3.org/1999/xhtml' xmlns:b='http://www.google.com/2005/gml/b' xmlns:data='http://www.google.com/2005/gml/data' xmlns:expr='http://www.google.com/2005/gml/expr' b:js='false'>
+<html b:css='false' b:defaultwidgetversion='2' b:layoutsVersion='3' b:responsive='true' b:templateVersion='2.1.0' expr:class='data:blog.languageDirection' expr:dir='data:blog.languageDirection' expr:lang='data:blog.localeUnderscoreDelimited' xmlns='http://www.w3.org/1999/xhtml' xmlns:b='http://www.google.com/2005/gml/b' xmlns:data='http://www.google.com/2005/gml/data' xmlns:expr='http://www.google.com/2005/gml/expr'>
   <b:with value='data:view.isSearch and (data:blog.view == &quot;json&quot;)' var='isFeed'>
     <head>
       <meta charset='utf-8'/>
-      <!-- Theme CSS hosted externally (extracted from b:skin) -->
-      <link as='style' href='https://cdn.jsdelivr.net/gh/bukitbesi/blogger-xml@main/blogger/v4-seo-pro/theme.css' rel='preload'/>
-      <link href='https://cdn.jsdelivr.net/gh/bukitbesi/blogger-xml@main/blogger/v4-seo-pro/theme.css' rel='stylesheet' type='text/css'/>
 
       <script type='text/javascript'>
     (function(c,l,a,r,i,t,y){
@@ -153,8 +150,122 @@
 <Variable name="body.action.font.large" description="Comments Font 2" hideEditor="true" type="font" default="normal 700 16px inter, roboto, sans-serif !important"  value="normal 700 16px inter, roboto, sans-serif !important"/>
 -- Customize Options (End) --*/
 
-/* CSS hosted externally for Top-Tier LCP & Performance */
-    ]]></b:skin>
+/*-- CSS Variables --*/
+:root{
+--body-font:$(main.font.family), sans-serif;
+--menu-font:$(main.font.family), sans-serif;
+--title-font:$(title.font.family), sans-serif;
+--text-font:$(text.font.family), sans-serif;
+--icon-font:"bootstrap-icons", bootstrap-icons;
+--body-bg-color:$(background.color);
+--body-bg:$(body.background);
+--outer-bg:$(outer.bg);
+--accent-color:$(accent.color);
+--accent-color-lite:$(accent.color)80;
+--white-color:#ffffff;
+--title-color:$(title.color);
+--title-hover-color:$(title.hover.color);
+--text-color:$(text.color);
+--summary-color:$(summary.color);
+--meta-color:$(meta.color);
+--header-bg:$(header.bg);
+--header-color:$(header.color);
+--header-hover-color:$(header.hover.color);
+--submenu-bg:$(submenu.bg);
+--submenu-color:$(submenu.color);
+--submenu-hover-color:$(submenu.hover.color);
+--submenu-gray-bg:$(submenu.color)0d;
+--footer-bg:$(footer.bg);
+--footer-color:$(footer.color);
+--footer-hover-color:$(footer.hover.color);
+--footer-text-color:$(footer.text.color);
+--footer-gray-bg:$(footer.color)0d;
+--footerbar-bg:$(footerbar.bg);
+--footerbar-color:$(footerbar.color);
+--footerbar-hover-color:$(footerbar.hover.color);
+--btn-bg:var(--accent-color);
+--btn-color:var(--white-color);
+--modal-bg:$(modal.bg);
+--header:4.5rem;
+--logo:2.5rem;
+--container:60.625rem;
+--sidebar:18.75rem;
+--gap:2.25rem;
+--aspect-ratio: 16/9;
+--title-weight:700;
+--letter-spacing:-0.005em;
+--line-clamp:3;
+--gray-bg:$(gray);
+--border-color:$(border);
+--rgba: $(rgba);
+--rgba-05: $(rgba)05;
+--rgba-08: $(rgba)08;
+--rgba-0d: $(rgba)0d;
+--rgba-e6: $(rgba)e6;
+--rgba-1a: $(rgba)1a;
+--rgba-33: $(rgba)33;
+--rgba-99: $(rgba)99;
+--shadow:0 1px 2px var(--rgba-05),0 10px 15px -3px var(--rgba-08);
+--radius:0.25rem;
+}
+
+html.is-dark{
+--body-bg-color:$(dark.bg1);
+--outer-bg:$(dark.bg2);
+--accent-color:$(dark.accent.color);
+--accent-color-lite:$(dark.accent.color)80;
+--title-color:$(dark.title);
+--title-hover-color:$(dark.accent.color);
+--text-color:$(dark.text);
+--summary-color:$(dark.text);
+--meta-color:$(dark.meta);
+--header-bg:$(dark.bg3);
+--header-color:$(dark.title);
+--header-hover-color:$(dark.accent.color);
+--submenu-bg:$(dark.bg4);
+--submenu-color:$(dark.title);
+--submenu-hover-color:$(dark.accent.color);
+--submenu-gray-bg:rgba(255,255,255,.03);
+--footer-bg:$(dark.bg3);
+--footer-color:$(dark.title);
+--footer-hover-color:$(dark.accent.color);
+--footer-text-color:$(dark.text);
+--footer-gray-bg:rgba(255,255,255,.03);
+--footerbar-bg:$(dark.bg4);
+--footerbar-color:$(dark.title);
+--footerbar-hover-color:$(dark.accent.color);
+--modal-bg:$(dark.bg1);
+--gray-bg:rgba(255,255,255,.03);
+--border-color:rgba(255,255,255,.03);
+--rgba: $(dark.bg3);
+--rgba-05: $(dark.bg3)05;
+--rgba-08: $(dark.bg3)08;
+--rgba-0d: $(dark.bg3)0d;
+--rgba-e6: $(dark.bg3)e6;
+--rgba-1a: $(dark.bg3)1a;
+--rgba-33: $(dark.bg3)33;
+--rgba-99: $(dark.bg3)99;
+--shadow:0 1px 2px var(--rgba-0d),0 10px 15px -3px var(--rgba-33);
+}
+
+html.rtl{
+--body-font:Cairo, sans-serif;
+--menu-font:Cairo, sans-serif;
+--title-font:Cairo, sans-serif;
+--text-font:Cairo, sans-serif;
+}
+ins.adsbygoogle[data-ad-status="unfilled"] {display:none !important;}
+.inline-ad:empty, .post-ads-1:empty, .post-ads-2:empty, .post-ads-3:empty, .post-ads-4:empty, .content-ads:empty {display:none !important; margin:0 !important; padding:0 !important;}
+.related-wrap .widget-content:empty {display:none !important;}
+]]></b:skin>
+        <!--
+          Component CSS split out for CDN caching across pages/sessions - see tbb-style.css.
+          Using @main (not a pinned commit) so pushing updates to GitHub takes effect without editing this file again.
+          Non-blocking load (preload+swap) keeps this from delaying first paint; a <noscript> fallback covers no-JS.
+        -->
+        <link as='style' href='https://cdn.jsdelivr.net/gh/bukitbesi/xml@main/asset/src/tbb-style.css' onload='this.onload=null;this.rel=&apos;stylesheet&apos;' rel='preload'/>
+        <noscript><link href='https://cdn.jsdelivr.net/gh/bukitbesi/xml@main/asset/src/tbb-style.css' rel='stylesheet'/></noscript>
+     
       </b:if>
       <b:defaultmarkups>
         <b:defaultmarkup type='Common'>
@@ -1683,9 +1794,6 @@
         <b:if cond='data:widgets.AdSense.first or data:blog.adsenseClientId'>
           <script async='async' crossorigin='anonymous' src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0182550701431501'/>
         </b:if>
-        <b:if cond='data:blog.analyticsAccountNumber'>
-          <b:include cond='data:blog.analyticsAccountNumber' data='blog' name='google-analytics'/>
-        </b:if>
       </b:if>
       <script type='application/ld+json'>
 <b:if cond='data:view.isArchive'>
@@ -2087,11 +2195,8 @@
                         <b:section class='main-menu' id='main-menu' maxwidgets='1' name='Header Menu' showaddelement='no'>
                           <b:widget id='LinkList200' locked='true' title='' type='LinkList' version='2' visible='true'>
                             <b:widget-settings>
-                              <b:widget-setting name='text-8'>Contact</b:widget-setting>
-                              <b:widget-setting name='link-7'>/p/kalkulator-zakat.html</b:widget-setting>
-                              <b:widget-setting name='link-8'>/p/contact.html</b:widget-setting>
                               <b:widget-setting name='link-5'>{getPosts} $label={Direktori/Informasi/Islamik/Kesihatan/Resepi/Kewangan/}</b:widget-setting>
-                              <b:widget-setting name='link-6'>/p/kalkulator-faraid.html</b:widget-setting>
+                              <b:widget-setting name='link-6'>/p/contact.html</b:widget-setting>
                               <b:widget-setting name='link-3'>/search/label/Teknologi</b:widget-setting>
                               <b:widget-setting name='link-4'>/search/label/Tutorial</b:widget-setting>
                               <b:widget-setting name='text-1'>About</b:widget-setting>
@@ -2100,8 +2205,7 @@
                               <b:widget-setting name='text-2'>Pendidikan</b:widget-setting>
                               <b:widget-setting name='text-5'>Kategori</b:widget-setting>
                               <b:widget-setting name='text-4'>Tutorial</b:widget-setting>
-                              <b:widget-setting name='text-7'>Kalkulator Zakat</b:widget-setting>
-                              <b:widget-setting name='text-6'>Kalkulator Faraid</b:widget-setting>
+                              <b:widget-setting name='text-6'>Contact</b:widget-setting>
                               <b:widget-setting name='sorting'>NONE</b:widget-setting>
                               <b:widget-setting name='link-1'>/p/about-me.html</b:widget-setting>
                               <b:widget-setting name='link-2'>/search/label/Pendidikan</b:widget-setting>
@@ -2239,7 +2343,7 @@
                   </b:widget>
                 </b:section>
                 <b:section class='main' id='main' maxwidgets='1' name='Latest Posts' showaddelement='yes'>
-                  <b:widget id='Blog1' locked='true' title='Catatan Blog' type='Blog' version='2' visible='true'>
+                  <b:widget id='Blog1' locked='true' title='Blog Posts' type='Blog' version='2' visible='true'>
                     <b:widget-settings>
                       <b:widget-setting name='commentLabel'>$type={blogger}</b:widget-setting>
                       <b:widget-setting name='showShareButtons'>true</b:widget-setting>
@@ -2895,7 +2999,7 @@
                 <b:section cond='data:view.isPost and (data:widgets.HTML any w =&gt; w.sectionId == &quot;related-posts&quot;)' id='related-posts' maxwidgets='1' name='Related Posts' showaddelement='yes'>
                   <b:widget id='HTML51' locked='true' title='You might like' type='HTML' version='2' visible='true'>
                     <b:widget-settings>
-                      <b:widget-setting name='content'>$label={related}$results={6}</b:widget-setting>
+                      <b:widget-setting name='content'>$label={related}$results={5}</b:widget-setting>
                     </b:widget-settings>
                     <b:includable id='main'>
                       <b:include name='html-content'/>
@@ -3319,6 +3423,8 @@
             </b:widget>
           </b:section>
         </b:if>
+        <!-- Lightweight vanilla application layer (full port of the theme's jQuery framework) -->
+        <script defer='defer' src='https://cdn.jsdelivr.net/gh/bukitbesi/xml@main/asset/src/tbb-script.js'/>
       </b:if>
       <!-- Blogger Scripts -->
       <b:if cond='data:isFeed'>
@@ -3326,26 +3432,43 @@
       </b:if>
       <script type='text/javascript'>
 //<![CDATA[
-document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll(".post-body table").forEach(function(e){if("table-responsive-wrapper"!==e.parentElement.className){const t=document.createElement("div");t.className="table-responsive-wrapper",e.parentNode.insertBefore(t,e),t.appendChild(e)}})});
+document.addEventListener('DOMContentLoaded', function() {
+	document.body.addEventListener('click', function(e) {
+		var shareBtn = e.target.closest('.share-toggle');
+		if(shareBtn) {
+			e.preventDefault();
+			// Use native mobile share API if available (faster, better UX)
+			if(navigator.share) {
+				navigator.share({
+					title: document.title,
+					url: window.location.href
+				}).catch(function(err) {
+					console.log('Share failed:', err);
+				});
+			} else {
+				// Fallback to theme modal for Desktop
+				var modal = document.querySelector('.share-modal');
+				if(modal) {
+					modal.style.display = 'flex';
+					modal.style.opacity = '1';
+					modal.style.visibility = 'visible';
+				}
+			}
+		}
+		var closeBtn = e.target.closest('.hide-modal');
+		if(closeBtn) {
+			e.preventDefault();
+			var modal = document.querySelector('.share-modal');
+			if(modal) {
+				modal.style.display = 'none';
+				modal.style.opacity = '0';
+				modal.style.visibility = 'hidden';
+			}
+		}
+	});
+});
 //]]>
-      </script>
-      <script defer='defer' src='https://cdn.jsdelivr.net/gh/tbbcom/on@main/master-ads-injector.js'/>
-      <script type='text/javascript'>
-//<![CDATA[
-(function() {
-    var postImages = document.querySelectorAll('.post-body img');
-    var postTitle = document.title.split(' | ')[0].trim();
-    for (var i = 0; i < postImages.length; i++) {
-        if (!postImages[i].alt || postImages[i].alt === '') {
-            postImages[i].alt = postTitle;
-            postImages[i].title = postTitle; // Bonus: adds a title attribute too
-        }
-    }
-})();
-//]]>
-      </script>
-      <!-- Vanilla JS Engine - Core Web Vitals Optimized -->
-      <script defer='defer' src='https://cdn.jsdelivr.net/gh/bukitbesi/blogger-xml@main/blogger/v4-seo-pro/theme.js'/>
+</script>
     </body>
     <b:if cond='data:isFeed'>
       <b:eval expr='&quot;--&gt;&lt;/body&gt;&quot;'/>
