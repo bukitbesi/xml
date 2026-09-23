@@ -257,6 +257,16 @@ html.rtl{
 ins.adsbygoogle[data-ad-status="unfilled"] {display:none !important;}
 .inline-ad:empty, .post-ads-1:empty, .post-ads-2:empty, .post-ads-3:empty, .post-ads-4:empty, .content-ads:empty {display:none !important; margin:0 !important; padding:0 !important;}
 .related-wrap .widget-content:empty {display:none !important;}
+/*-- {getCard} internal-link card (BACA JUGA) --*/
+.tb-card-box{display:flex;align-items:center;gap:12px;background:#f8fafc;border:1px solid #e2e8f0;border-left:4px solid #0284c7;padding:12px 16px;margin:22px 0;border-radius:6px;box-shadow:0 1px 2px rgba(0,0,0,.04);contain:content}
+.tb-card-badge{background:#0284c7;color:#fff;font-size:.72rem;font-weight:700;letter-spacing:.05em;padding:4px 8px;border-radius:4px;white-space:nowrap;flex-shrink:0}
+.tb-card-title{color:#0f172a;font-size:.95rem;font-weight:600;text-decoration:none;line-height:1.4;transition:color .15s ease}
+.tb-card-title:hover{color:#0284c7;text-decoration:underline}
+html.is-dark .tb-card-box{background:var(--gray-bg);border-color:var(--border-color);border-left-color:#0284c7}
+html.is-dark .tb-card-title{color:var(--title-color)}
+@media (max-width:640px){.tb-card-box{flex-direction:column;align-items:flex-start;gap:8px;padding:10px 14px}}
+/*-- Built-in Blogger comments: always visible (tbb-style.css hides them until .visible is set) --*/
+.post-footer .blog-post-comments{display:flex}
 ]]></b:skin>
         <!--
           Component CSS split out for CDN caching across pages/sessions - see tbb-style.css.
@@ -3423,6 +3433,46 @@ ins.adsbygoogle[data-ad-status="unfilled"] {display:none !important;}
             </b:widget>
           </b:section>
         </b:if>
+        <!-- {getCard} cards + built-in Blogger comments. Runs before tbb-script.js so it sees the original shortcode links. -->
+        <script type='text/javascript'>
+//<![CDATA[
+(function(){
+  'use strict';
+  // {getCard} $title={...}  ->  BACA JUGA card (same markup as the previous theme)
+  document.querySelectorAll('.post-body a').forEach(function(link){
+    var text = link.textContent || '';
+    if (text.indexOf('{getCard}') === -1) return;
+    var m = text.match(/\$title=\{([^}]+)\}/);
+    var card = document.createElement('aside');
+    card.className = 'tb-card-box';
+    var badge = document.createElement('span');
+    badge.className = 'tb-card-badge';
+    badge.textContent = 'BACA JUGA';
+    var a = document.createElement('a');
+    a.className = 'tb-card-title';
+    a.href = link.getAttribute('href') || '#';
+    if (link.getAttribute('target')) a.target = link.getAttribute('target');
+    a.textContent = m ? m[1].trim() : 'Baca Selanjutnya';
+    card.appendChild(badge);
+    card.appendChild(a);
+    var parent = link.parentElement;
+    var target = (parent && /^(B|STRONG)$/.test(parent.tagName)) ? parent : link;
+    target.parentNode.replaceChild(card, target);
+  });
+  // Built-in Blogger comments: show the section and open the comment form
+  document.querySelectorAll('.blog-post-comments').forEach(function(wrap){
+    var m = (wrap.getAttribute('data-shortcode') || '').match(/\$type=\{([^}]*)\}/i);
+    var type = m ? m[1].trim().toLowerCase() : 'blogger';
+    wrap.classList.add('visible');
+    if (type !== 'blogger') return;
+    wrap.classList.add('blogger-comments', 'cf-on');
+    wrap.querySelectorAll('.show-cf').forEach(function(b){ b.hidden = true; });
+    var top = wrap.querySelector('#top-continue .comment-reply');
+    if (top) top.classList.add('btn');
+  });
+})();
+//]]>
+        </script>
         <!-- Lightweight vanilla application layer (full port of the theme's jQuery framework) -->
         <script defer='defer' src='https://cdn.jsdelivr.net/gh/bukitbesi/xml@main/asset/src/tbb-script.js'/>
       </b:if>
