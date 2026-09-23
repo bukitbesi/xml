@@ -14,6 +14,7 @@ function text(v){var x=d.createElement('div');x.innerHTML=v||'';return (x.textCo
 /* getAttr equivalent: reads $key={value} tokens out of shortcode text, e.g. {getPosts}$type={story}$results={6} */
 function attr(sc,k,def){var m=String(sc||'').match(new RegExp('\\$'+k+'=\\{([^}]*)\\}','i'));return m&&m[1]!==undefined&&m[1]!==''?m[1]:def}
 var pbtSafe=(typeof pbt!=='undefined')?pbt:{};
+var optSafe=(typeof options!=='undefined')?options:{};
 
 /* ---------------------------------------------------------------------
    Lazy-loading (IntersectionObserver) — shared by feed thumbnails & <img data-src>
@@ -630,6 +631,72 @@ function initPost(){
 function initAds(){
  qa('ins.adsbygoogle').forEach(function(ad){var p=ad.parentElement;if(p)p.style.contain='layout style';try{(w.adsbygoogle=w.adsbygoogle||[]).push({})}catch(e){}});
 }
+/* Sticky header on scroll — ported from the old jQuery engine's initStickyHeader().
+   Dropped during the vanilla rewrite, which silently killed the pinned mobile header
+   (and the anchor-ad slot riding along with it) with no error, just no .is-fixed/.show. */
+function initStickyHeader(){
+ if(!pbtSafe.stickyMenu)return;
+ var header=q('.header-inner'),mainHeader=q('.main-header');
+ if(!header||!mainHeader)return;
+ var lastY=w.scrollY;
+ on(w,'scroll',function(){
+  var curY=w.scrollY,threshold=mainHeader.offsetHeight*2;
+  if(curY>threshold){
+   header.classList.add('is-fixed');
+   if(curY<lastY)header.classList.add('show');else header.classList.remove('show');
+  } else header.classList.remove('is-fixed','show');
+  lastY=curY;
+ },{passive:true});
+}
+/* Mailchimp subscribe form — ported from initMailchimp(). The template always renders the
+   submit button disabled and leaves the form action empty until JS wires it from the
+   "Advanced" LinkList config (options.subscribeFormUrl/subscribeMessage); without this the
+   button was permanently disabled sitewide. */
+function initMailchimp(){
+ if(!optSafe.subscribeFormUrl)return;
+ qa('.MailChimp').forEach(function(box){
+  var form=q('.mailchimp-form',box),msg=q('.mailchimp-text',box),btn=q('.mailchimp-submit',box);
+  if(msg&&optSafe.subscribeMessage)msg.innerHTML=optSafe.subscribeMessage;
+  if(form){
+   form.setAttribute('action',optSafe.subscribeFormUrl);
+   on(form,'submit',function(){w.open(optSafe.subscribeFormUrl,'popupwindow','scrollbars=yes,width=550,height=520');return true});
+  }
+  if(btn)btn.removeAttribute('disabled');
+ });
+}
+/* Share-icon popups + copy-link — ported from initShareModal(). Without this, each
+   Facebook/Twitter/... icon (class "window-open") just navigated the current tab away to
+   the sharer URL instead of opening a popup, and the "copy link" button did nothing. */
+function initShareLinks(){
+ qa('.window-open').forEach(function(a){
+  on(a,'click',function(e){e.preventDefault();w.open(a.href,'_blank','scrollbars=yes,resizable=yes,toolbar=0,width=860,height=540,top=50,left=50')});
+ });
+ qa('.copy-link').forEach(function(box){
+  var input=q('input',box),btn=q('button',box);
+  if(!input||!btn)return;
+  on(input,'click',function(){input.select()});
+  on(btn,'click',function(){
+   if(!(navigator.clipboard&&navigator.clipboard.writeText))return;
+   navigator.clipboard.writeText(input.value).then(function(){
+    box.classList.remove('copied-off');box.classList.add('copied');
+    setTimeout(function(){box.classList.remove('copied');box.classList.add('copied-off')},3000);
+   });
+  });
+ });
+}
+/* Sidebar/footer social follower-count labels — ported from initSocialCounters(). The
+   template still emits data-text="true" and a "#<count>" hash on each social link
+   expecting this to append the visible count; it was the only piece never re-added. */
+function initSocialCounters(){
+ qa('.sidebar .social a, .footer-widgets .social a').forEach(function(a){
+  var href=a.getAttribute('href')||'',parts=href.split('#'),hasText=a.getAttribute('data-text');
+  if(parts[1]&&(hasText==='true'||hasText==='')){
+   var val=parts[1].trim();
+   if(val){var span=d.createElement('span');span.className='text';span.textContent=val;a.appendChild(span)}
+  }
+  a.setAttribute('href',parts[0].trim());
+ });
+}
 function initRetry(){
  on(d,'click',function(e){
   var b=e.target&&e.target.closest&&e.target.closest('.retry-feed');if(!b)return;
@@ -639,6 +706,6 @@ function initRetry(){
   loadSection(el,{type:type,num:6});
  });
 }
-function start(){initMenu();initUI();initFeeds();initPost();initAds();initRetry();getPostCard();observeLazy(d)}
+function start(){initMenu();initUI();initFeeds();initPost();initAds();initRetry();initStickyHeader();initMailchimp();initShareLinks();initSocialCounters();getPostCard();observeLazy(d)}
 if(d.readyState==='loading')on(d,'DOMContentLoaded',start);else start();
 })();
