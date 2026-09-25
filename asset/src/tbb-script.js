@@ -54,13 +54,13 @@ function feedBase(){
  return location.origin+'/feeds/posts/default/';
 }
 var jsonpN=0;
-function feed(label,n,cb){
+function feed(label,n,cb,query){
  var name='__tbbFeed'+(++jsonpN),s=d.createElement('script'),done=false;
  function finish(entries){if(done)return;done=true;clearTimeout(timer);try{delete w[name]}catch(e){}if(s.parentNode)s.parentNode.removeChild(s);cb(entries||[])}
  var timer=setTimeout(function(){finish([])},9000);
  w[name]=function(data){finish((data&&data.feed&&data.feed.entry)||[])};
  s.onerror=function(){finish([])};
- s.src=feedBase()+(label?'-/'+encodeURIComponent(label)+'/':'')+'?alt=json-in-script&max-results='+n+'&callback='+name;
+ s.src=feedBase()+(label?'-/'+encodeURIComponent(label)+'/':'')+'?alt=json-in-script&max-results='+n+(query?'&q='+encodeURIComponent(query):'')+'&callback='+name;
  d.head.appendChild(s);
 }
 
@@ -209,7 +209,10 @@ function loadSection(el,opts){
  feed(label,excludeId?n+1:n,function(entries){
   el.removeAttribute('aria-busy');
   if(excludeId)entries=entries.filter(function(e){return ((e.id&&e.id.$t)||'').indexOf('post-'+excludeId)===-1}).slice(0,n);
-  if(!entries.length){el.innerHTML=msgError();return}
+  if(!entries.length){
+   if(type==='related'&&label){var o={};for(var k in opts)o[k]=opts[k];o.label='';loadSection(el,o);return}
+   el.innerHTML=msgError();return
+  }
   var posts=entries.map(postFromEntry);
   el.innerHTML=buildItemsHtml(type,posts,opts);
   observeLazy(el);
@@ -548,23 +551,25 @@ function initUI(){
  function close(){body.classList.remove('menu-on','search-on','show-overlay')}
  on(overlay,'click',close);qa('.main-search .close').forEach(function(b){on(b,'click',close)});
  on(d,'keydown',function(e){if(e.key==='Escape')close()});
- var sf=q('.main-search .form');if(sf){on(sf,'submit',function(e){var i=q('.input',sf);if(i&&i.value.trim()){e.preventDefault();location.href='/search?q='+encodeURIComponent(i.value.trim())}})}
+ var sIn=q('.main-search .input');if(sIn){sIn.setAttribute('enterkeyhint','search');on(sIn,'keydown',function(e){if((e.key==='Enter'||e.keyCode===13)&&sIn.value.trim()){e.preventDefault();location.href='/search?q='+encodeURIComponent(sIn.value.trim())}})}
  /* live search results, ported from getSearch()/getPosts(type:"search") */
  var searchInput=q('.main-search input'),searchResults=q('.main-search .search-results'),searchTimer;
  if(searchInput&&searchResults){
   on(searchInput,'input',function(){
    clearTimeout(searchTimer);
    var term=searchInput.value.trim();
-   if(!term){searchResults.innerHTML='';return}
+   var sBox=q('.main-search'),sPane=searchResults.parentElement;
+   if(!term){searchResults.innerHTML='';if(sPane)sPane.classList.remove('visible');return}
    searchTimer=setTimeout(function(){
-    searchResults.parentElement.classList.add('loading');
-    feed(term,5,function(entries){
-     searchResults.parentElement.classList.remove('loading');
+    if(sBox)sBox.classList.add('loading');
+    feed('',5,function(entries){
+     if(sBox)sBox.classList.remove('loading');
+     if(sPane)sPane.classList.add('visible');
      var posts=entries.map(postFromEntry);
      searchResults.innerHTML=posts.length?buildItemsHtml('grid',posts):msgError();
      observeLazy(searchResults);
      setTimeout(function(){searchResults.classList.add('scroll')},500);
-    });
+    },term);
    },500);
   });
  }
