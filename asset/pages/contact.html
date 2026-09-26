@@ -1,0 +1,135 @@
+<!--
+  Contact page body for https://www.thebukitbesi.com/p/contact.html
+  Paste into Blogger > Pages > Contact > HTML view (replace everything).
+  Needs Blogger JS enabled (no b:js='false' on <html>) and the theme's hidden ContactForm1 widget:
+  Blogger's Contact Form script finds the fields below by their ContactForm1_* ids, so keep those ids exactly.
+-->
+<style>
+.tbb-contact{--c-gap:1.25rem;display:flex;flex-direction:column;gap:var(--c-gap)}
+.tbb-contact__hero{margin:0}
+.tbb-contact__hero img{display:block;width:100%;height:auto;aspect-ratio:40/21;object-fit:cover;border-radius:var(--radius,.25rem);background:var(--gray-bg,#f3f4f6)}
+.tbb-contact h2{margin:.5rem 0 0}
+.tbb-contact__list{margin:0;padding-left:1.25rem}
+.tbb-contact__list li{list-style:disc;margin:.35rem 0}
+.tbb-contact__form{display:grid;grid-template-columns:1fr 1fr;gap:1rem;padding:1.5rem;background:var(--gray-bg,#f3f4f6);border:1px solid var(--border-color,#e5e7eb);border-radius:var(--radius,.25rem)}
+.tbb-contact__field{display:flex;flex-direction:column;gap:.4rem;min-width:0}
+.tbb-contact__field--full{grid-column:1/-1}
+.tbb-contact__field label{font-size:.875rem;font-weight:600;color:var(--title-color,#111827)}
+.tbb-contact__field input,.tbb-contact__field textarea{width:100%;box-sizing:border-box;padding:.75rem .9rem;font:inherit;font-size:1rem;color:var(--title-color,#111827);background:var(--outer-bg,#fff);border:1px solid var(--border-color,#d1d5db);border-radius:var(--radius,.25rem)}
+.tbb-contact__field textarea{min-height:10rem;resize:vertical}
+.tbb-contact__field input:focus,.tbb-contact__field textarea:focus{outline:2px solid var(--accent-color,#2563eb);outline-offset:1px;border-color:var(--accent-color,#2563eb)}
+.tbb-contact__submit{grid-column:1/-1;justify-self:start;min-height:2.75rem;padding:0 1.75rem;font:inherit;font-size:1rem;font-weight:600;color:#fff;background:var(--accent-color,#2563eb);border:0;border-radius:var(--radius,.25rem);cursor:pointer}
+.tbb-contact__submit:hover{opacity:.9}
+.tbb-contact__submit:focus-visible{outline:2px solid var(--accent-color,#2563eb);outline-offset:2px}
+.tbb-contact__submit:disabled{opacity:.6;cursor:wait}
+.tbb-contact__status{grid-column:1/-1;font-size:.9375rem}
+.tbb-contact__status:empty{display:none}
+#ContactForm1_contact-form-error-message{color:#b91c1c}
+#ContactForm1_contact-form-success-message{color:#15803d;font-weight:600}
+.tbb-contact__note{margin:0;font-size:.875rem;color:var(--meta-color,#6b7280)}
+.tbb-contact__social{display:flex;flex-wrap:wrap;gap:.5rem 1.25rem;margin:0;padding:0}
+.tbb-contact__social li{list-style:none}
+@media (max-width:640px){.tbb-contact__form{grid-template-columns:1fr;padding:1.1rem}.tbb-contact__submit{justify-self:stretch}}
+#comments{display:none}
+</style>
+
+<div class="tbb-contact">
+  <figure class="tbb-contact__hero">
+    <img
+      src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiZyDqXitWGO_icrXPDB4jSMkD33WGNhJQdF_20_mduMoIAluIlQCMDUhO99DqugmFfkkS8ynjAIkWRvC6QuEbaIvwkBhJ5SpG2V8GJ6DoSPI50LeFZ3QRaBF1283QwUigYZI6J2_dHJsFKO3c7OSBynXrS6Wsysyj8E6lVP2lxnaGKk7SBIMJRTWUnwZzE/w800-rw/bukit-besi-history.webp"
+      srcset="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiZyDqXitWGO_icrXPDB4jSMkD33WGNhJQdF_20_mduMoIAluIlQCMDUhO99DqugmFfkkS8ynjAIkWRvC6QuEbaIvwkBhJ5SpG2V8GJ6DoSPI50LeFZ3QRaBF1283QwUigYZI6J2_dHJsFKO3c7OSBynXrS6Wsysyj8E6lVP2lxnaGKk7SBIMJRTWUnwZzE/w480-rw/bukit-besi-history.webp 480w,
+              https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiZyDqXitWGO_icrXPDB4jSMkD33WGNhJQdF_20_mduMoIAluIlQCMDUhO99DqugmFfkkS8ynjAIkWRvC6QuEbaIvwkBhJ5SpG2V8GJ6DoSPI50LeFZ3QRaBF1283QwUigYZI6J2_dHJsFKO3c7OSBynXrS6Wsysyj8E6lVP2lxnaGKk7SBIMJRTWUnwZzE/w800-rw/bukit-besi-history.webp 800w,
+              https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiZyDqXitWGO_icrXPDB4jSMkD33WGNhJQdF_20_mduMoIAluIlQCMDUhO99DqugmFfkkS8ynjAIkWRvC6QuEbaIvwkBhJ5SpG2V8GJ6DoSPI50LeFZ3QRaBF1283QwUigYZI6J2_dHJsFKO3c7OSBynXrS6Wsysyj8E6lVP2lxnaGKk7SBIMJRTWUnwZzE/w1200-rw/bukit-besi-history.webp 1200w"
+      sizes="(max-width: 1000px) 100vw, 970px"
+      width="1200" height="630"
+      alt="Contact The Bukit Besi"
+      fetchpriority="high" loading="eager" decoding="async" />
+  </figure>
+
+  <p>Hey you! Got insights, questions, or ideas that could shape what&rsquo;s next? Whether you&rsquo;re here to highlight a detail, suggest a new angle, or just say hi, this is your space to connect.</p>
+
+  <p>Every message helps refine what we create. Whether you&rsquo;ve got a project idea, a proposal for a collaboration, or just a question about my work, I&rsquo;m ready to listen. I read every message and am always on the lookout for exciting new ventures.</p>
+
+  <h2 id="what-to-send">What you can contact The Bukit Besi about</h2>
+  <ul class="tbb-contact__list">
+    <li><strong>Corrections:</strong> a detail in an article that is wrong or out of date.</li>
+    <li><strong>Questions:</strong> anything about a post, guide or tool on thebukitbesi.com.</li>
+    <li><strong>Collaborations and proposals:</strong> projects, partnerships or content ideas.</li>
+    <li><strong>Suggestions:</strong> topics you would like covered next.</li>
+  </ul>
+
+  <h2 id="contact-form">Send a message</h2>
+  <p>Use the form below to contribute, correct, collaborate or kick off something new. It&rsquo;s the fastest way to get a response, typically within <strong>48 business hours</strong>. Messages in <strong>Bahasa Melayu or English</strong> are both welcome.</p>
+
+  <form class="tbb-contact__form" name="contact-form" aria-labelledby="contact-form" onsubmit="return false;">
+    <div class="tbb-contact__field">
+      <label for="ContactForm1_contact-form-name">Name</label>
+      <input id="ContactForm1_contact-form-name" name="name" type="text" autocomplete="name" maxlength="100" value="" />
+    </div>
+    <div class="tbb-contact__field">
+      <label for="ContactForm1_contact-form-email">Email <span aria-hidden="true">*</span></label>
+      <input id="ContactForm1_contact-form-email" name="email" type="email" autocomplete="email" inputmode="email" maxlength="254" required value="" />
+    </div>
+    <div class="tbb-contact__field tbb-contact__field--full">
+      <label for="ContactForm1_contact-form-email-message">Message <span aria-hidden="true">*</span></label>
+      <textarea id="ContactForm1_contact-form-email-message" name="email-message" rows="7" required></textarea>
+    </div>
+    <input class="tbb-contact__submit" id="ContactForm1_contact-form-submit" type="button" value="Send message" />
+    <div class="tbb-contact__status" id="ContactForm1_contact-form-error-message" role="alert"></div>
+    <div class="tbb-contact__status" id="ContactForm1_contact-form-success-message" role="status" aria-live="polite"></div>
+  </form>
+  <p class="tbb-contact__note">Fields marked * are required. Your email is only used to reply to your message.</p>
+
+  <h2 id="other-channels">Other ways to reach The Bukit Besi</h2>
+  <ul class="tbb-contact__social">
+    <li><a href="https://www.facebook.com/bukitbesi" rel="noopener" target="_blank">Facebook</a></li>
+    <li><a href="https://twitter.com/bukitbesiblog" rel="noopener" target="_blank">X (Twitter)</a></li>
+    <li><a href="https://www.instagram.com/bukitbesi" rel="noopener" target="_blank">Instagram</a></li>
+    <li><a href="https://www.youtube.com/bukitbesi" rel="noopener" target="_blank">YouTube</a></li>
+  </ul>
+
+  <p>Let&rsquo;s recreate, refine, and evolve &ndash; together.</p>
+</div>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ContactPage",
+  "@id": "https://www.thebukitbesi.com/p/contact.html",
+  "url": "https://www.thebukitbesi.com/p/contact.html",
+  "name": "Contact The Bukit Besi",
+  "description": "Contact The Bukit Besi for corrections, questions, collaborations and content suggestions. Replies typically within 48 business hours, in Bahasa Melayu or English.",
+  "inLanguage": "en",
+  "isPartOf": { "@id": "https://www.thebukitbesi.com/#website" },
+  "primaryImageOfPage": {
+    "@type": "ImageObject",
+    "url": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiZyDqXitWGO_icrXPDB4jSMkD33WGNhJQdF_20_mduMoIAluIlQCMDUhO99DqugmFfkkS8ynjAIkWRvC6QuEbaIvwkBhJ5SpG2V8GJ6DoSPI50LeFZ3QRaBF1283QwUigYZI6J2_dHJsFKO3c7OSBynXrS6Wsysyj8E6lVP2lxnaGKk7SBIMJRTWUnwZzE/s1600-rw/bukit-besi-history.webp",
+    "width": 1200,
+    "height": 630
+  },
+  "mainEntity": {
+    "@type": "Organization",
+    "@id": "https://www.thebukitbesi.com/#organization",
+    "name": "The Bukit Besi",
+    "url": "https://www.thebukitbesi.com/",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Bukit Besi",
+      "addressRegion": "Terengganu",
+      "addressCountry": "MY"
+    },
+    "sameAs": [
+      "https://www.facebook.com/bukitbesi",
+      "https://twitter.com/bukitbesiblog",
+      "https://www.instagram.com/bukitbesi",
+      "https://www.youtube.com/bukitbesi"
+    ],
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "contactType": "customer support",
+      "url": "https://www.thebukitbesi.com/p/contact.html",
+      "availableLanguage": ["ms", "en"]
+    }
+  }
+}
+</script>
