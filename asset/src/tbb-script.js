@@ -257,7 +257,7 @@ function initFeeds(){
     var navHtml='',tabsHtml='';
     parts.slice(0,5).forEach(function(t,i){navHtml+='<a href="/search/label/'+encodeURIComponent(t)+'"'+(i===0?' class="active"':'')+'>'+esc(t)+'</a>';tabsHtml+='<div data-tab="'+esc(t)+'"'+(i===0?' class="active"':'')+'></div>'});
     box.innerHTML='<div class="mega-tabs"><div class="nav">'+navHtml+'</div><div class="tabs">'+tabsHtml+'</div></div>';
-    if(a)a.removeAttribute('data-shortcode');
+    if(a){a.removeAttribute('data-shortcode');on(a,'click',function(e){e.preventDefault()})}
     var loadedTabs={};
     function loadTab(t){var tab=q('[data-tab="'+t.replace(/"/g,'')+'"]',box);if(!tab||loadedTabs[t])return;loadedTabs[t]=true;loadSection(tab,{type:'megatabs',num:5,label:t})}
     on(mega,'mouseenter',function(){loadTab(parts[0])},{once:true});
@@ -529,7 +529,26 @@ function initMenu(){
  var main=q('.main-nav'); if(main){
    var links=qa('a',main),parents={1:null,2:null};
    links.forEach(function(a,i){var t=(a.textContent||'').trim();if(t.charAt(0)==='_'){var level=t.indexOf('__')===0?2:1;a.textContent=t.replace(/^_+/,'');var prev=links[i-1];if(prev){var li=prev.closest('li');if(li){var ul=q('.sm-'+level,li);if(!ul){ul=d.createElement('ul');ul.className='ul sub sm-'+level;li.appendChild(ul);li.classList.add('has-sub')}ul.appendChild(a.closest('li'))}}}});
-   var mob=q('.mobile-menu');if(mob&&!q('.mobile-nav',mob)){var clone=main.cloneNode(true);clone.className='mobile-nav';clone.removeAttribute('id');mob.appendChild(clone)}
+   var mob=q('.mobile-menu');if(mob&&!q('.mobile-nav',mob)){var clone=main.cloneNode(true);clone.className='mobile-nav';clone.removeAttribute('id');
+    /* {getPosts} mega items: the desktop hover panel is only built later by initFeeds(), so the clone would keep an
+       empty panel and a bare href="#". Give the mobile copy plain crawlable links instead, as the jQuery original did:
+       a .sub list of label links for a multi-label entry (e.g. KATEGORI), or a direct label link for a single label. */
+    qa('.has-mega',clone).forEach(function(li){
+     var a=q('a',li),sc=a&&a.getAttribute('data-shortcode'),label=attr(sc,'label','recent'),parts=label.split('/').map(function(t){return t.trim()}).filter(Boolean),panel=q('.ul',li);
+     if(panel)panel.parentNode.removeChild(panel);
+     li.classList.remove('has-mega');
+     if(!a)return;
+     a.removeAttribute('data-shortcode');
+     if(parts.length>1){
+      var ul=d.createElement('ul');ul.className='sub';
+      parts.forEach(function(t){var item=d.createElement('li'),link=d.createElement('a');link.href='/search/label/'+encodeURIComponent(t);link.textContent=t;item.appendChild(link);ul.appendChild(item)});
+      li.appendChild(ul);
+     } else {
+      li.classList.remove('has-sub');
+      a.href=label==='recent'?'/search':'/search/label/'+encodeURIComponent(label);
+     }
+    });
+    mob.appendChild(clone)}
  }
  qa('.mobile-menu .has-sub > a').forEach(function(a){on(a,'click',function(e){var li=a.parentElement,sub=q('.sub',li);if(sub){e.preventDefault();li.classList.toggle('expanded');sub.style.display=li.classList.contains('expanded')?'block':'none'}})});
  var mlog=q('.mobile-logo');if(mlog&&!mlog.firstElementChild){var lg=q('.main-logo a');if(lg){var lgClone=lg.cloneNode(true);var h1=q('h1',lgClone);if(h1)h1.remove();mlog.appendChild(lgClone)}}
