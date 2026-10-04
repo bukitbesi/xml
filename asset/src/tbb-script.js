@@ -653,7 +653,15 @@ function initPost(){
  if(q('.post-body'))processPostBody();
 }
 function initAds(){
- qa('ins.adsbygoogle').forEach(function(ad){var p=ad.parentElement;if(p)p.style.contain='layout style';try{(w.adsbygoogle=w.adsbygoogle||[]).push({})}catch(e){}});
+ /* Only push slots that nothing else has queued: AdSense widgets ship their own inline
+    (adsbygoogle=...).push({}) <script>, and a second push throws "All 'ins' elements ... already have ads". */
+ function queued(ad){
+  if(ad.getAttribute('data-adsbygoogle-status'))return true;
+  var n=ad.nextElementSibling;
+  while(n){if(n.tagName==='SCRIPT'&&/adsbygoogle/.test(n.textContent))return true;if(n.tagName==='INS')break;n=n.nextElementSibling}
+  return false;
+ }
+ qa('ins.adsbygoogle').forEach(function(ad){var p=ad.parentElement;if(p)p.style.contain='layout style';if(queued(ad))return;try{(w.adsbygoogle=w.adsbygoogle||[]).push({})}catch(e){}});
 }
 /* Sticky header on scroll — ported from the old jQuery engine's initStickyHeader().
    Dropped during the vanilla rewrite, which silently killed the pinned mobile header
