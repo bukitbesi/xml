@@ -239,7 +239,7 @@ html.is-dark .tb-card-title{color:var(--title-color)}
           Using @main (not a pinned commit) so pushing updates to GitHub takes effect without editing this file again.
           Non-blocking load (preload+swap) keeps this from delaying first paint; a <noscript> fallback covers no-JS.
         -->
-        <link href='https://cdn.jsdelivr.net/gh/bukitbesi/xml@v2/asset/src/tbb-style.min.css' rel='stylesheet'/>
+        <link href='https://cdn.jsdelivr.net/gh/bukitbesi/xml@v4/asset/src/tbb-style.min.css' rel='stylesheet'/>
         <style id='tbb-fix'>/*<![CDATA[*/
 html .entry-thumbnail,html .grid-items img,html .list-items img,html .story-items img,html .video-items img,html .block1-items img,html .block2-items img,html .featured-items img,html .post-body img{content-visibility:visible;contain-intrinsic-size:none}
 .thumbnail>img{display:block;width:100%;height:100%;object-fit:cover}
@@ -3430,7 +3430,7 @@ html ins.adsbygoogle-noablate,html ins.adsbygoogle[data-anchor-status],html ins.
 //]]>
         </script>
         <!-- Lightweight vanilla application layer (full port of the theme's jQuery framework) -->
-        <script defer='defer' src='https://cdn.jsdelivr.net/gh/bukitbesi/xml@v3/asset/src/tbb-script.min.js'/>
+        <script defer='defer' src='https://cdn.jsdelivr.net/gh/bukitbesi/xml@v4/asset/src/tbb-script.min.js'/>
       </b:if>
       <!-- Blogger Scripts -->
       <b:if cond='data:isFeed'>
