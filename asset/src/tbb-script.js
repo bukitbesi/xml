@@ -566,13 +566,13 @@ function darkLogo(isDark){
 function initUI(){
  var overlay=q('.overlay-bg');
  qa('.menu-toggle,.hide-mobile-menu').forEach(function(b){on(b,'click',function(){body.classList.toggle('menu-on');body.classList.toggle('show-overlay',body.classList.contains('menu-on'))})});
- qa('.search-toggle').forEach(function(b){on(b,'click',function(){body.classList.add('search-on','show-overlay');var i=q('.main-search .input');if(i)setTimeout(function(){i.focus()},40)})});
+ qa('.search-toggle').forEach(function(b){on(b,'click',function(){body.classList.add('search-on','show-overlay');var i=q('.main-search .input');if(i){setTimeout(function(){i.focus()},40);setTimeout(function(){if(d.activeElement!==i)i.focus()},320)}})});
  function close(){body.classList.remove('menu-on','search-on','show-overlay')}
  on(overlay,'click',close);qa('.main-search .close').forEach(function(b){on(b,'click',close)});
  on(d,'keydown',function(e){if(e.key==='Escape')close()});
  var sIn=q('.main-search .input');if(sIn){sIn.setAttribute('enterkeyhint','search');on(sIn,'keydown',function(e){if((e.key==='Enter'||e.keyCode===13)&&sIn.value.trim()){e.preventDefault();location.href='/search?q='+encodeURIComponent(sIn.value.trim())}})}
  /* live search results, ported from getSearch()/getPosts(type:"search") */
- var searchInput=q('.main-search input'),searchResults=q('.main-search .search-results'),searchTimer;
+ var searchInput=q('.main-search input'),searchResults=q('.main-search .search-results'),searchTimer,searchSeq=0;
  if(searchInput&&searchResults){
   on(searchInput,'input',function(){
    clearTimeout(searchTimer);
@@ -580,16 +580,26 @@ function initUI(){
    var sBox=q('.main-search'),sPane=searchResults.parentElement;
    if(!term){searchResults.innerHTML='';if(sPane)sPane.classList.remove('visible');return}
    searchTimer=setTimeout(function(){
+    var seq=++searchSeq;
     if(sBox)sBox.classList.add('loading');
-    feed('',5,function(entries){
+    /* Blogger's plain q= is full-text and not title-ranked (q=cawangan put 'Cara Downgrade Plan UniFi'
+       first), so ask for title matches first (title:word) and only fall back to full-text. */
+    var titleQ=term.split(/\s+/).filter(Boolean).slice(0,4).map(function(t){return 'title:'+t}).join(' ');
+    function show(entries){
+     if(seq!==searchSeq)return; /* a newer keystroke superseded this response */
      if(sBox)sBox.classList.remove('loading');
      if(sPane)sPane.classList.add('visible');
      var posts=entries.map(postFromEntry);
      searchResults.innerHTML=posts.length?buildItemsHtml('grid',posts):msgError();
+     if(posts.length>=10)searchResults.insertAdjacentHTML('beforeend','<p class="search-more"><a class="btn" href="/search?q='+encodeURIComponent(term)+'">Lihat semua hasil</a></p>');
      observeLazy(searchResults);
      setTimeout(function(){searchResults.classList.add('scroll')},500);
-    },term);
-   },500);
+    }
+    feed('',10,function(entries){
+     if(entries.length||seq!==searchSeq)return show(entries);
+     feed('',10,show,term);
+    },titleQ);
+   },350);
   });
  }
  var dark=q('.darkmode-toggle');if(dark){var saved='';try{saved=localStorage.getItem('tbb-theme')||''}catch(e){}if(saved==='dark'||root.classList.contains('is-dark')){root.classList.add('is-dark');darkLogo(true)}on(dark,'click',function(){var isDark=root.classList.toggle('is-dark');darkLogo(isDark);try{localStorage.setItem('tbb-theme',isDark?'dark':'light')}catch(e){}})}
