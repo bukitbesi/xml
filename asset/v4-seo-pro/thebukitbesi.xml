@@ -4,14 +4,7 @@
   <b:with value='data:view.isSearch and (data:blog.view == &quot;json&quot;)' var='isFeed'>
     <head>
       <meta charset='utf-8'/>
-
-      <script type='text/javascript'>
-    (function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src=&quot;https://www.clarity.ms/tag/&quot;+i;
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, &quot;clarity&quot;, &quot;script&quot;, &quot;syxsjt7zf0&quot;);
-	</script>
+      <link href='https://cdn.jsdelivr.net' rel='preconnect'/>
       <b:include name='pbt-head'/>
       <b:if cond='!data:view.isLayoutMode and !data:isFeed'>
         <meta content='origin-when-cross-origin' name='referrer'/>
@@ -21,7 +14,6 @@
         <meta content='966242223397117' property='fb:app_id'/>
         
         <!-- GA4 Implementation -->
-        <script async='async' src='https://www.googletagmanager.com/gtag/js?id=G-0XL6FW2M0R'/>
         <script>window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag(&#39;js&#39;, new Date());
@@ -30,37 +22,11 @@
     &#39;page_location&#39;: window.location.href,
     &#39;page_path&#39;: window.location.pathname
   });</script>
-        
-<script async='async' src='https://news.google.com/swg/js/v1/swg-basic.js'/>
-
-<script>
-//<![CDATA[
-  (self.SWG_BASIC = self.SWG_BASIC || []).push( basicSubscriptions => {
-    try {
-      basicSubscriptions.init({
-        type: "NewsArticle",
-        isPartOfType: ["Product"],
-        isPartOfProductId: "CAownu29DA:openaccess",
-        clientOptions: { theme: "light", lang: "ms" },
-      });
-    } catch (error) {
-      console.warn("RRM failed to initialize:", error);
-    }
-  });
-//]]>
-</script>
-
+        <!-- Dark-mode class before first paint (prevents light->dark flash + re-layout) -->
+        <script>try{if(localStorage.getItem(&#39;tbb-theme&#39;)===&#39;dark&#39;)document.documentElement.classList.add(&#39;is-dark&#39;)}catch(e){}</script>
         <b:skin version='2.1.0'><![CDATA[ /* 
   =============================================
-  THE BUKIT BESI BLOG — OPTIMIZED THEME v2026.07
-  Pro enhancements applied:
-  - Updated jQuery 3.7.1 + defer for better INP
-  - Full NewsArticle JSON-LD for Google News/Discover
-  - Strengthened CLS prevention for ad slots
-  - AUTO ADS OPTIMIZED: Disabled redundant manual ad sections (post-ads-1,2,4).
-    Only kept strategic In-Article manual placement. Rely on Google Auto Ads for density.
-  - Performance & SEO hardening
-  =============================================
+  THE BUKIT BESI BLOG — OPTIMIZED THEME  =============================================
 */ /* Blogger Template Style */
 /*-- Customize Options (Start) --
 <Variable name="keycolor" description="Main Color" type="color" default="#2563eb" value="#2563eb"/>
@@ -87,7 +53,7 @@
     <Variable name="title.hover.color" description="Title Hover Color" type="color" default="$(accent.color)" value="#2563eb"/>
     <Variable name="text.color" description="Text Color" type="color" default="#4b5563"  value="#4b5563"/>
     <Variable name="summary.color" description="Summary Color" type="color" default="#6b7280" value="#6b7280"/>
-    <Variable name="meta.color" description="Meta Color" type="color" default="#9ca3af" value="#9ca3af"/>
+    <Variable name="meta.color" description="Meta Color" type="color" default="#6b7280" value="#6b7280"/>
 </Group>
 <Group description="Header" selector=".site-header">
     <Variable name="header.bg" description="Background" type="color" default="#ffffff" value="#ffffff"/>
@@ -273,8 +239,22 @@ html.is-dark .tb-card-title{color:var(--title-color)}
           Using @main (not a pinned commit) so pushing updates to GitHub takes effect without editing this file again.
           Non-blocking load (preload+swap) keeps this from delaying first paint; a <noscript> fallback covers no-JS.
         -->
-        <link as='style' href='https://cdn.jsdelivr.net/gh/bukitbesi/xml@main/asset/src/tbb-style.css' onload='this.onload=null;this.rel=&apos;stylesheet&apos;' rel='preload'/>
-        <noscript><link href='https://cdn.jsdelivr.net/gh/bukitbesi/xml@main/asset/src/tbb-style.css' rel='stylesheet'/></noscript>
+        <link href='https://cdn.jsdelivr.net/gh/bukitbesi/xml@v2/asset/src/tbb-style.css' rel='stylesheet'/>
+        <style id='tbb-fix'>/*<![CDATA[*/
+html .entry-thumbnail,html .grid-items img,html .list-items img,html .story-items img,html .video-items img,html .block1-items img,html .block2-items img,html .featured-items img,html .post-body img{content-visibility:visible;contain-intrinsic-size:none}
+.thumbnail>img{display:block;width:100%;height:100%;object-fit:cover}
+.featured-ads ins.adsbygoogle{min-height:90px}
+html ins.adsbygoogle[data-ad-format="horizontal"]{min-height:90px}
+html ins.adsbygoogle-noablate,html ins.adsbygoogle[data-anchor-status],html ins.adsbygoogle[data-vignette-loaded]{min-height:0!important}
+.copy-link{display:flex;gap:.5rem;align-items:center}
+.copy-link input{flex:1;min-width:0;height:2.5rem;padding:0 .75rem;background:var(--gray-bg);color:var(--text-color);border:1px solid var(--border-color);border-radius:var(--radius);font-size:.875rem}
+.copy-link button{height:2.5rem;padding:0 1rem;background:var(--btn-bg);color:var(--btn-color);border-radius:var(--radius);font-weight:600;cursor:pointer}
+.copy-link.copied button:after{content:" \2713"}
+.share-b li{list-style:none}
+.share-b .native-share{display:none}
+.has-native-share .share-b .native-share{display:block}
+.share-b .native-share button{display:flex;align-items:center;justify-content:center;width:100%;height:2.5rem;background:var(--meta-color);color:#fff;font-size:1.25rem;border-radius:var(--radius);cursor:pointer}
+/*]]>*/</style>
      
       </b:if>
       <b:defaultmarkups>
@@ -302,14 +282,12 @@ html.is-dark .tb-card-title{color:var(--title-color)}
               <meta content='1200' property='og:image:width'/>
               <meta content='675' property='og:image:height'/>
               <meta expr:content='data:view.title.escaped' property='og:image:alt'/>
-              <meta content='image/webp' property='og:image:type'/>
               <meta expr:content='resizeImage(data:view.featuredImage, 1200, &quot;16:9&quot;)' name='twitter:image'/>
             <b:elseif cond='data:blog.postImageUrl'/>
               <meta expr:content='resizeImage(data:blog.postImageUrl, 1200, &quot;16:9&quot;)' property='og:image'/>
               <meta content='1200' property='og:image:width'/>
               <meta content='675' property='og:image:height'/>
               <meta expr:content='data:view.title.escaped' property='og:image:alt'/>
-              <meta content='image/webp' property='og:image:type'/>
               <meta expr:content='resizeImage(data:blog.postImageUrl, 1200, &quot;16:9&quot;)' name='twitter:image'/>
             </b:if>
             <meta content='summary_large_image' name='twitter:card'/>
@@ -348,9 +326,6 @@ html.is-dark .tb-card-title{color:var(--title-color)}
                 </b:if>
               </b:if>
             </b:if>
-
-            
-
             <meta content='blogger' name='generator'/>
             <meta content='width=device-width, initial-scale=1, minimum-scale=1, user-scalable=yes' name='viewport'/>
             <meta content='31dc76b8d3a1ad64' name='yandex-verification'/>
@@ -376,29 +351,12 @@ html.is-dark .tb-card-title{color:var(--title-color)}
   			<meta expr:content='data:blog.metaDescription.escaped' name='description'/>
 			</b:if>
             <b:if cond='!data:isFeed'>
-              <link href='//fonts.googleapis.com' rel='preconnect'/>
-              <link crossorigin='anonymous' href='https://news.google.com' rel='preconnect'/>
-              <link crossorigin='' href='//fonts.gstatic.com' rel='preconnect'/>
-              <link href='//cdnjs.cloudflare.com' rel='preconnect'/>
-              <link href='//cdn.jsdelivr.net' rel='preconnect'/>
-              <link href='//pagead2.googlesyndication.com' rel='preconnect'/>
-              <link href='//www.googletagmanager.com' rel='preconnect'/>
-              <link href='//www.clarity.ms' rel='preconnect'/>
-              <link href='//blogger.googleusercontent.com' rel='dns-prefetch'/>
-              <link href='//1.bp.blogspot.com' rel='dns-prefetch'/>
-              <link href='//2.bp.blogspot.com' rel='dns-prefetch'/>
-              <link href='//3.bp.blogspot.com' rel='dns-prefetch'/>
-              <link href='//4.bp.blogspot.com' rel='dns-prefetch'/>
-              <link href='//www.blogger.com' rel='dns-prefetch'/>
-              <link href='//fonts.googleapis.com' rel='dns-prefetch'/>
-              <link href='//fonts.gstatic.com' rel='dns-prefetch'/>
-              <link href='//www.google-analytics.com' rel='dns-prefetch'/>
-              <link href='//pagead2.googlesyndication.com' rel='dns-prefetch'/>
+              <link href='https://fonts.googleapis.com' rel='preconnect'/>
+              <link crossorigin='' href='https://fonts.gstatic.com' rel='preconnect'/>
+              <link href='https://blogger.googleusercontent.com' rel='preconnect'/>
+              <link href='https://cdnjs.cloudflare.com' rel='dns-prefetch'/>
+              <link href='https://pagead2.googlesyndication.com' rel='dns-prefetch'/>
               <link expr:href='data:view.url.canonical' rel='canonical'/>
-              <!-- LCP preload: tells browser to fetch the hero image before it discovers it in the DOM -->
-              <b:if cond='data:view.isPost and data:view.featuredImage'>
-                <link as='image' expr:href='resizeImage(data:view.featuredImage, 1200, &quot;16:9&quot;)' fetchpriority='high' rel='preload'/>
-              </b:if>
               <b:if cond='data:blog.adultContent'>
                 <meta content='adult' name='rating'/>
               </b:if>
@@ -410,7 +368,6 @@ html.is-dark .tb-card-title{color:var(--title-color)}
 <!-- hreflang: BM primary, EN secondary, x-default = BM -->
 <link expr:href='data:view.url.canonical' hreflang='ms' rel='alternate'/>
 
-
               <b:if cond='data:blog.feedLinks'>
                 <data:blog.feedLinks/>
                 <data:blog.meTag/>
@@ -419,7 +376,7 @@ html.is-dark .tb-card-title{color:var(--title-color)}
                 <b:with value='[data:skin.vars.main_font_family, data:skin.vars.title_font_family, data:skin.vars.text_font_family]' var='fonts'>
                   <b:loop index='i' values='data:fonts' var='font'>
                     <b:if cond='not(data:font contains &quot;,&quot;)'>
-                      <b:with value='&quot;https://fonts.googleapis.com/css2?family=&quot; + data:font + &quot;:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&amp;display=swap&quot;' var='fontLink'>
+                      <b:with value='&quot;https://fonts.googleapis.com/css2?family=&quot; + data:font + &quot;:wght@400;600;700&amp;display=swap&quot;' var='fontLink'>
                         <b:tag cond='data:i == 0' expr:href='data:fontLink' name='link' rel='stylesheet'/>
                         <b:tag cond='data:i == 1 and (data:font not in [data:fonts[0]])' expr:href='data:fontLink' name='link' rel='stylesheet'/>
                         <b:tag cond='data:i == 2 and (data:font not in [data:fonts[0], data:fonts[1]])' expr:href='data:fontLink' name='link' rel='stylesheet'/>
@@ -675,13 +632,34 @@ html.is-dark .tb-card-title{color:var(--title-color)}
             </b:if>
           </b:includable>
           <b:includable id='post-thumbnail'>
-            <b:tag class='entry-thumbnail' expr:name='data:hasLink == false ? &quot;div&quot; : &quot;a&quot;'>
-              <b:attr cond='data:hasLink != false' expr:value='data:post.url.canonical' name='href'/>
-              <div class='thumbnail' expr:data-src='data:post.featuredImage ? (data:post.featuredImage.isYouTube ? resizeImage(data:post.featuredImage.youtubeMaxResDefaultUrl.jsonEscaped, 72, &quot;1:1&quot;) : resizeImage(data:post.featuredImage, 72, &quot;1:1&quot;)) : &quot;https://resources.blogblog.com/img/blank.gif&quot;'/>
-              <b:include cond='data:showCategory == true' name='post-category'/>
-              <b:tag cond='data:post.featuredImage.isYouTube and data:showIcon != false' expr:class='data:iconSize ? (&quot;yt-img:x&quot; + data:iconSize) : &quot;yt-img&quot;' name='span'/>
-            </b:tag>
-          </b:includable>
+  <b:tag class='entry-thumbnail' expr:name='data:hasLink == false ? &quot;div&quot; : &quot;a&quot;'>
+    <b:attr cond='data:hasLink != false' expr:value='data:post.url.canonical' name='href'/>
+    
+    <b:attr cond='data:hasLink != false' expr:value='data:post.title ? data:post.title : data:messages.noTitle' name='aria-label'/>
+    <b:if cond='data:i == 0 and data:post.featuredImage'>
+      <div class='thumbnail pbt-lazy'>
+        <b:if cond='data:post.featuredImage.isYouTube'>
+          <img expr:alt='data:post.title' expr:src='resizeImage(data:post.featuredImage.youtubeMaxResDefaultUrl, 800, &quot;16:9&quot;)' height='450' width='800'>
+            <b:attr cond='data:widget.sectionId == &quot;featured&quot;' name='fetchpriority' value='high'/>
+            <b:attr cond='data:widget.sectionId != &quot;featured&quot;' name='loading' value='lazy'/>
+          </img>
+        <b:else/>
+          <img expr:alt='data:post.title' expr:src='resizeImage(data:post.featuredImage, 800, &quot;16:9&quot;)' expr:srcset='sourceSet(data:post.featuredImage, [480,800,1200], &quot;16:9&quot;)' height='450' sizes='(max-width: 61.25rem) 100vw, 1200px' width='800'>
+            <b:attr cond='data:widget.sectionId == &quot;featured&quot;' name='fetchpriority' value='high'/>
+            <b:attr cond='data:widget.sectionId != &quot;featured&quot;' name='loading' value='lazy'/>
+          </img>
+        </b:if>
+      </div>
+    <b:else/>
+      <!-- LAZY LOAD FOR EVERYTHING ELSE -->
+      <div class='thumbnail' expr:data-src='data:post.featuredImage ? (data:post.featuredImage.isYouTube ? resizeImage(data:post.featuredImage.youtubeMaxResDefaultUrl.jsonEscaped, 300, &quot;16:9&quot;) : resizeImage(data:post.featuredImage, 300, &quot;16:9&quot;)) : &quot;data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==&quot;'/>
+    </b:if>
+
+    <b:include cond='data:showCategory == true' name='post-category'/>
+    <b:tag cond='data:post.featuredImage.isYouTube and data:showIcon != false' expr:class='data:iconSize ? (&quot;yt-img:x&quot; + data:iconSize) : &quot;yt-img&quot;' name='span'/>
+  </b:tag>
+</b:includable>
+
           <b:includable id='post-title'>
             <b:tag class='entry-title' expr:name='data:tagName ? data:tagName : &quot;h2&quot;'>
               <b:tag cond='data:hasLink != false' expr:href='data:post.url.canonical' name='a'>
@@ -853,58 +831,6 @@ html.is-dark .tb-card-title{color:var(--title-color)}
               </div>
             </b:if>
           </b:includable>
-          <b:includable id='share-modal'>
-            <div class='share-modal'>
-              <div class='modal-header'>
-                <span class='title'>
-                  <data:messages.shareToOtherApps/>
-                </span>
-                <button class='hide-modal' expr:aria-label='data:messages.showLess'/>
-              </div>
-              <b:with value='data:view.url.canonical' var='shareUrl'>
-                <b:with value='data:view.title.jsonEscaped' var='shareTitle'>
-                  <ul class='share-b social color'>
-                    <li class='facebook'>
-                      <a class='bi-facebook window-open' expr:href='&quot;https://www.facebook.com/sharer.php?u=&quot; + data:shareUrl' rel='nofollow noopener' title='Facebook'/>
-                    </li>
-                    <li class='twitter'>
-                      <a class='bi-twitter window-open' expr:href='&quot;https://twitter.com/intent/tweet?url=&quot; + data:shareUrl' rel='nofollow noopener' title='Twitter'/>
-                    </li>
-                    <li class='whatsapp'>
-                      <a class='bi-whatsapp window-open' expr:href='&quot;https://api.whatsapp.com/send?text=&quot; + data:shareTitle + &quot; | &quot; + data:shareUrl' rel='nofollow noopener' title='WhatsApp'/>
-                    </li>
-                    <li class='pinterest-p'>
-                      <a class='bi-pinterest window-open' expr:href='&quot;https://www.pinterest.com/pin/create/button/?url=&quot; + data:shareUrl + &quot;&amp;media=&quot; + data:view.featuredImage + &quot;&amp;description=&quot; + data:shareTitle' rel='nofollow noopener' title='Pinterest'/>
-                    </li>
-                    <li class='linkedin'>
-                      <a class='bi-linkedin window-open' expr:href='&quot;https://www.linkedin.com/shareArticle?mini=true&amp;url=&quot; + data:shareUrl + &quot;&amp;title=&quot; + data:shareTitle' rel='nofollow noopener' title='LinkedIn'/>
-                    </li>
-                    <li class='reddit'>
-                      <a class='bi-reddit window-open' expr:href='&quot;https://reddit.com/submit?url=&quot; + data:shareUrl + &quot;&amp;title=&quot; + data:shareTitle' rel='nofollow noopener' title='Reddit'/>
-                    </li>
-                    <li class='telegram'>
-                      <a class='bi-telegram window-open' expr:href='&quot;https://telegram.me/share/url?url=&quot; + data:shareUrl + &quot;&amp;text=&quot; + data:shareTitle' rel='nofollow noopener' title='Telegram'/>
-                    </li>
-                    <li class='email'>
-                      <a class='bi-email window-open' expr:href='&quot;mailto:?subject=&quot; + data:shareTitle + &quot;&amp;body=&quot; + data:shareUrl' rel='nofollow noopener' title='Email'/>
-                    </li>
-                  </ul>
-                </b:with>
-                <div class='modal-footer'>
-                  <span class='title'>
-                    <data:messages.copy/>
-                    <data:messages.postLink/>
-                  </span>
-                  <div class='copy-link'>
-                    <input expr:value='data:shareUrl' readonly='readonly'/>
-                    <button class='btn' expr:aria-label='data:messages.copy'>
-                      <data:messages.copy/>
-                    </button>
-                  </div>
-                </div>
-              </b:with>
-            </div>
-          </b:includable>
           <b:includable id='mobile-menu'>
             <div class='slide-menu'>
               <div class='slide-menu-header'>
@@ -922,6 +848,29 @@ html.is-dark .tb-card-title{color:var(--title-color)}
               <svg viewBox='0 0 50 50'>
                 <circle cx='25' cy='25' fill='none' r='20' stroke='currentColor' stroke-linecap='round' stroke-width='2.8'/>
               </svg>
+            </div>
+          </b:includable>
+          <b:includable id='share-modal'>
+            <div aria-label='Share' aria-modal='true' class='share-modal' role='dialog'>
+              <div class='modal-header'>
+                <span class='title'><data:messages.share/></span>
+                <button aria-label='Close' class='hide-modal'/>
+              </div>
+              <ul class='share-b social color'>
+                <li class='facebook'><a aria-label='Facebook' class='bi-facebook window-open' expr:href='&quot;https://www.facebook.com/sharer.php?u=&quot; + data:view.url.canonical' rel='nofollow noopener'/></li>
+                <li class='x'><a aria-label='X' class='bi-twitter-x window-open' expr:href='&quot;https://twitter.com/intent/tweet?url=&quot; + data:view.url.canonical' rel='nofollow noopener'/></li>
+                <li class='whatsapp'><a aria-label='WhatsApp' class='bi-whatsapp window-open' expr:href='&quot;https://api.whatsapp.com/send?text=&quot; + data:view.url.canonical' rel='nofollow noopener'/></li>
+                <li class='telegram'><a aria-label='Telegram' class='bi-telegram window-open' expr:href='&quot;https://t.me/share/url?url=&quot; + data:view.url.canonical' rel='nofollow noopener'/></li>
+                <li class='threads'><a aria-label='Threads' class='bi-threads window-open' expr:href='&quot;https://www.threads.net/intent/post?text=&quot; + data:view.url.canonical' rel='nofollow noopener'/></li>
+                <li class='linkedin'><a aria-label='LinkedIn' class='bi-linkedin window-open' expr:href='&quot;https://www.linkedin.com/sharing/share-offsite/?url=&quot; + data:view.url.canonical' rel='nofollow noopener'/></li>
+                <li class='pinterest'><a aria-label='Pinterest' class='bi-pinterest window-open' expr:href='&quot;https://pinterest.com/pin/create/button/?url=&quot; + data:view.url.canonical' rel='nofollow noopener'/></li>
+                <li class='email'><a aria-label='Email' class='bi-envelope' expr:href='&quot;mailto:?subject=&quot; + data:view.title.escaped + &quot;&amp;body=&quot; + data:view.url.canonical' rel='nofollow noopener'/></li>
+                <li class='native-share'><button aria-label='Instagram, TikTok &amp; other apps' class='bi-three-dots' type='button'/></li>
+              </ul>
+              <div class='copy-link copied-off'>
+                <input aria-label='Post link' expr:value='data:view.url.canonical' readonly='readonly' type='text'/>
+                <button type='button'>Copy</button>
+              </div>
             </div>
           </b:includable>
           <b:includable id='sidebarearch'>
@@ -952,7 +901,7 @@ html.is-dark .tb-card-title{color:var(--title-color)}
             <b:tag name='script' type='text/javascript'>const pbt={blogView:<b:if cond='data:blog.view'>&quot;<data:blog.view/>&quot;<b:else/>false</b:if>,isRTL:<b:eval expr='data:blog.languageDirection == &quot;rtl&quot; ? &quot;true&quot; : &quot;false&quot;'/>,isMultiple:<b:eval expr='data:view.isMultipleItems ? &quot;true&quot; : &quot;false&quot;'/>,isSingle:<b:eval expr='data:view.isSingleItem ? &quot;true&quot; : &quot;false&quot;'/>,isPost:<b:eval expr='data:view.isPost ? &quot;true&quot; : &quot;false&quot;'/>,isPage:<b:eval expr='data:view.isPage ? &quot;true&quot; : &quot;false&quot;'/>,isBoxed:<b:eval expr='data:skin.vars.boxedMode == &quot;1px&quot; ? &quot;true&quot; : &quot;false&quot;'/>,isDark:<b:eval expr='data:skin.vars.darkMode == &quot;1px&quot; ? &quot;true&quot; : &quot;false&quot;'/>,userDarkMode:<b:eval expr='data:skin.vars.userDarkMode == &quot;1px&quot; ? &quot;true&quot; : &quot;false&quot;'/>,stickyMenu:<b:eval expr='data:skin.vars.stickyMenu == &quot;1px&quot; ? &quot;true&quot; : &quot;false&quot;'/>,hasCookie:<b:eval expr='data:widgets.Text any w =&gt; w.sectionId == &quot;cookie&quot; ? &quot;true&quot; : &quot;false&quot;'/>,postAuthor:<b:eval expr='data:widgets.Blog.first.allBylineItems.author ? &quot;true&quot; : &quot;false&quot;'/>,postDate:<b:eval expr='data:widgets.Blog.first.allBylineItems.timestamp ? &quot;true&quot; : &quot;false&quot;'/>,postAuthorLabel:&quot;<b:eval expr='data:widgets.Blog.first.allBylineItems.author.label ? data:widgets.Blog.first.allBylineItems.author.label : &quot;&quot;'/>&quot;,postDateLabel:&quot;<b:eval expr='data:widgets.Blog.first.allBylineItems.timestamp.label ? data:widgets.Blog.first.allBylineItems.timestamp.label : &quot;&quot;'/>&quot;,postCategory:<b:eval expr='data:skin.vars.postCategory == &quot;1px&quot; ? &quot;true&quot; : &quot;false&quot;'/>,postSummary:<b:eval expr='data:skin.vars.postSummary == &quot;1px&quot; ? &quot;true&quot; : &quot;false&quot;'/>,showMore:&quot;<data:messages.showMore/>&quot;,viewAll:&quot;<data:messages.viewAll/>&quot;,noResults:&quot;<data:messages.noResultsFound/>&quot;,noTitle:&quot;<data:messages.noTitle/>&quot;,noThumb:&quot;https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhG9GA0058_fE7q8dUjkpL56fvlwSQs-DyuNjRG1C3oYBoWDR2PYrDa0SKVYt6iEJ8pssbajfAujp0g51-SQimyZNawn0waVgbe8cwgMzSXRURuiG7bqguOahIkTzTgPOn67eoasTMjKkxPfqXg1ytQ4NMjLEAGpp3zKKtpo-PVacHSnidorgbmaOFlyQ/w72-h72-p-k-no-nu/ptb-nth.webp&quot;}</b:tag>
           </b:includable>
           <b:includable id='pbt-feeds'>
-            <code id='data'>{&quot;version&quot;:&quot;2.1.0&quot;,&quot;encoding&quot;:&quot;UTF-8&quot;,&quot;author&quot;:{&quot;name&quot;:&quot;Pro Blogger Templates&quot;,&quot;url&quot;:&quot;https://probloggertemplates.com/&quot;}<b:if cond='!data:posts.empty'>,&quot;posts&quot;:[<b:loop index='i' values='data:posts' var='post'><b:if cond='data:i != 0'>,</b:if>{&quot;id&quot;:&quot;<data:post.id/>&quot;,&quot;published&quot;:{&quot;date&quot;:&quot;<data:post.date.jsonEscaped/>&quot;,&quot;datetime&quot;:&quot;<data:post.date.iso8601.jsonEscaped/>&quot;},&quot;author&quot;:&quot;<data:post.author.name.jsonEscaped/>&quot;,<b:if cond='data:post.labels'>&quot;category&quot;:&quot;<data:post.labels.first.name.jsonEscaped/>&quot;,</b:if>&quot;title&quot;:&quot;<b:eval expr='data:post.title ? data:post.title.jsonEscaped : data:messages.noTitle.jsonEscaped'/>&quot;,&quot;link&quot;:&quot;<data:post.url.canonical.jsonEscaped/>&quot;,&quot;thumbnail&quot;:{&quot;src&quot;:&quot;<b:if cond='data:post.featuredImage'><b:eval expr='data:post.featuredImage.isYouTube ? resizeImage(data:post.featuredImage.youtubeMaxResDefaultUrl.jsonEscaped, 72, &quot;1:1&quot;) : resizeImage(data:post.featuredImage.jsonEscaped, 72, &quot;1:1&quot;)'/><b:else/>https://resources.blogblog.com/img/blank.gif</b:if>&quot;,&quot;source&quot;:&quot;<b:eval expr='data:post.featuredImage.isYouTube ? &quot;youtube&quot; : &quot;blogger&quot;'/>&quot;}<b:if cond='data:post.snippets.short'>,&quot;summary&quot;:&quot;<data:post.snippets.short.jsonEscaped/>&quot;</b:if>}</b:loop>]</b:if>}</code>
+            <code id='data'>{&quot;version&quot;:&quot;2.1.0&quot;,&quot;encoding&quot;:&quot;UTF-8&quot;,&quot;author&quot;:{&quot;name&quot;:&quot;Pro Blogger Templates&quot;,&quot;url&quot;:&quot;https://probloggertemplates.com/&quot;}<b:if cond='!data:posts.empty'>,&quot;posts&quot;:[<b:loop index='i' values='data:posts' var='post'><b:if cond='data:i != 0'>,</b:if>{&quot;id&quot;:&quot;<data:post.id/>&quot;,&quot;published&quot;:{&quot;date&quot;:&quot;<data:post.date.jsonEscaped/>&quot;,&quot;datetime&quot;:&quot;<data:post.date.iso8601.jsonEscaped/>&quot;},&quot;author&quot;:&quot;<data:post.author.name.jsonEscaped/>&quot;,<b:if cond='data:post.labels'>&quot;category&quot;:&quot;<data:post.labels.first.name.jsonEscaped/>&quot;,</b:if>&quot;title&quot;:&quot;<b:eval expr='data:post.title ? data:post.title.jsonEscaped : data:messages.noTitle.jsonEscaped'/>&quot;,&quot;link&quot;:&quot;<data:post.url.canonical.jsonEscaped/>&quot;,&quot;thumbnail&quot;:{&quot;src&quot;:&quot;<b:if cond='data:post.featuredImage'><b:eval expr='data:post.featuredImage.isYouTube ? resizeImage(data:post.featuredImage.youtubeMaxResDefaultUrl.jsonEscaped, 72, &quot;1:1&quot;) : resizeImage(data:post.featuredImage.jsonEscaped, 72, &quot;1:1&quot;)'/><b:else/>data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==</b:if>&quot;,&quot;source&quot;:&quot;<b:eval expr='data:post.featuredImage.isYouTube ? &quot;youtube&quot; : &quot;blogger&quot;'/>&quot;}<b:if cond='data:post.snippets.short'>,&quot;summary&quot;:&quot;<data:post.snippets.short.jsonEscaped/>&quot;</b:if>}</b:loop>]</b:if>}</code>
           </b:includable>
         </b:defaultmarkup>
         <b:defaultmarkup type='LinkList'>
@@ -1161,9 +1110,7 @@ html.is-dark .tb-card-title{color:var(--title-color)}
                   </div>
                 </div>
                 <b:if cond='data:allBylineItems.share'>
-                  <div class='align-right'>
-                    <button class='share-toggle' expr:aria-label='data:messages.share'/>
-                  </div>
+                  
                 </b:if>
               </div>
             </b:if>
@@ -1202,7 +1149,7 @@ html.is-dark .tb-card-title{color:var(--title-color)}
             </b:if>
           </b:includable>
           <b:includable id='itemPostData' var='post'>
-            <b:tag id='data' name='script' type='application/json'>{&quot;postData&quot;:[{&quot;published&quot;:{&quot;date&quot;:&quot;<data:post.date.jsonEscaped/>&quot;,&quot;datetime&quot;:&quot;<data:post.date.iso8601.jsonEscaped/>&quot;},&quot;author&quot;:&quot;<data:post.author.name.jsonEscaped/>&quot;,<b:if cond='data:post.labels'>&quot;category&quot;:&quot;<data:post.labels.first.name.jsonEscaped/>&quot;,</b:if>&quot;title&quot;:&quot;<b:eval expr='data:post.title ? data:post.title.jsonEscaped : data:messages.noTitle.jsonEscaped'/>&quot;,&quot;link&quot;:&quot;<data:post.url.canonical.jsonEscaped/>&quot;,&quot;thumbnail&quot;:{&quot;src&quot;:&quot;<b:if cond='data:post.featuredImage'><b:eval expr='data:post.featuredImage.isYouTube ? resizeImage(data:post.featuredImage.youtubeMaxResDefaultUrl.jsonEscaped, 72, &quot;1:1&quot;) : resizeImage(data:post.featuredImage.jsonEscaped, 72, &quot;1:1&quot;)'/><b:else/>https://resources.blogblog.com/img/blank.gif</b:if>&quot;,&quot;source&quot;:&quot;<b:eval expr='data:post.featuredImage.isYouTube ? &quot;youtube&quot; : &quot;blogger&quot;'/>&quot;}}]}</b:tag>
+            <b:tag id='data' name='script' type='application/json'>{&quot;postData&quot;:[{&quot;published&quot;:{&quot;date&quot;:&quot;<data:post.date.jsonEscaped/>&quot;,&quot;datetime&quot;:&quot;<data:post.date.iso8601.jsonEscaped/>&quot;},&quot;author&quot;:&quot;<data:post.author.name.jsonEscaped/>&quot;,<b:if cond='data:post.labels'>&quot;category&quot;:&quot;<data:post.labels.first.name.jsonEscaped/>&quot;,</b:if>&quot;title&quot;:&quot;<b:eval expr='data:post.title ? data:post.title.jsonEscaped : data:messages.noTitle.jsonEscaped'/>&quot;,&quot;link&quot;:&quot;<data:post.url.canonical.jsonEscaped/>&quot;,&quot;thumbnail&quot;:{&quot;src&quot;:&quot;<b:if cond='data:post.featuredImage'><b:eval expr='data:post.featuredImage.isYouTube ? resizeImage(data:post.featuredImage.youtubeMaxResDefaultUrl.jsonEscaped, 72, &quot;1:1&quot;) : resizeImage(data:post.featuredImage.jsonEscaped, 72, &quot;1:1&quot;)'/><b:else/>data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==</b:if>&quot;,&quot;source&quot;:&quot;<b:eval expr='data:post.featuredImage.isYouTube ? &quot;youtube&quot; : &quot;blogger&quot;'/>&quot;}}]}</b:tag>
           </b:includable>
           <b:includable id='itemPost' var='post'>
             <!-- Blog Post Content -->
@@ -1385,7 +1332,7 @@ html.is-dark .tb-card-title{color:var(--title-color)}
             <!-- Post Share Buttons -->
             <div class='post-share'>
               <ul class='share-a social color'>
-                <li class='share-label'>
+                <li aria-hidden='true' class='share-label'>
                   <span class='sl'>
                     <i/>
                   </span>
@@ -1395,19 +1342,19 @@ html.is-dark .tb-card-title{color:var(--title-color)}
                     <span>Facebook</span>
                   </a>
                 </li>
-                <li class='twitter has-span'>
-                  <a class='bi-twitter sl window-open' expr:href='&quot;https://twitter.com/intent/tweet?url=&quot; + data:post.url.canonical' rel='nofollow noopener' title='Twitter'>
-                    <span>Twitter</span>
+                <li class='x has-span'>
+                  <a class='bi-twitter-x sl window-open' expr:href='&quot;https://twitter.com/intent/tweet?url=&quot; + data:post.url.canonical' rel='nofollow noopener' title='X'>
+                    <span>X</span>
                   </a>
                 </li>
                 <li class='whatsapp'>
-                  <a class='bi-whatsapp sl window-open' expr:href='&quot;https://api.whatsapp.com/send?text=&quot; + data:post.title.jsonEscaped + &quot; | &quot; + data:post.url.canonical' rel='nofollow noopener' title='WhatsApp'/>
+                  <a aria-label='WhatsApp' class='bi-whatsapp sl window-open' expr:href='&quot;https://api.whatsapp.com/send?text=&quot; + data:post.url.canonical' rel='nofollow noopener' title='WhatsApp'/>
                 </li>
                 <li class='email'>
-                  <a class='bi-email sl window-open' expr:href='&quot;mailto:?subject=&quot; + data:post.title.jsonEscaped + &quot;&amp;body=&quot; + data:post.url.canonical' rel='nofollow noopener' title='Email'/>
+                  <a aria-label='Email' class='bi-email sl window-open' expr:href='&quot;mailto:?subject=&quot; + data:post.title.escaped + &quot;&amp;body=&quot; + data:post.url.canonical' rel='nofollow noopener' title='Email'/>
                 </li>
                 <li class='show-more'>
-                  <button class='sl' expr:aria-label='data:messages.showMore'/>
+                  <button aria-label='More share options' class='sl share-more' type='button'/>
                 </li>
               </ul>
             </div>
@@ -1798,13 +1745,20 @@ html.is-dark .tb-card-title{color:var(--title-color)}
           </b:includable>
         </b:defaultmarkup>
       </b:defaultmarkups>
-      <b:if cond='!data:isFeed'>
+            <b:if cond='!data:isFeed'>
         <!-- Miscellaneous -->
         <b:include name='pbt-var'/>
-        <b:if cond='data:widgets.AdSense.first or data:blog.adsenseClientId'>
-          <script async='async' crossorigin='anonymous' src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0182550701431501'/>
-        </b:if>
-      </b:if>
+        <script>/*<![CDATA[*/
+(function(){
+  function add(src,cors){var s=document.createElement('script');s.async=true;s.src=src;if(cors)s.crossOrigin='anonymous';document.head.appendChild(s)}
+  function go(){
+    add('https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0182550701431501',true);
+    add('https://www.googletagmanager.com/gtag/js?id=G-0XL6FW2M0R');
+  }
+  if(document.readyState==='complete')go();else window.addEventListener('load',go,{once:true});
+})();
+/*]]>*/</script>
+</b:if>
       <script type='application/ld+json'>
 <b:if cond='data:view.isArchive'>
 {
@@ -2303,9 +2257,8 @@ html.is-dark .tb-card-title{color:var(--title-color)}
      style="display:block"
      data-ad-client="ca-pub-0182550701431501"
      data-ad-slot="5591327470"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>]]></b:widget-setting>
+     data-ad-format="horizontal"
+     data-full-width-responsive="true"></ins>]]></b:widget-setting>
                   </b:widget-settings>
                   <b:includable id='main'>
                     <b:include name='html-content'/>
@@ -2343,9 +2296,8 @@ html.is-dark .tb-card-title{color:var(--title-color)}
      style="display:block"
      data-ad-client="ca-pub-0182550701431501"
      data-ad-slot="1540172091"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>]]></b:widget-setting>
+     data-ad-format="horizontal"
+     data-full-width-responsive="true"></ins>]]></b:widget-setting>
                     </b:widget-settings>
                     <b:includable id='main'>
                       <b:include name='html-content'/>
@@ -2619,7 +2571,7 @@ html.is-dark .tb-card-title{color:var(--title-color)}
                       </div>
                     </b:includable>
                     <b:includable id='itemPostData' var='post'>
-                      <b:tag id='data' name='script' type='application/json'>{&quot;postData&quot;:[{&quot;published&quot;:{&quot;date&quot;:&quot;<data:post.date.jsonEscaped/>&quot;,&quot;datetime&quot;:&quot;<data:post.date.iso8601.jsonEscaped/>&quot;},&quot;author&quot;:&quot;<data:post.author.name.jsonEscaped/>&quot;,<b:if cond='data:post.labels'>&quot;category&quot;:&quot;<data:post.labels.first.name.jsonEscaped/>&quot;,</b:if>&quot;title&quot;:&quot;<b:eval expr='data:post.title ? data:post.title.jsonEscaped : data:messages.noTitle.jsonEscaped'/>&quot;,&quot;link&quot;:&quot;<data:post.url.canonical.jsonEscaped/>&quot;,&quot;thumbnail&quot;:{&quot;src&quot;:&quot;<b:if cond='data:post.featuredImage'><b:eval expr='data:post.featuredImage.isYouTube ? resizeImage(data:post.featuredImage.youtubeMaxResDefaultUrl.jsonEscaped, 72, &quot;1:1&quot;) : resizeImage(data:post.featuredImage.jsonEscaped, 72, &quot;1:1&quot;)'/><b:else/>https://resources.blogblog.com/img/blank.gif</b:if>&quot;,&quot;source&quot;:&quot;<b:eval expr='data:post.featuredImage.isYouTube ? &quot;youtube&quot; : &quot;blogger&quot;'/>&quot;}}]}</b:tag>
+                      <b:tag id='data' name='script' type='application/json'>{&quot;postData&quot;:[{&quot;published&quot;:{&quot;date&quot;:&quot;<data:post.date.jsonEscaped/>&quot;,&quot;datetime&quot;:&quot;<data:post.date.iso8601.jsonEscaped/>&quot;},&quot;author&quot;:&quot;<data:post.author.name.jsonEscaped/>&quot;,<b:if cond='data:post.labels'>&quot;category&quot;:&quot;<data:post.labels.first.name.jsonEscaped/>&quot;,</b:if>&quot;title&quot;:&quot;<b:eval expr='data:post.title ? data:post.title.jsonEscaped : data:messages.noTitle.jsonEscaped'/>&quot;,&quot;link&quot;:&quot;<data:post.url.canonical.jsonEscaped/>&quot;,&quot;thumbnail&quot;:{&quot;src&quot;:&quot;<b:if cond='data:post.featuredImage'><b:eval expr='data:post.featuredImage.isYouTube ? resizeImage(data:post.featuredImage.youtubeMaxResDefaultUrl.jsonEscaped, 72, &quot;1:1&quot;) : resizeImage(data:post.featuredImage.jsonEscaped, 72, &quot;1:1&quot;)'/><b:else/>data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==</b:if>&quot;,&quot;source&quot;:&quot;<b:eval expr='data:post.featuredImage.isYouTube ? &quot;youtube&quot; : &quot;blogger&quot;'/>&quot;}}]}</b:tag>
                     </b:includable>
                     <b:includable id='linkShare'/>
                     <b:includable id='nextPageLink'>
@@ -2791,7 +2743,7 @@ html.is-dark .tb-card-title{color:var(--title-color)}
                       <!-- Post Share Buttons -->
                       <div class='post-share'>
                         <ul class='share-a social color'>
-                          <li class='share-label'>
+                          <li aria-hidden='true' class='share-label'>
                             <span class='sl'>
                               <i/>
                             </span>
@@ -2801,19 +2753,19 @@ html.is-dark .tb-card-title{color:var(--title-color)}
                               <span>Facebook</span>
                             </a>
                           </li>
-                          <li class='twitter has-span'>
-                            <a class='bi-twitter sl window-open' expr:href='&quot;https://twitter.com/intent/tweet?url=&quot; + data:post.url.canonical' rel='nofollow noopener' title='Twitter'>
-                              <span>Twitter</span>
+                          <li class='x has-span'>
+                            <a class='bi-twitter-x sl window-open' expr:href='&quot;https://twitter.com/intent/tweet?url=&quot; + data:post.url.canonical' rel='nofollow noopener' title='X'>
+                              <span>X</span>
                             </a>
                           </li>
                           <li class='whatsapp'>
-                            <a class='bi-whatsapp sl window-open' expr:href='&quot;https://api.whatsapp.com/send?text=&quot; + data:post.title.jsonEscaped + &quot; | &quot; + data:post.url.canonical' rel='nofollow noopener' title='WhatsApp'/>
+                            <a aria-label='WhatsApp' class='bi-whatsapp sl window-open' expr:href='&quot;https://api.whatsapp.com/send?text=&quot; + data:post.url.canonical' rel='nofollow noopener' title='WhatsApp'/>
                           </li>
                           <li class='email'>
-                            <a class='bi-email sl window-open' expr:href='&quot;mailto:?subject=&quot; + data:post.title.jsonEscaped + &quot;&amp;body=&quot; + data:post.url.canonical' rel='nofollow noopener' title='Email'/>
+                            <a aria-label='Email' class='bi-email sl window-open' expr:href='&quot;mailto:?subject=&quot; + data:post.title.escaped + &quot;&amp;body=&quot; + data:post.url.canonical' rel='nofollow noopener' title='Email'/>
                           </li>
                           <li class='show-more'>
-                            <button class='sl' expr:aria-label='data:messages.showMore'/>
+                            <button aria-label='More share options' class='sl share-more' type='button'/>
                           </li>
                         </ul>
                       </div>
@@ -2968,8 +2920,7 @@ html.is-dark .tb-card-title{color:var(--title-color)}
                       <b:widget id='HTML7' locked='false' title='{ads}' type='HTML' version='2' visible='false'>
                         <b:widget-settings>
                           <b:widget-setting name='content'><![CDATA[<!-- BB_Title_Down -->
-<ins class='adsbygoogle' data-ad-client='ca-pub-0182550701431501' data-ad-format='auto' data-ad-slot='1452706728' data-full-width-responsive='true' style='display:block'></ins>
-<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>]]></b:widget-setting>
+<ins class='adsbygoogle' data-ad-client='ca-pub-0182550701431501' data-ad-format='auto' data-ad-slot='1452706728' data-full-width-responsive='true' style='display:block'></ins>]]></b:widget-setting>
                         </b:widget-settings>
                         <b:includable id='main'>
                           <b:include name='html-content'/>
@@ -2984,9 +2935,8 @@ html.is-dark .tb-card-title{color:var(--title-color)}
      style="display:block"
      data-ad-client="ca-pub-0182550701431501"
      data-ad-slot="1491623528"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>]]></b:widget-setting>
+     data-ad-format="horizontal"
+     data-full-width-responsive="true"></ins>]]></b:widget-setting>
                         </b:widget-settings>
                         <b:includable id='main'>
                           <b:include name='html-content'/>
@@ -2997,8 +2947,7 @@ html.is-dark .tb-card-title{color:var(--title-color)}
                   <b:section cond='data:view.isSingleItem and ((data:widgets.HTML any w =&gt; w.sectionId == &quot;post-ads-3&quot;) or (data:widgets.Image any w =&gt; w.sectionId == &quot;post-ads-3&quot;) or (data:widgets.AdSense any w =&gt; w.sectionId == &quot;post-ads-3&quot;))' id='post-ads-3' maxwidgets='1' name='In-Article' showaddelement='yes'>
                     <b:widget id='HTML11' locked='false' title='{ads}' type='HTML' version='2' visible='true'>
                       <b:widget-settings>
-                        <b:widget-setting name='content'><![CDATA[<ins class='adsbygoogle' data-ad-client='ca-pub-0182550701431501' data-ad-format='fluid' data-ad-layout='in-article' data-ad-slot='5005644748' style='display:block; text-align:center;'></ins>
-<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>]]></b:widget-setting>
+                        <b:widget-setting name='content'><![CDATA[<ins class='adsbygoogle' data-ad-client='ca-pub-0182550701431501' data-ad-format='fluid' data-ad-layout='in-article' data-ad-slot='5005644748' style='display:block; text-align:center;'></ins>]]></b:widget-setting>
                       </b:widget-settings>
                       <b:includable id='main'>
                         <b:include name='html-content'/>
@@ -3024,9 +2973,8 @@ html.is-dark .tb-card-title{color:var(--title-color)}
      style="display:block"
      data-ad-client="ca-pub-0182550701431501"
      data-ad-slot="3476140102"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>]]></b:widget-setting>
+     data-ad-format="horizontal"
+     data-full-width-responsive="true"></ins>]]></b:widget-setting>
                     </b:widget-settings>
                     <b:includable id='main'>
                       <b:include name='html-content'/>
@@ -3036,8 +2984,7 @@ html.is-dark .tb-card-title{color:var(--title-color)}
                 <b:section class='content-section' cond='data:view.isHomepage and (data:widgets any w =&gt; w.sectionId == &quot;content-section-2&quot;) and not data:isFeed' id='content-section-2' name='Content Blocks' showaddelement='yes'>
                   <b:widget id='HTML17' locked='false' title='{ads}' type='HTML' version='2' visible='true'>
                     <b:widget-settings>
-                      <b:widget-setting name='content'><![CDATA[<ins class='adsbygoogle' data-ad-client='ca-pub-0182550701431501' data-ad-format='autorelaxed' data-ad-slot='6176154247' data-matched-content-columns-num='1,3' data-matched-content-rows-num='5,3' data-matched-content-ui-type='image_stacked,image_stacked' style='display:block'></ins>
-<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>]]></b:widget-setting>
+                      <b:widget-setting name='content'><![CDATA[<ins class='adsbygoogle' data-ad-client='ca-pub-0182550701431501' data-ad-format='autorelaxed' data-ad-slot='6176154247' data-matched-content-columns-num='1,3' data-matched-content-rows-num='5,3' data-matched-content-ui-type='image_stacked,image_stacked' style='display:block'></ins>]]></b:widget-setting>
                     </b:widget-settings>
                     <b:includable id='main'>
                       <b:include name='html-content'/>
@@ -3050,9 +2997,8 @@ html.is-dark .tb-card-title{color:var(--title-color)}
      style="display:block"
      data-ad-client="ca-pub-0182550701431501"
      data-ad-slot="5287845416"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>]]></b:widget-setting>
+     data-ad-format="horizontal"
+     data-full-width-responsive="true"></ins>]]></b:widget-setting>
                     </b:widget-settings>
                     <b:includable id='main'>
                       <b:include name='html-content'/>
@@ -3088,6 +3034,23 @@ html.is-dark .tb-card-title{color:var(--title-color)}
                 <aside class='sidebar-wrap'>
                   <b:class cond='data:skin.vars.stickySidebar == &quot;1px&quot;' name='is-sticky'/>
                   <b:section class='sidebar' id='sidebar' name='Sidebar' showaddelement='yes'>
+                    <b:widget id='HTML18' locked='false' title='Advertisement' type='HTML' visible='true'>
+                      <b:widget-settings>
+                        <b:widget-setting name='content'><![CDATA[<!-- tbb_sidebar -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-0182550701431501"
+     data-ad-slot="4463766833"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>]]></b:widget-setting>
+                      </b:widget-settings>
+                      <b:includable id='main'>
+            <b:include name='html-content'/>
+          </b:includable>
+                    </b:widget>
                     <b:widget id='LinkList1' locked='false' title='Follow Us' type='LinkList' version='2' visible='true'>
                       <b:widget-settings>
                         <b:widget-setting name='link-3'>https://instagram.com/bukitbesi#92k</b:widget-setting>
@@ -3162,14 +3125,6 @@ html.is-dark .tb-card-title{color:var(--title-color)}
                       <b:includable id='snippetedPostTitle'/>
                       <b:includable id='snippetedPosts'/>
                     </b:widget>
-                    <b:widget id='HTML13' locked='false' title='{ads}' type='HTML' version='2' visible='true'>
-                      <b:widget-settings>
-                        <b:widget-setting name='content'/>
-                      </b:widget-settings>
-                      <b:includable id='main'>
-                        <b:include name='html-content'/>
-                      </b:includable>
-                    </b:widget>
                     <b:widget id='FeaturedPost1' locked='false' title='Featured Post' type='FeaturedPost' version='2' visible='false'>
                       <b:widget-settings>
                         <b:widget-setting name='showSnippet'>true</b:widget-setting>
@@ -3229,6 +3184,23 @@ html.is-dark .tb-card-title{color:var(--title-color)}
       <b:include name='html-content'/>
     </b:includable>
                     </b:widget>
+                    <b:widget id='HTML13' locked='false' title='Advertisement' type='HTML' version='2' visible='true'>
+                      <b:widget-settings>
+                        <b:widget-setting name='content'><![CDATA[<!-- tbb-sidebar-sticky -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-0182550701431501"
+     data-ad-slot="4816358691"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>]]></b:widget-setting>
+                      </b:widget-settings>
+                      <b:includable id='main'>
+                        <b:include name='html-content'/>
+                      </b:includable>
+                    </b:widget>
                   </b:section>
                 </aside>
               </b:if>
@@ -3246,9 +3218,8 @@ html.is-dark .tb-card-title{color:var(--title-color)}
      style="display:block"
      data-ad-client="ca-pub-0182550701431501"
      data-ad-slot="6102303443"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>]]></b:widget-setting>
+     data-ad-format="horizontal"
+     data-full-width-responsive="true"></ins>]]></b:widget-setting>
                   </b:widget-settings>
                   <b:includable id='main'>
                     <b:include name='html-content'/>
@@ -3360,7 +3331,7 @@ html.is-dark .tb-card-title{color:var(--title-color)}
                   <b:section class='footer-copyright' id='footer-copyright' maxwidgets='1' name='Footer Copyright' showaddelement='yes'>
                     <b:widget id='Text50' locked='true' title='' type='Text' version='2' visible='true'>
                       <b:widget-settings>
-                        <b:widget-setting name='content'><![CDATA[All Rights Reserved - <a href="/">The Bukit Besi</a>]]></b:widget-setting>
+                        <b:widget-setting name='content'><![CDATA[All Rights Reserved - <a href="/" rel="internal noopener" target="_blank">The Bukit Besi</a>]]></b:widget-setting>
                       </b:widget-settings>
                       <b:includable id='main'>
                         <b:include name='text-content'/>
@@ -3474,7 +3445,7 @@ html.is-dark .tb-card-title{color:var(--title-color)}
 //]]>
         </script>
         <!-- Lightweight vanilla application layer (full port of the theme's jQuery framework) -->
-        <script defer='defer' src='https://cdn.jsdelivr.net/gh/bukitbesi/xml@main/asset/src/tbb-script.js'/>
+        <script defer='defer' src='https://cdn.jsdelivr.net/gh/bukitbesi/xml@v3/asset/src/tbb-script.js'/>
       </b:if>
       <!-- Blogger Scripts -->
       <b:if cond='data:isFeed'>
@@ -3482,43 +3453,28 @@ html.is-dark .tb-card-title{color:var(--title-color)}
       </b:if>
       <script type='text/javascript'>
 //<![CDATA[
-document.addEventListener('DOMContentLoaded', function() {
-	document.body.addEventListener('click', function(e) {
-		var shareBtn = e.target.closest('.share-toggle');
-		if(shareBtn) {
-			e.preventDefault();
-			// Use native mobile share API if available (faster, better UX)
-			if(navigator.share) {
-				navigator.share({
-					title: document.title,
-					url: window.location.href
-				}).catch(function(err) {
-					console.log('Share failed:', err);
-				});
-			} else {
-				// Fallback to theme modal for Desktop
-				var modal = document.querySelector('.share-modal');
-				if(modal) {
-					modal.style.display = 'flex';
-					modal.style.opacity = '1';
-					modal.style.visibility = 'visible';
-				}
-			}
-		}
-		var closeBtn = e.target.closest('.hide-modal');
-		if(closeBtn) {
-			e.preventDefault();
-			var modal = document.querySelector('.share-modal');
-			if(modal) {
-				modal.style.display = 'none';
-				modal.style.opacity = '0';
-				modal.style.visibility = 'hidden';
-			}
-		}
-	});
-});
+(function(){
+  'use strict';
+  var d=document,b=d.body;
+  if(navigator.share)d.documentElement.classList.add('has-native-share');
+  function open(){if(d.querySelector('.share-modal'))b.classList.add('share-on')}
+  function close(){b.classList.remove('share-on')}
+  d.addEventListener('click',function(e){
+    var t=e.target;if(!t.closest)return;
+    if(t.closest('.share-toggle, .share-more')){e.preventDefault();open();return}
+    if(t.closest('.hide-modal, .overlay-bg')){close();return}
+    if(t.closest('.native-share button')){
+      e.preventDefault();
+      navigator.share({title:d.title,url:(d.querySelector('link[rel=canonical]')||{}).href||location.href}).then(close).catch(function(){});
+    }
+  });
+  d.addEventListener('keydown',function(e){if(e.key==='Escape')close()});
+})();
 //]]>
 </script>
+      <!-- TBB PWA Lite: Service Worker intentionally disabled for direct Blogger hosting. -->
+<script>/*<![CDATA[*/window.TBB_PWA={serviceWorker:'',prefetch:true};/*]]>*/</script>
+<script defer='defer' src='https://assets.thebukitbesi.com/pwa/tbb-pwa.min.js'/>
     </body>
     <b:if cond='data:isFeed'>
       <b:eval expr='&quot;--&gt;&lt;/body&gt;&quot;'/>
