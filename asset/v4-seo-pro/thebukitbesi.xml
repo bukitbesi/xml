@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html>
-<html b:css='false' b:defaultwidgetversion='2' b:layoutsVersion='3' b:responsive='true' b:templateVersion='2.1.0' expr:class='data:blog.languageDirection' expr:dir='data:blog.languageDirection' expr:lang='data:blog.localeUnderscoreDelimited' xmlns='http://www.w3.org/1999/xhtml' xmlns:b='http://www.google.com/2005/gml/b' xmlns:data='http://www.google.com/2005/gml/data' xmlns:expr='http://www.google.com/2005/gml/expr'>
+<html b:css='false' b:defaultwidgetversion='2' b:layoutsVersion='3' b:responsive='true' b:templateVersion='2.1.0' expr:class='data:blog.languageDirection' expr:dir='data:blog.languageDirection' lang='ms-MY' xmlns='http://www.w3.org/1999/xhtml' xmlns:b='http://www.google.com/2005/gml/b' xmlns:data='http://www.google.com/2005/gml/data' xmlns:expr='http://www.google.com/2005/gml/expr'>
   <b:with value='data:view.isSearch and (data:blog.view == &quot;json&quot;)' var='isFeed'>
     <head>
       <meta charset='utf-8'/>
@@ -239,7 +239,7 @@ html.is-dark .tb-card-title{color:var(--title-color)}
           Using @main (not a pinned commit) so pushing updates to GitHub takes effect without editing this file again.
           Non-blocking load (preload+swap) keeps this from delaying first paint; a <noscript> fallback covers no-JS.
         -->
-        <link href='https://cdn.jsdelivr.net/gh/bukitbesi/xml@v2/asset/src/tbb-style.css' rel='stylesheet'/>
+        <link href='https://cdn.jsdelivr.net/gh/bukitbesi/xml@v2/asset/src/tbb-style.min.css' rel='stylesheet'/>
         <style id='tbb-fix'>/*<![CDATA[*/
 html .entry-thumbnail,html .grid-items img,html .list-items img,html .story-items img,html .video-items img,html .block1-items img,html .block2-items img,html .featured-items img,html .post-body img{content-visibility:visible;contain-intrinsic-size:none}
 .thumbnail>img{display:block;width:100%;height:100%;object-fit:cover}
@@ -264,7 +264,8 @@ html ins.adsbygoogle-noablate,html ins.adsbygoogle[data-anchor-status],html ins.
             <b:attr cond='data:widgets.Text none w =&gt; w.sectionId == &quot;cookie&quot;' name='native-cookie' value='true'/>
           </b:includable>
           <b:includable id='customOpenGraphMetaData'>
-            <meta expr:content='data:blog.localeUnderscoreDelimited' property='og:locale'/>
+            <meta content='ms_MY' property='og:locale'/>
+            <meta content='en_US' property='og:locale:alternate'/>
             <b:if cond='data:view.isHomepage'>
               <meta content='website' property='og:type'/>
             <b:elseif cond='data:view.isSingleItem'/>
@@ -367,6 +368,7 @@ html ins.adsbygoogle-noablate,html ins.adsbygoogle[data-anchor-status],html ins.
               <b:include name='customOpenGraphMetaData'/>
 <!-- hreflang: BM primary, EN secondary, x-default = BM -->
 <link expr:href='data:view.url.canonical' hreflang='ms' rel='alternate'/>
+<link expr:href='data:view.url.canonical' hreflang='x-default' rel='alternate'/>
 
               <b:if cond='data:blog.feedLinks'>
                 <data:blog.feedLinks/>
@@ -377,9 +379,10 @@ html ins.adsbygoogle-noablate,html ins.adsbygoogle[data-anchor-status],html ins.
                   <b:loop index='i' values='data:fonts' var='font'>
                     <b:if cond='not(data:font contains &quot;,&quot;)'>
                       <b:with value='&quot;https://fonts.googleapis.com/css2?family=&quot; + data:font + &quot;:wght@400;600;700&amp;display=swap&quot;' var='fontLink'>
-                        <b:tag cond='data:i == 0' expr:href='data:fontLink' name='link' rel='stylesheet'/>
-                        <b:tag cond='data:i == 1 and (data:font not in [data:fonts[0]])' expr:href='data:fontLink' name='link' rel='stylesheet'/>
-                        <b:tag cond='data:i == 2 and (data:font not in [data:fonts[0], data:fonts[1]])' expr:href='data:fontLink' name='link' rel='stylesheet'/>
+                        <b:tag cond='data:i == 0' expr:href='data:fontLink' media='print' name='link' onload='this.media=&quot;all&quot;' rel='stylesheet'/>
+                        <b:tag cond='data:i == 1 and (data:font not in [data:fonts[0]])' expr:href='data:fontLink' media='print' name='link' onload='this.media=&quot;all&quot;' rel='stylesheet'/>
+                        <b:tag cond='data:i == 2 and (data:font not in [data:fonts[0], data:fonts[1]])' expr:href='data:fontLink' media='print' name='link' onload='this.media=&quot;all&quot;' rel='stylesheet'/>
+                        <noscript><b:tag cond='data:i == 0' expr:href='data:fontLink' name='link' rel='stylesheet'/></noscript>
                       </b:with>
                     </b:if>
                   </b:loop>
@@ -1211,6 +1214,26 @@ html ins.adsbygoogle-noablate,html ins.adsbygoogle[data-anchor-status],html ins.
             <div class='post-body' id='post-body'>
               <data:post.body/>
             </div>
+            <b:if cond='data:view.isSingleItem'>
+            <script>
+            //<![CDATA[
+            /* LCP: the first post image is the hero. Authors save it with loading="lazy" and a 1200px source;
+               make it eager + high priority and serve a size that matches the screen (Blogger resizes via /sNNN-rw/). */
+            (function(){
+              var i=document.querySelector('#post-body img');
+              if(!i)return;
+              i.loading='eager';i.decoding='async';i.setAttribute('fetchpriority','high');
+              var u=i.getAttribute('src')||'',m=u.match(/^(https:\/\/blogger\.googleusercontent\.com\/img\/.+\/)s\d+(-rw)?(\/[^\/]+)$/);
+              if(m&&!i.getAttribute('srcset')){
+                var w=[480,800,1200];
+                i.srcset=w.map(function(n){return m[1]+'s'+n+'-rw'+m[3]+' '+n+'w'}).join(', ');
+                i.sizes='(max-width: 800px) 100vw, 800px';
+                i.src=m[1]+'s800-rw'+m[3];
+              }
+            })();
+            //]]>
+            </script>
+            </b:if>
             <b:if cond='data:post.body contains &quot;nextPage&quot;'>
               <!-- Post Pagination -->
               <div class='pagination'/>
@@ -1759,6 +1782,7 @@ html ins.adsbygoogle-noablate,html ins.adsbygoogle[data-anchor-status],html ins.
 })();
 /*]]>*/</script>
 </b:if>
+      <b:if cond='!data:view.isPost'>
       <script type='application/ld+json'>
 <b:if cond='data:view.isArchive'>
 {
@@ -1822,141 +1846,6 @@ html ins.adsbygoogle-noablate,html ins.adsbygoogle[data-anchor-status],html ins.
       &quot;@type&quot;: &quot;SearchResultsPage&quot;,
       &quot;name&quot;: &quot;<data:view.title.escaped/>&quot;,
       &quot;url&quot;: &quot;<data:view.url.canonical.jsonEscaped/>&quot;
-    }
-  ]
-}
-<b:elseif cond='data:view.isPost and data:post.labels any (l =&gt; l.name == &quot;News&quot;)'/>
-{
-  &quot;@context&quot;: &quot;https://schema.org&quot;,
-  &quot;@graph&quot;: [
-    {
-      &quot;@type&quot;: &quot;NewsArticle&quot;,
-      &quot;mainEntityOfPage&quot;: {
-        &quot;@type&quot;: &quot;WebPage&quot;,
-        &quot;@id&quot;: &quot;<data:view.url.canonical.jsonEscaped/>&quot;
-      },
-      &quot;headline&quot;: &quot;<data:view.title.jsonEscaped/>&quot;,
-      &quot;image&quot;: [
-        &quot;<b:eval expr='data:view.featuredImage ? resizeImage(data:view.featuredImage, 1200, &quot;16:9&quot;) : &quot;https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg5-p8tEVCMM7QDy-l92oo94Nc48N0c5ebiwQKr5hF5sj1p8NGZ0BZ4TuvG0i94FbOC0pf9ZvzUdKOYe7DeGIRnPAyZlFUvawCiPxY0ut7B0n5srvStf7TwDCtU2LdOh5nH_lHfHbFRjMviQBmD0kzd4VsFCSHKSb-pFp8dpEf38rYrjOqhWqh0HmqqzenH/s1600/the-bukit-besi-16x9.webp&quot;'/>&quot;,
-        &quot;<b:eval expr='data:view.featuredImage ? resizeImage(data:view.featuredImage, 1200, &quot;4:3&quot;) : &quot;https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiDSlhyphenhyphenYzv3Py8HZGvH_UpQJlw5KqEZhwuEVtUANw5_CHFl1-7cKVJDy0Yx2ZIpwikCnJhDAXUexk7vm5j0J5ArCC6cHtPQZ99QJ-Qlz-0dCNs515WbJalsF_BsEIjS7Nt8BvjOVJr9HJR40qy59eEuZEIL0IIfQSuZH3nrMlLLAl3aSGe9vVhyphenhyphen0W7sLRV1/s1600/the-bukit-besi-4x3.webp&quot;'/>&quot;,
-        &quot;<b:eval expr='data:view.featuredImage ? resizeImage(data:view.featuredImage, 1200, &quot;1:1&quot;) : &quot;https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjThHXkRAhHLiF0ZHU90KC3jYwiFZrP0ChXTEMjC2AKHtJoLKqhCwvLzCztWZ6IswDReYnjGa_T6x6NXqIoQMYqMtG_dxV2ChwTUPLLSxEgvsjOLsnR6bOh3tHEnJMYJDhj0kT61aNZTPGzHN9QoaMuhcbd3zM9u39Vkw6F3YKbiIsABRHlpFuwyaL4wIvz/s1600/the-bukit-besi-1x1.webp&quot;'/>&quot;
-      ],
-      &quot;author&quot;: {
-        &quot;@type&quot;: &quot;Person&quot;,
-        &quot;name&quot;: &quot;<data:post.author.name.jsonEscaped/>&quot;,
-        &quot;url&quot;: &quot;<data:post.author.profileUrl.jsonEscaped/>&quot;
-      },
-      &quot;publisher&quot;: {
-        &quot;@type&quot;: &quot;Organization&quot;,
-        &quot;name&quot;: &quot;<data:blog.title.escaped/>&quot;,
-        &quot;logo&quot;: {
-          &quot;@type&quot;: &quot;ImageObject&quot;,
-          &quot;url&quot;: &quot;https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgqjFdEWNgwNSHf8cuiBJ5SO6VLtkzs2xcmzsaEK7jELM2mLf5IB2oiMcnEQmeAzIokVd4pKnasNfrNAKj50Q8eGodMdghKT8EQVCc9ViaX7yebBtN_ByUgCGgZkF9KJp68K5l7xgovnldmexg9hdaPdA1TMb_4SVrfAuZ7TNY68vouUIHaE__kwBrL3mPF/s1600/bukit-besi-blog.webp&quot;,
-          &quot;width&quot;: 512,
-          &quot;height&quot;: 512
-        }
-      }
-      <b:if cond='data:view.timestamp.iso8601'>,&quot;datePublished&quot;: &quot;<data:view.timestamp.iso8601/>&quot;</b:if>
-      <b:if cond='data:view.lastUpdated.iso8601'>,&quot;dateModified&quot;: &quot;<data:view.lastUpdated.iso8601/>&quot;</b:if>
-      ,&quot;inLanguage&quot;: &quot;<data:blog.locale.language/>&quot;
-      ,&quot;speakable&quot;: {&quot;@type&quot;: &quot;SpeakableSpecification&quot;, &quot;cssSelector&quot;: [&quot;.post-header .entry-title&quot;, &quot;.post-body p&quot;]}
-      <b:if cond='data:post.labels'>,&quot;keywords&quot;: &quot;<b:loop index='ki' values='data:post.labels' var='klabel'><b:if cond='data:ki != 0'>, </b:if><data:klabel.name.jsonEscaped/></b:loop>&quot;
-      ,&quot;articleSection&quot;: &quot;<data:post.labels.first.name.jsonEscaped/>&quot;</b:if>
-    },
-    {
-      &quot;@type&quot;: &quot;BreadcrumbList&quot;,
-      &quot;itemListElement&quot;: [
-        {
-          &quot;@type&quot;: &quot;ListItem&quot;,
-          &quot;position&quot;: 1,
-          &quot;name&quot;: &quot;Home&quot;,
-          &quot;item&quot;: &quot;<data:blog.homepageUrl.jsonEscaped/>&quot;
-        },
-        {
-          &quot;@type&quot;: &quot;ListItem&quot;,
-          &quot;position&quot;: 2,
-          &quot;name&quot;: &quot;News&quot;,
-          &quot;item&quot;: &quot;<data:blog.homepageUrl.canonical.jsonEscaped/>search/label/News&quot;
-        },
-        {
-          &quot;@type&quot;: &quot;ListItem&quot;,
-          &quot;position&quot;: 3,
-          &quot;name&quot;: &quot;<data:view.title.jsonEscaped/>&quot;,
-          &quot;item&quot;: &quot;<data:view.url.canonical.jsonEscaped/>&quot;
-        }
-      ]
-    }
-  ]
-}
-<b:elseif cond='data:view.isPost'/>
-{
-  &quot;@context&quot;: &quot;https://schema.org&quot;,
-  &quot;@graph&quot;: [
-    {
-      &quot;@type&quot;: &quot;BlogPosting&quot;,
-      &quot;mainEntityOfPage&quot;: {
-        &quot;@type&quot;: &quot;WebPage&quot;,
-        &quot;@id&quot;: &quot;<data:view.url.canonical.jsonEscaped/>&quot;
-      },
-      &quot;headline&quot;: &quot;<data:view.title.jsonEscaped/>&quot;,
-      &quot;image&quot;: [
-        &quot;<b:eval expr='data:view.featuredImage ? resizeImage(data:view.featuredImage, 1200, &quot;16:9&quot;) : &quot;https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg5-p8tEVCMM7QDy-l92oo94Nc48N0c5ebiwQKr5hF5sj1p8NGZ0BZ4TuvG0i94FbOC0pf9ZvzUdKOYe7DeGIRnPAyZlFUvawCiPxY0ut7B0n5srvStf7TwDCtU2LdOh5nH_lHfHbFRjMviQBmD0kzd4VsFCSHKSb-pFp8dpEf38rYrjOqhWqh0HmqqzenH/s1600/the-bukit-besi-16x9.webp&quot;'/>&quot;,
-        &quot;<b:eval expr='data:view.featuredImage ? resizeImage(data:view.featuredImage, 1200, &quot;4:3&quot;) : &quot;https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiDSlhyphenhyphenYzv3Py8HZGvH_UpQJlw5KqEZhwuEVtUANw5_CHFl1-7cKVJDy0Yx2ZIpwikCnJhDAXUexk7vm5j0J5ArCC6cHtPQZ99QJ-Qlz-0dCNs515WbJalsF_BsEIjS7Nt8BvjOVJr9HJR40qy59eEuZEIL0IIfQSuZH3nrMlLLAl3aSGe9vVhyphenhyphen0W7sLRV1/s1600/the-bukit-besi-4x3.webp&quot;'/>&quot;,
-        &quot;<b:eval expr='data:view.featuredImage ? resizeImage(data:view.featuredImage, 1200, &quot;1:1&quot;) : &quot;https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjThHXkRAhHLiF0ZHU90KC3jYwiFZrP0ChXTEMjC2AKHtJoLKqhCwvLzCztWZ6IswDReYnjGa_T6x6NXqIoQMYqMtG_dxV2ChwTUPLLSxEgvsjOLsnR6bOh3tHEnJMYJDhj0kT61aNZTPGzHN9QoaMuhcbd3zM9u39Vkw6F3YKbiIsABRHlpFuwyaL4wIvz/s1600/the-bukit-besi-1x1.webp&quot;'/>&quot;
-      ],
-      &quot;author&quot;: {
-        &quot;@type&quot;: &quot;Person&quot;,
-        &quot;@id&quot;: &quot;<data:blog.homepageUrl.canonical.jsonEscaped/>#author&quot;,
-        &quot;name&quot;: &quot;<data:post.author.name.jsonEscaped/>&quot;,
-        &quot;url&quot;: &quot;<data:post.author.profileUrl.jsonEscaped/>&quot;,
-        &quot;sameAs&quot;: [
-          &quot;https://www.facebook.com/bukitbesi&quot;,
-          &quot;https://twitter.com/bukitbesiblog&quot;
-        ]
-      },
-      &quot;publisher&quot;: {
-        &quot;@type&quot;: &quot;Organization&quot;,
-        &quot;name&quot;: &quot;<data:blog.title.escaped/>&quot;,
-        &quot;logo&quot;: {
-          &quot;@type&quot;: &quot;ImageObject&quot;,
-          &quot;url&quot;: &quot;https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgqjFdEWNgwNSHf8cuiBJ5SO6VLtkzs2xcmzsaEK7jELM2mLf5IB2oiMcnEQmeAzIokVd4pKnasNfrNAKj50Q8eGodMdghKT8EQVCc9ViaX7yebBtN_ByUgCGgZkF9KJp68K5l7xgovnldmexg9hdaPdA1TMb_4SVrfAuZ7TNY68vouUIHaE__kwBrL3mPF/s1600/bukit-besi-blog.webp&quot;,
-          &quot;width&quot;: 512,
-          &quot;height&quot;: 512
-        }
-      }
-      <b:if cond='data:view.timestamp.iso8601'>,&quot;datePublished&quot;: &quot;<data:view.timestamp.iso8601/>&quot;</b:if>
-      <b:if cond='data:view.lastUpdated.iso8601'>,&quot;dateModified&quot;: &quot;<data:view.lastUpdated.iso8601/>&quot;</b:if>
-      <b:if cond='data:post.numberOfComments'>,&quot;commentCount&quot;: <data:post.numberOfComments/></b:if>
-      ,&quot;inLanguage&quot;: &quot;<data:blog.locale.language/>&quot;
-      ,&quot;speakable&quot;: {&quot;@type&quot;: &quot;SpeakableSpecification&quot;, &quot;cssSelector&quot;: [&quot;.post-header .entry-title&quot;, &quot;.post-body p&quot;]}
-      ,&quot;isPartOf&quot;: {&quot;@id&quot;: &quot;<data:blog.homepageUrl.canonical.jsonEscaped/>#website&quot;}
-      <b:if cond='data:post.labels'>,&quot;keywords&quot;: &quot;<b:loop index='ki' values='data:post.labels' var='klabel'><b:if cond='data:ki != 0'>, </b:if><data:klabel.name.jsonEscaped/></b:loop>&quot;
-      ,&quot;articleSection&quot;: &quot;<data:post.labels.first.name.jsonEscaped/>&quot;</b:if>
-    },
-    {
-      &quot;@type&quot;: &quot;BreadcrumbList&quot;,
-      &quot;itemListElement&quot;: [
-        {
-          &quot;@type&quot;: &quot;ListItem&quot;,
-          &quot;position&quot;: 1,
-          &quot;name&quot;: &quot;Home&quot;,
-          &quot;item&quot;: &quot;<data:blog.homepageUrl.jsonEscaped/>&quot;
-        }
-        <b:if cond='data:post.labels'>
-          ,{
-            &quot;@type&quot;: &quot;ListItem&quot;,
-            &quot;position&quot;: 2,
-            &quot;name&quot;: &quot;<data:post.labels.first.name.jsonEscaped/>&quot;,
-            &quot;item&quot;: &quot;<data:post.labels.first.url.canonical.jsonEscaped/>&quot;
-          }
-        </b:if>
-        ,{
-          &quot;@type&quot;: &quot;ListItem&quot;,
-          &quot;position&quot;: <b:eval expr='data:post.labels ? 3 : 2'/>,
-          &quot;name&quot;: &quot;<data:view.title.jsonEscaped/>&quot;,
-          &quot;item&quot;: &quot;<data:view.url.canonical.jsonEscaped/>&quot;
-        }
-      ]
     }
   ]
 }
@@ -2051,6 +1940,7 @@ html ins.adsbygoogle-noablate,html ins.adsbygoogle[data-anchor-status],html ins.
   ]
 }
 </b:if></script>
+      </b:if>
     </head>
     <b:include name='html-attrs'/>
     <body>
@@ -2595,6 +2485,81 @@ html ins.adsbygoogle-noablate,html ins.adsbygoogle[data-anchor-status],html ins.
                       <!-- Blog Post -->
                       <b:if cond='data:view.isSingleItem'>
                         <b:include data='post' name='itemPost'/>
+                        <b:if cond='data:view.isPost'>
+                        <script type='application/ld+json'>
+                        {
+                          &quot;@context&quot;: &quot;https://schema.org&quot;,
+                          &quot;@graph&quot;: [
+                            {
+                              &quot;@type&quot;: &quot;<b:if cond='data:post.labels any (l =&gt; l.name == &quot;News&quot;)'>NewsArticle<b:else/>BlogPosting</b:if>&quot;,
+                              &quot;mainEntityOfPage&quot;: {
+                                &quot;@type&quot;: &quot;WebPage&quot;,
+                                &quot;@id&quot;: &quot;<data:view.url.canonical.jsonEscaped/>&quot;
+                              },
+                              &quot;headline&quot;: &quot;<data:view.title.jsonEscaped/>&quot;,
+                              &quot;image&quot;: [
+                                &quot;<b:eval expr='data:view.featuredImage ? resizeImage(data:view.featuredImage, 1200, &quot;16:9&quot;) : &quot;https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg5-p8tEVCMM7QDy-l92oo94Nc48N0c5ebiwQKr5hF5sj1p8NGZ0BZ4TuvG0i94FbOC0pf9ZvzUdKOYe7DeGIRnPAyZlFUvawCiPxY0ut7B0n5srvStf7TwDCtU2LdOh5nH_lHfHbFRjMviQBmD0kzd4VsFCSHKSb-pFp8dpEf38rYrjOqhWqh0HmqqzenH/s1600/the-bukit-besi-16x9.webp&quot;'/>&quot;,
+                                &quot;<b:eval expr='data:view.featuredImage ? resizeImage(data:view.featuredImage, 1200, &quot;4:3&quot;) : &quot;https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiDSlhyphenhyphenYzv3Py8HZGvH_UpQJlw5KqEZhwuEVtUANw5_CHFl1-7cKVJDy0Yx2ZIpwikCnJhDAXUexk7vm5j0J5ArCC6cHtPQZ99QJ-Qlz-0dCNs515WbJalsF_BsEIjS7Nt8BvjOVJr9HJR40qy59eEuZEIL0IIfQSuZH3nrMlLLAl3aSGe9vVhyphenhyphen0W7sLRV1/s1600/the-bukit-besi-4x3.webp&quot;'/>&quot;,
+                                &quot;<b:eval expr='data:view.featuredImage ? resizeImage(data:view.featuredImage, 1200, &quot;1:1&quot;) : &quot;https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjThHXkRAhHLiF0ZHU90KC3jYwiFZrP0ChXTEMjC2AKHtJoLKqhCwvLzCztWZ6IswDReYnjGa_T6x6NXqIoQMYqMtG_dxV2ChwTUPLLSxEgvsjOLsnR6bOh3tHEnJMYJDhj0kT61aNZTPGzHN9QoaMuhcbd3zM9u39Vkw6F3YKbiIsABRHlpFuwyaL4wIvz/s1600/the-bukit-besi-1x1.webp&quot;'/>&quot;
+                              ],
+                              &quot;author&quot;: {
+                                &quot;@type&quot;: &quot;Person&quot;,
+                                &quot;@id&quot;: &quot;<data:blog.homepageUrl.canonical.jsonEscaped/>#author&quot;,
+                                &quot;name&quot;: &quot;<data:post.author.name.jsonEscaped/>&quot;,
+                                <b:if cond='data:post.author.profileUrl'>&quot;url&quot;: &quot;<data:post.author.profileUrl.jsonEscaped/>&quot;,</b:if>
+                                &quot;sameAs&quot;: [
+                                  &quot;https://www.facebook.com/bukitbesi&quot;,
+                                  &quot;https://twitter.com/bukitbesiblog&quot;
+                                ]
+                              },
+                              &quot;publisher&quot;: {
+                                &quot;@type&quot;: &quot;Organization&quot;,
+                                &quot;name&quot;: &quot;<data:blog.title.escaped/>&quot;,
+                                &quot;logo&quot;: {
+                                  &quot;@type&quot;: &quot;ImageObject&quot;,
+                                  &quot;url&quot;: &quot;https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgqjFdEWNgwNSHf8cuiBJ5SO6VLtkzs2xcmzsaEK7jELM2mLf5IB2oiMcnEQmeAzIokVd4pKnasNfrNAKj50Q8eGodMdghKT8EQVCc9ViaX7yebBtN_ByUgCGgZkF9KJp68K5l7xgovnldmexg9hdaPdA1TMb_4SVrfAuZ7TNY68vouUIHaE__kwBrL3mPF/s1600/bukit-besi-blog.webp&quot;,
+                                  &quot;width&quot;: 512,
+                                  &quot;height&quot;: 512
+                                }
+                              }
+                              <b:if cond='data:post.date.iso8601'>,&quot;datePublished&quot;: &quot;<data:post.date.iso8601.jsonEscaped/>&quot;</b:if>
+                              <b:if cond='data:post.lastUpdated.iso8601'>,&quot;dateModified&quot;: &quot;<data:post.lastUpdated.iso8601.jsonEscaped/>&quot;</b:if>
+                              <b:if cond='data:post.numberOfComments'>,&quot;commentCount&quot;: <data:post.numberOfComments/></b:if>
+                              ,&quot;inLanguage&quot;: [&quot;ms-MY&quot;, &quot;en&quot;]
+                              ,&quot;speakable&quot;: {&quot;@type&quot;: &quot;SpeakableSpecification&quot;, &quot;cssSelector&quot;: [&quot;.post-header .entry-title&quot;, &quot;.post-body p&quot;]}
+                              ,&quot;isPartOf&quot;: {&quot;@id&quot;: &quot;<data:blog.homepageUrl.canonical.jsonEscaped/>#website&quot;}
+                              <b:if cond='data:post.labels'>,&quot;keywords&quot;: &quot;<b:loop index='ki' values='data:post.labels' var='klabel'><b:if cond='data:ki != 0'>, </b:if><data:klabel.name.jsonEscaped/></b:loop>&quot;
+                              ,&quot;articleSection&quot;: &quot;<data:post.labels.first.name.jsonEscaped/>&quot;</b:if>
+                            },
+                            {
+                              &quot;@type&quot;: &quot;BreadcrumbList&quot;,
+                              &quot;itemListElement&quot;: [
+                                {
+                                  &quot;@type&quot;: &quot;ListItem&quot;,
+                                  &quot;position&quot;: 1,
+                                  &quot;name&quot;: &quot;Home&quot;,
+                                  &quot;item&quot;: &quot;<data:blog.homepageUrl.jsonEscaped/>&quot;
+                                }
+                                <b:if cond='data:post.labels'>
+                                  ,{
+                                    &quot;@type&quot;: &quot;ListItem&quot;,
+                                    &quot;position&quot;: 2,
+                                    &quot;name&quot;: &quot;<data:post.labels.first.name.jsonEscaped/>&quot;,
+                                    &quot;item&quot;: &quot;<data:post.labels.first.url.canonical.jsonEscaped/>&quot;
+                                  }
+                                </b:if>
+                                ,{
+                                  &quot;@type&quot;: &quot;ListItem&quot;,
+                                  &quot;position&quot;: <b:eval expr='data:post.labels ? 3 : 2'/>,
+                                  &quot;name&quot;: &quot;<data:view.title.jsonEscaped/>&quot;,
+                                  &quot;item&quot;: &quot;<data:view.url.canonical.jsonEscaped/>&quot;
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                        </script>
+                        </b:if>
                       </b:if>
                     </b:includable>
                     <b:includable id='postAuthor' var='post'>
@@ -2619,6 +2584,26 @@ html ins.adsbygoogle-noablate,html ins.adsbygoogle[data-anchor-status],html ins.
                       <div class='post-body' id='post-body'>
                         <data:post.body/>
                       </div>
+                      <b:if cond='data:view.isSingleItem'>
+                      <script>
+                      //<![CDATA[
+                      /* LCP: the first post image is the hero. Authors save it with loading="lazy" and a 1200px source;
+                         make it eager + high priority and serve a size that matches the screen (Blogger resizes via /sNNN-rw/). */
+                      (function(){
+                        var i=document.querySelector('#post-body img');
+                        if(!i)return;
+                        i.loading='eager';i.decoding='async';i.setAttribute('fetchpriority','high');
+                        var u=i.getAttribute('src')||'',m=u.match(/^(https:\/\/blogger\.googleusercontent\.com\/img\/.+\/)s\d+(-rw)?(\/[^\/]+)$/);
+                        if(m&&!i.getAttribute('srcset')){
+                          var w=[480,800,1200];
+                          i.srcset=w.map(function(n){return m[1]+'s'+n+'-rw'+m[3]+' '+n+'w'}).join(', ');
+                          i.sizes='(max-width: 800px) 100vw, 800px';
+                          i.src=m[1]+'s800-rw'+m[3];
+                        }
+                      })();
+                      //]]>
+                      </script>
+                      </b:if>
                       <b:if cond='data:post.body contains &quot;nextPage&quot;'>
                         <!-- Post Pagination -->
                         <div class='pagination'/>
@@ -3445,7 +3430,7 @@ html ins.adsbygoogle-noablate,html ins.adsbygoogle[data-anchor-status],html ins.
 //]]>
         </script>
         <!-- Lightweight vanilla application layer (full port of the theme's jQuery framework) -->
-        <script defer='defer' src='https://cdn.jsdelivr.net/gh/bukitbesi/xml@v3/asset/src/tbb-script.js'/>
+        <script defer='defer' src='https://cdn.jsdelivr.net/gh/bukitbesi/xml@v3/asset/src/tbb-script.min.js'/>
       </b:if>
       <!-- Blogger Scripts -->
       <b:if cond='data:isFeed'>
