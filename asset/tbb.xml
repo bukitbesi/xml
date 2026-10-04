@@ -10,7 +10,12 @@
 				<meta content='0532DC52CE53C1BAE8E05CC0DCC7512A' name='msvalidate.01'/>
 				<meta content='ahdaybbwhsv8eelp8rkqmy8r8ngnb9' name='facebook-domain-verification'/>
 				<meta content='966242223397117' property='fb:app_id'/>
-				<link href='https://tbbcom.github.io/on/manifest.json' rel='manifest'/>
+				<link crossorigin='anonymous' href='https://assets.thebukitbesi.com/pwa/manifest.webmanifest' rel='manifest'/>
+				<meta content='The Bukit Besi' name='application-name'/>
+				<meta content='yes' name='mobile-web-app-capable'/>
+				<meta content='yes' name='apple-mobile-web-app-capable'/>
+				<meta content='The Bukit Besi' name='apple-mobile-web-app-title'/>
+				<link href='https://assets.thebukitbesi.com/pwa/tbb-pwa.min.css' rel='stylesheet'/>
 				<b:skin version='2.1.0'><![CDATA[
 					 /* Blogger Template Style */
 /*-- Customize Options (Start) --
@@ -3474,6 +3479,9 @@ ins.adsbygoogle[data-ad-status="unfilled"]{display:none!important}
 })();
 //]]>
 </script>
+<!-- TBB PWA Lite: Service Worker intentionally disabled for direct Blogger hosting. -->
+<script>/*<![CDATA[*/window.TBB_PWA={serviceWorker:'',prefetch:true};/*]]>*/</script>
+<script defer='defer' src='https://assets.thebukitbesi.com/pwa/tbb-pwa.min.js'></script>
 </body>
 		<b:if cond='data:isFeed'> <b:eval expr='&quot;--&gt;&lt;/body&gt;&quot;'/> </b:if>
 	</b:with>
