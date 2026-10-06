@@ -314,36 +314,6 @@ function getPostCard(scope){
 }
 
 /* ---------------------------------------------------------------------
-   TOC — ports the $.fn.pbtToc plugin (heading id assignment + nested <ol> build)
---------------------------------------------------------------------- */
-function buildToc(contentSel,ol,headingsSel){
- var levels=headingsSel.split(',').map(function(s){return s.trim()});
- var used={};
- var heads=qa(headingsSel,q(contentSel)).filter(function(h){return (h.textContent||'').trim()!==''});
- heads.forEach(function(h){
-  if(h.id)return;
-  var base=(h.textContent||'?').replace(/[^a-zA-Z ]/g,'').replace(/\s+/g,'_')||'_',id=base,n=1;
-  while(d.getElementById(id)||used[id])id=base+'_'+(n++);
-  h.id=id;used[id]=true;
- });
- var stack=[ol],lastLevel=-1;
- heads.forEach(function(h){
-  var lvl=levels.indexOf(h.tagName.toLowerCase());if(lvl<0)return;
-  if(lastLevel<0)lastLevel=lvl;
-  if(lvl>lastLevel){
-   var parentLi=stack[stack.length-1].querySelector(':scope > li:last-child');
-   if(parentLi){var newOl=d.createElement('ol');parentLi.appendChild(newOl);stack.push(newOl)}
-  } else if(lvl<lastLevel&&stack.length>1){
-   stack.pop();
-  }
-  var li=d.createElement('li'),a=d.createElement('a');
-  a.href='#'+h.id;a.textContent=h.textContent.trim();li.appendChild(a);
-  stack[stack.length-1].appendChild(li);
-  lastLevel=lvl;
- });
-}
-
-/* ---------------------------------------------------------------------
    Post-body shortcode engine — ports the .post-body blockquote/b/a handlers
 --------------------------------------------------------------------- */
 function processBlockquotes(){
@@ -368,18 +338,7 @@ function processBoldTags(){
   if(has('{inAds}')||has('{ads}')||has(/\$ads=\{1\}/)||has(/\$ads=\{2\}/)){var a=d.createElement('div');a.className='article-ads';b.parentNode.replaceChild(a,b);return}
   if(has('{showAds}')){b.parentNode.removeChild(b);return}
   if(has('{nextPage}')){var c=d.createComment('nextpage');b.parentNode.replaceChild(c,b);return}
-  if(has('{getToc}')){
-   var title=attr(t,'title','Kandungan')||'Table of Contents',count=attr(t,'count',''),expanded=attr(t,'expanded','');
-   var wrap=d.createElement('div');wrap.className='pbt-toc-wrap';
-   wrap.innerHTML='<div class="pbt-toc-inner"><button type="button" class="pbt-toc-title" aria-label="'+esc(title)+'"><span class="pbt-toc-title-text">'+esc(title)+'</span></button><ol id="pbt-toc" data-count="'+esc(count||'true')+'"></ol></div>';
-   b.parentNode.replaceChild(wrap,b);
-   var ol=q('#pbt-toc',wrap),btn=q('.pbt-toc-title',wrap);
-   buildToc('.post-body',ol,'h2,h3,h4');
-   if(expanded==='true'){btn.classList.add('is-expanded');ol.style.display='block'}
-   on(btn,'click',function(){btn.classList.toggle('is-expanded');ol.style.display=ol.style.display==='block'?'none':'block'});
-   qa('a',ol).forEach(function(a){on(a,'click',function(e){e.preventDefault();var target=q(a.getAttribute('href'));if(target)w.scrollTo({top:target.getBoundingClientRect().top+w.scrollY-20,behavior:'smooth'})})});
-   return;
-  }
+  if(has('{getToc}')){b.parentNode.removeChild(b);return}
   if(t.indexOf('{contactForm}')!==-1){
    var cf=d.createElement('div');cf.className='contact-form-widget';
    b.parentNode.replaceChild(cf,b);
