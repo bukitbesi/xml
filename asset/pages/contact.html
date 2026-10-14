@@ -18,18 +18,22 @@
 .tbb-contact__field input,.tbb-contact__field textarea{width:100%;box-sizing:border-box;padding:.75rem .9rem;font:inherit;font-size:1rem;color:var(--title-color,#111827);background:var(--outer-bg,#fff);border:1px solid var(--border-color,#d1d5db);border-radius:var(--radius,.25rem)}
 .tbb-contact__field textarea{min-height:10rem;resize:vertical}
 .tbb-contact__field input:focus,.tbb-contact__field textarea:focus{outline:2px solid var(--accent-color,#2563eb);outline-offset:1px;border-color:var(--accent-color,#2563eb)}
-.tbb-contact__submit{grid-column:1/-1;justify-self:start;min-height:2.75rem;padding:0 1.75rem;font:inherit;font-size:1rem;font-weight:600;color:#fff;background:var(--accent-color,#2563eb);border:0;border-radius:var(--radius,.25rem);cursor:pointer}
-.tbb-contact__submit:hover{opacity:.9}
-.tbb-contact__submit:focus-visible{outline:2px solid var(--accent-color,#2563eb);outline-offset:2px}
-.tbb-contact__submit:disabled{opacity:.6;cursor:wait}
-.tbb-contact__status{grid-column:1/-1;font-size:.9375rem}
-.tbb-contact__status:empty{display:none}
+/* Blogger's Contact Form script rewrites the className of the submit button and status boxes while sending
+   (e.g. "contact-form-button contact-form-button-submit"), which pulled in the theme's grid-column:1/3 rule and
+   created a phantom second column. Placement and styling are therefore keyed to the fixed ContactForm1_* ids. */
+#ContactForm1_contact-form-submit{grid-column:1/-1;justify-self:start;float:none;width:auto;height:auto;min-height:2.75rem;margin:0;padding:0 1.75rem;font:inherit;font-size:1rem;font-weight:600;color:#fff;background:var(--accent-color,#2563eb);border:0;border-radius:var(--radius,.25rem);cursor:pointer}
+#ContactForm1_contact-form-submit:hover{opacity:.9}
+#ContactForm1_contact-form-submit:focus-visible{outline:2px solid var(--accent-color,#2563eb);outline-offset:2px}
+#ContactForm1_contact-form-submit:disabled,#ContactForm1_contact-form-submit.disabled{opacity:.6;cursor:wait}
+#ContactForm1_contact-form-error-message,#ContactForm1_contact-form-success-message{grid-column:1/-1;display:block;margin:0;padding:0;font-size:.9375rem;line-height:1.5;background:none;border:0;box-shadow:none;text-align:start}
+#ContactForm1_contact-form-error-message:empty,#ContactForm1_contact-form-success-message:empty{display:none}
 #ContactForm1_contact-form-error-message{color:#b91c1c}
 #ContactForm1_contact-form-success-message{color:#15803d;font-weight:600}
+.tbb-contact__form .contact-form-cross{display:inline-block;margin:0 .35rem;vertical-align:middle;cursor:pointer}
 .tbb-contact__note{margin:0;font-size:.875rem;color:var(--meta-color,#6b7280)}
 .tbb-contact__social{display:flex;flex-wrap:wrap;gap:.5rem 1.25rem;margin:0;padding:0}
 .tbb-contact__social li{list-style:none}
-@media (max-width:640px){.tbb-contact__form{grid-template-columns:1fr;padding:1.1rem}.tbb-contact__submit{justify-self:stretch}}
+@media (max-width:640px){.tbb-contact__form{grid-template-columns:minmax(0,1fr);padding:1.1rem}.tbb-contact__field{grid-column:1/-1}#ContactForm1_contact-form-submit{justify-self:stretch;width:100%}}
 #comments{display:none}
 </style>
 

@@ -3430,7 +3430,7 @@ html ins.adsbygoogle-noablate,html ins.adsbygoogle[data-anchor-status],html ins.
 //]]>
         </script>
         <!-- Lightweight vanilla application layer (full port of the theme's jQuery framework) -->
-        <script defer='defer' src='https://cdn.jsdelivr.net/gh/bukitbesi/xml@v4/asset/src/tbb-script.min.js'/>
+        <script defer='defer' src='https://cdn.jsdelivr.net/gh/bukitbesi/xml@v5/asset/src/tbb-script.min.js'/>
       </b:if>
       <!-- Blogger Scripts -->
       <b:if cond='data:isFeed'>
@@ -3457,8 +3457,8 @@ html ins.adsbygoogle-noablate,html ins.adsbygoogle[data-anchor-status],html ins.
 })();
 //]]>
 </script>
-      <!-- TBB PWA Lite: Service Worker intentionally disabled for direct Blogger hosting. -->
-<script>/*<![CDATA[*/window.TBB_PWA={serviceWorker:'',prefetch:true};/*]]>*/</script>
+      <!-- TBB PWA Lite: Service Worker disabled for direct Blogger hosting; tocMin:Infinity disables its auto TOC (tbb-script.js builds the TOC, posts only). -->
+<script>/*<![CDATA[*/window.TBB_PWA={serviceWorker:'',prefetch:true,tocMin:Infinity};/*]]>*/</script>
 <script defer='defer' src='https://assets.thebukitbesi.com/pwa/tbb-pwa.min.js'/>
     </body>
     <b:if cond='data:isFeed'>
