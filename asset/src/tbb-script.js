@@ -343,6 +343,42 @@ function buildToc(contentSel,ol,headingsSel){
  });
 }
 
+var TOC_TITLE='Table of Contents',TOC_MIN=3;
+function makeToc(title,count,expanded){
+ var wrap=d.createElement('div');wrap.className='pbt-toc-wrap';
+ wrap.innerHTML='<div class="pbt-toc-inner"><button type="button" class="pbt-toc-title" aria-controls="pbt-toc" aria-expanded="false"><span class="pbt-toc-title-text">'+esc(title)+'</span></button><ol id="pbt-toc" data-count="'+esc(count||'true')+'"></ol></div>';
+ wrap.setAttribute('data-expanded',expanded==='true'?'true':'');
+ return wrap;
+}
+/* Runs after the wrap is in the DOM, so buildToc can resolve heading ids against the live document. */
+function bindToc(wrap){
+ var ol=q('#pbt-toc',wrap),btn=q('.pbt-toc-title',wrap);
+ wrap.tbbBound=true;ol.innerHTML='';
+ buildToc('.post-body',ol,'h2,h3,h4');
+ function set(open){btn.classList.toggle('is-expanded',open);btn.setAttribute('aria-expanded',open?'true':'false');ol.style.display=open?'block':'none'}
+ set(wrap.getAttribute('data-expanded')==='true');
+ on(btn,'click',function(){set(btn.getAttribute('aria-expanded')!=='true')});
+ qa('a',ol).forEach(function(a){on(a,'click',function(e){
+  var target=d.getElementById(decodeURIComponent(a.getAttribute('href').slice(1)));if(!target)return;
+  e.preventDefault();
+  w.scrollTo({top:target.getBoundingClientRect().top+w.scrollY-20,behavior:'smooth'});
+  if(history.replaceState)history.replaceState(null,'','#'+target.id);
+ })});
+}
+/* Old posts without {getToc}: same TOC, posts only (static pages excluded), before the first heading.
+   A wrap re-rendered from cached HTML by {nextPage} pagination loses its listeners (tbbBound is not serialised), so rebind it. */
+function autoToc(){
+ var pb=q('.post-body');if(!pb)return;
+ var existing=q('.pbt-toc-wrap',pb);
+ if(existing){if(!existing.tbbBound)bindToc(existing);return}
+ if(!(typeof pbt!=='undefined'?pbt.isPost:!!q('body.is-post')))return;
+ var heads=qa('h2,h3,h4',pb).filter(function(h){return (h.textContent||'').trim()!==''});
+ if(heads.length<TOC_MIN)return;
+ var first=heads[0],wrap=makeToc(TOC_TITLE,'','');
+ first.parentNode.insertBefore(wrap,first);
+ bindToc(wrap);
+}
+
 /* ---------------------------------------------------------------------
    Post-body shortcode engine — ports the .post-body blockquote/b/a handlers
 --------------------------------------------------------------------- */
@@ -369,15 +405,10 @@ function processBoldTags(){
   if(has('{showAds}')){b.parentNode.removeChild(b);return}
   if(has('{nextPage}')){var c=d.createComment('nextpage');b.parentNode.replaceChild(c,b);return}
   if(has('{getToc}')){
-   var title=attr(t,'title','Kandungan')||'Table of Contents',count=attr(t,'count',''),expanded=attr(t,'expanded','');
-   var wrap=d.createElement('div');wrap.className='pbt-toc-wrap';
-   wrap.innerHTML='<div class="pbt-toc-inner"><button type="button" class="pbt-toc-title" aria-label="'+esc(title)+'"><span class="pbt-toc-title-text">'+esc(title)+'</span></button><ol id="pbt-toc" data-count="'+esc(count||'true')+'"></ol></div>';
+   if(q('.post-body .pbt-toc-wrap')){b.parentNode.removeChild(b);return}
+   var wrap=makeToc(attr(t,'title',TOC_TITLE),attr(t,'count',''),attr(t,'expanded',''));
    b.parentNode.replaceChild(wrap,b);
-   var ol=q('#pbt-toc',wrap),btn=q('.pbt-toc-title',wrap);
-   buildToc('.post-body',ol,'h2,h3,h4');
-   if(expanded==='true'){btn.classList.add('is-expanded');ol.style.display='block'}
-   on(btn,'click',function(){btn.classList.toggle('is-expanded');ol.style.display=ol.style.display==='block'?'none':'block'});
-   qa('a',ol).forEach(function(a){on(a,'click',function(e){e.preventDefault();var target=q(a.getAttribute('href'));if(target)w.scrollTo({top:target.getBoundingClientRect().top+w.scrollY-20,behavior:'smooth'})})});
+   bindToc(wrap);
    return;
   }
   if(t.indexOf('{contactForm}')!==-1){
@@ -507,7 +538,7 @@ function processPagination(){
    qa('.btn',pag).forEach(function(btn){on(btn,'click',function(){w.scrollTo({top:0,behavior:'smooth'})})});
    getPostCard(postBody);
    observeLazy(postBody);
-   processBlockquotes();processBoldTags();processAnchorTags();
+   processBlockquotes();processBoldTags();autoToc();processAnchorTags();
   }
   on(w,'hashchange',render);
   render();
@@ -516,6 +547,7 @@ function processPagination(){
 function processPostBody(){
  processBlockquotes();
  processBoldTags();
+ autoToc();
  processAnchorTags();
  processAdsMarkers();
  processPagination();
