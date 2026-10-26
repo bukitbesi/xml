@@ -3,6 +3,7 @@
 
 Usage: python3 tools/build-noindex.py   (run from the repo root, then paste asset/tbb.xml into Blogger)
 One canonical post URL per line; blank lines and lines starting with # are ignored.
+URLs are split into small b:if chunks: one huge `in [...]` list failed to render on Blogger.
 """
 import re
 import sys
@@ -12,6 +13,8 @@ ROOT = Path(__file__).resolve().parent.parent
 LIST = ROOT / "docs/prune/noindex.txt"
 XML = ROOT / "asset/tbb.xml"
 URL = re.compile(r"^https://www\.thebukitbesi\.com/\d{4}/\d{2}/[a-z0-9-]+\.html$")
+CHUNK = 20
+INDENT = "            "
 
 urls = []
 for n, line in enumerate(LIST.read_text().splitlines(), 1):
@@ -23,11 +26,15 @@ for n, line in enumerate(LIST.read_text().splitlines(), 1):
     urls.append(line)
 urls = sorted(set(urls))
 
-items = ",".join(f"&quot;{u}&quot;" for u in urls)
-block = re.compile(r"(<!-- TBB-NOINDEX:BEGIN[^\n]*-->\n<b:elseif cond='data:view\.isPost and \(data:blog\.canonicalUrl in \[)[^\]]*(\]\)'/>)")
+lines = []
+for i in range(0, len(urls), CHUNK):
+    items = ",".join(f"&quot;{u}&quot;" for u in urls[i:i + CHUNK])
+    lines.append(f"{INDENT}<b:if cond='data:blog.canonicalUrl in [{items}]'><meta content='noindex, follow' name='robots'/></b:if>\n")
+
+block = re.compile(r"(<!-- TBB-NOINDEX:BEGIN[^\n]*-->\n).*?(" + INDENT + r"<!-- TBB-NOINDEX:END -->)", re.S)
 xml = XML.read_text()
-xml, count = block.subn(lambda m: m.group(1) + items + m.group(2), xml)
+xml, count = block.subn(lambda m: m.group(1) + "".join(lines) + m.group(2), xml)
 if count != 1:
     sys.exit("TBB-NOINDEX block not found exactly once in asset/tbb.xml")
 XML.write_text(xml)
-print(f"{len(urls)} URLs written to the noindex block")
+print(f"{len(urls)} URLs written to the noindex block in {len(lines)} chunks")
