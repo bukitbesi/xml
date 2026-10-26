@@ -280,7 +280,7 @@ html ins.adsbygoogle-noablate,html ins.adsbygoogle[data-anchor-status],html ins.
             </b:if>
             <meta expr:content='data:view.title.escaped' property='og:title'/>
             <meta expr:content='data:blog.title.escaped' property='og:site_name'/>
-            <meta expr:content='data:view.description.escaped' property='og:description'/>
+            <meta expr:content='data:view.description contains &quot;{&quot; ? data:view.title.escaped : data:view.description.escaped' property='og:description'/>
             <!-- og:url &#8212; use view canonical for all page types -->
             <meta expr:content='data:view.url.canonical' property='og:url'/>
             <b:if cond='data:view.featuredImage'>
@@ -298,7 +298,7 @@ html ins.adsbygoogle-noablate,html ins.adsbygoogle[data-anchor-status],html ins.
             </b:if>
             <meta content='summary_large_image' name='twitter:card'/>
             <meta expr:content='data:view.title.escaped' name='twitter:title'/>
-            <meta expr:content='data:view.description.escaped' name='twitter:description'/>
+            <meta expr:content='data:view.description contains &quot;{&quot; ? data:view.title.escaped : data:view.description.escaped' name='twitter:description'/>
             <meta content='@thebukitbesi' name='twitter:site'/>
             <meta content='@thebukitbesi' name='twitter:creator'/>
             <meta expr:content='data:view.title.escaped' name='twitter:image:alt'/>
@@ -340,10 +340,10 @@ html ins.adsbygoogle-noablate,html ins.adsbygoogle[data-anchor-status],html ins.
   			<meta expr:content='data:blog.metaDescription.escaped' name='description'/>
 			<b:elseif cond='data:view.isPost'/>
   			<title><data:view.title.escaped/></title>
-  			<meta expr:content='data:view.description ? data:view.description.escaped : data:blog.metaDescription.escaped' name='description'/>
+  			<b:if cond='data:view.description and not (data:view.description contains &quot;{&quot;)'><meta expr:content='data:view.description.escaped' name='description'/></b:if>
 			<b:elseif cond='data:view.isPage'/>
   			<title><data:view.title.escaped/> | <data:blog.title.escaped/></title>
-  			<meta expr:content='data:view.description ? data:view.description.escaped : data:blog.metaDescription.escaped' name='description'/>
+  			<b:if cond='data:view.description and not (data:view.description contains &quot;{&quot;)'><meta expr:content='data:view.description.escaped' name='description'/></b:if>
 			<b:elseif cond='data:view.isSearch and data:view.search.query'/>
   			<title>Search for: <data:view.search.query.escaped/> | <data:blog.title.escaped/></title>
   			<meta expr:content='&quot;Search results for the query: &quot; + data:view.search.query.escaped' name='description'/>
@@ -696,9 +696,12 @@ html ins.adsbygoogle-noablate,html ins.adsbygoogle[data-anchor-status],html ins.
             </b:if>
           </b:includable>
           <b:includable id='post-summary'>
-            <p class='entry-excerpt excerpt'>
-              <data:post.snippets.short/>
-            </p>
+            <!-- Posts that open with an inline <style> get CSS as their auto-snippet; skip it -->
+            <b:if cond='data:post.snippets.short and not (data:post.snippets.short contains &quot;{&quot;)'>
+              <p class='entry-excerpt excerpt'>
+                <data:post.snippets.short/>
+              </p>
+            </b:if>
           </b:includable>
           <b:includable id='popular-posts'>
             <b:if cond='data:widget.sectionId == &quot;featured&quot;'>
@@ -909,7 +912,7 @@ html ins.adsbygoogle-noablate,html ins.adsbygoogle[data-anchor-status],html ins.
             <b:tag name='script' type='text/javascript'>const pbt={blogView:<b:if cond='data:blog.view'>&quot;<data:blog.view/>&quot;<b:else/>false</b:if>,isRTL:<b:eval expr='data:blog.languageDirection == &quot;rtl&quot; ? &quot;true&quot; : &quot;false&quot;'/>,isMultiple:<b:eval expr='data:view.isMultipleItems ? &quot;true&quot; : &quot;false&quot;'/>,isSingle:<b:eval expr='data:view.isSingleItem ? &quot;true&quot; : &quot;false&quot;'/>,isPost:<b:eval expr='data:view.isPost ? &quot;true&quot; : &quot;false&quot;'/>,isPage:<b:eval expr='data:view.isPage ? &quot;true&quot; : &quot;false&quot;'/>,isBoxed:<b:eval expr='data:skin.vars.boxedMode == &quot;1px&quot; ? &quot;true&quot; : &quot;false&quot;'/>,isDark:<b:eval expr='data:skin.vars.darkMode == &quot;1px&quot; ? &quot;true&quot; : &quot;false&quot;'/>,userDarkMode:<b:eval expr='data:skin.vars.userDarkMode == &quot;1px&quot; ? &quot;true&quot; : &quot;false&quot;'/>,stickyMenu:<b:eval expr='data:skin.vars.stickyMenu == &quot;1px&quot; ? &quot;true&quot; : &quot;false&quot;'/>,hasCookie:<b:eval expr='data:widgets.Text any w =&gt; w.sectionId == &quot;cookie&quot; ? &quot;true&quot; : &quot;false&quot;'/>,postAuthor:<b:eval expr='data:widgets.Blog.first.allBylineItems.author ? &quot;true&quot; : &quot;false&quot;'/>,postDate:<b:eval expr='data:widgets.Blog.first.allBylineItems.timestamp ? &quot;true&quot; : &quot;false&quot;'/>,postAuthorLabel:&quot;<b:eval expr='data:widgets.Blog.first.allBylineItems.author.label ? data:widgets.Blog.first.allBylineItems.author.label : &quot;&quot;'/>&quot;,postDateLabel:&quot;<b:eval expr='data:widgets.Blog.first.allBylineItems.timestamp.label ? data:widgets.Blog.first.allBylineItems.timestamp.label : &quot;&quot;'/>&quot;,postCategory:<b:eval expr='data:skin.vars.postCategory == &quot;1px&quot; ? &quot;true&quot; : &quot;false&quot;'/>,postSummary:<b:eval expr='data:skin.vars.postSummary == &quot;1px&quot; ? &quot;true&quot; : &quot;false&quot;'/>,showMore:&quot;<data:messages.showMore/>&quot;,viewAll:&quot;<data:messages.viewAll/>&quot;,noResults:&quot;<data:messages.noResultsFound/>&quot;,noTitle:&quot;<data:messages.noTitle/>&quot;,noThumb:&quot;https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhG9GA0058_fE7q8dUjkpL56fvlwSQs-DyuNjRG1C3oYBoWDR2PYrDa0SKVYt6iEJ8pssbajfAujp0g51-SQimyZNawn0waVgbe8cwgMzSXRURuiG7bqguOahIkTzTgPOn67eoasTMjKkxPfqXg1ytQ4NMjLEAGpp3zKKtpo-PVacHSnidorgbmaOFlyQ/w72-h72-p-k-no-nu/ptb-nth.webp&quot;}</b:tag>
           </b:includable>
           <b:includable id='pbt-feeds'>
-            <code id='data'>{&quot;version&quot;:&quot;2.1.0&quot;,&quot;encoding&quot;:&quot;UTF-8&quot;,&quot;author&quot;:{&quot;name&quot;:&quot;Pro Blogger Templates&quot;,&quot;url&quot;:&quot;https://probloggertemplates.com/&quot;}<b:if cond='!data:posts.empty'>,&quot;posts&quot;:[<b:loop index='i' values='data:posts' var='post'><b:if cond='data:i != 0'>,</b:if>{&quot;id&quot;:&quot;<data:post.id/>&quot;,&quot;published&quot;:{&quot;date&quot;:&quot;<data:post.date.jsonEscaped/>&quot;,&quot;datetime&quot;:&quot;<data:post.date.iso8601.jsonEscaped/>&quot;},&quot;author&quot;:&quot;<data:post.author.name.jsonEscaped/>&quot;,<b:if cond='data:post.labels'>&quot;category&quot;:&quot;<data:post.labels.first.name.jsonEscaped/>&quot;,</b:if>&quot;title&quot;:&quot;<b:eval expr='data:post.title ? data:post.title.jsonEscaped : data:messages.noTitle.jsonEscaped'/>&quot;,&quot;link&quot;:&quot;<data:post.url.canonical.jsonEscaped/>&quot;,&quot;thumbnail&quot;:{&quot;src&quot;:&quot;<b:if cond='data:post.featuredImage'><b:eval expr='data:post.featuredImage.isYouTube ? resizeImage(data:post.featuredImage.youtubeMaxResDefaultUrl.jsonEscaped, 72, &quot;1:1&quot;) : resizeImage(data:post.featuredImage.jsonEscaped, 72, &quot;1:1&quot;)'/><b:else/>data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==</b:if>&quot;,&quot;source&quot;:&quot;<b:eval expr='data:post.featuredImage.isYouTube ? &quot;youtube&quot; : &quot;blogger&quot;'/>&quot;}<b:if cond='data:post.snippets.short'>,&quot;summary&quot;:&quot;<data:post.snippets.short.jsonEscaped/>&quot;</b:if>}</b:loop>]</b:if>}</code>
+            <code id='data'>{&quot;version&quot;:&quot;2.1.0&quot;,&quot;encoding&quot;:&quot;UTF-8&quot;,&quot;author&quot;:{&quot;name&quot;:&quot;Pro Blogger Templates&quot;,&quot;url&quot;:&quot;https://probloggertemplates.com/&quot;}<b:if cond='!data:posts.empty'>,&quot;posts&quot;:[<b:loop index='i' values='data:posts' var='post'><b:if cond='data:i != 0'>,</b:if>{&quot;id&quot;:&quot;<data:post.id/>&quot;,&quot;published&quot;:{&quot;date&quot;:&quot;<data:post.date.jsonEscaped/>&quot;,&quot;datetime&quot;:&quot;<data:post.date.iso8601.jsonEscaped/>&quot;},&quot;author&quot;:&quot;<data:post.author.name.jsonEscaped/>&quot;,<b:if cond='data:post.labels'>&quot;category&quot;:&quot;<data:post.labels.first.name.jsonEscaped/>&quot;,</b:if>&quot;title&quot;:&quot;<b:eval expr='data:post.title ? data:post.title.jsonEscaped : data:messages.noTitle.jsonEscaped'/>&quot;,&quot;link&quot;:&quot;<data:post.url.canonical.jsonEscaped/>&quot;,&quot;thumbnail&quot;:{&quot;src&quot;:&quot;<b:if cond='data:post.featuredImage'><b:eval expr='data:post.featuredImage.isYouTube ? resizeImage(data:post.featuredImage.youtubeMaxResDefaultUrl.jsonEscaped, 72, &quot;1:1&quot;) : resizeImage(data:post.featuredImage.jsonEscaped, 72, &quot;1:1&quot;)'/><b:else/>data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==</b:if>&quot;,&quot;source&quot;:&quot;<b:eval expr='data:post.featuredImage.isYouTube ? &quot;youtube&quot; : &quot;blogger&quot;'/>&quot;}<b:if cond='data:post.snippets.short and not (data:post.snippets.short contains &quot;{&quot;)'>,&quot;summary&quot;:&quot;<data:post.snippets.short.jsonEscaped/>&quot;</b:if>}</b:loop>]</b:if>}</code>
           </b:includable>
         </b:defaultmarkup>
         <b:defaultmarkup type='LinkList'>
@@ -1796,8 +1799,8 @@ html ins.adsbygoogle-noablate,html ins.adsbygoogle[data-anchor-status],html ins.
     {
       &quot;@type&quot;: &quot;CollectionPage&quot;,
       &quot;@id&quot;: &quot;<data:view.url.canonical.jsonEscaped/>&quot;,
-      &quot;name&quot;: &quot;<data:view.title.escaped/>&quot;,
-      &quot;description&quot;: &quot;<data:view.description.escaped/>&quot;,
+      &quot;name&quot;: &quot;<data:view.title.jsonEscaped/>&quot;,
+      <b:if cond='data:view.description and not (data:view.description contains &quot;{&quot;)'>&quot;description&quot;: &quot;<data:view.description.jsonEscaped/>&quot;,</b:if>
       &quot;url&quot;: &quot;<data:view.url.canonical.jsonEscaped/>&quot;,
       &quot;inLanguage&quot;: &quot;<data:blog.locale.language/>&quot;,
       &quot;isPartOf&quot;: {&quot;@id&quot;: &quot;<data:blog.homepageUrl.canonical.jsonEscaped/>#website&quot;}
@@ -1806,7 +1809,7 @@ html ins.adsbygoogle-noablate,html ins.adsbygoogle[data-anchor-status],html ins.
       &quot;@type&quot;: &quot;BreadcrumbList&quot;,
       &quot;itemListElement&quot;: [
         {&quot;@type&quot;: &quot;ListItem&quot;, &quot;position&quot;: 1, &quot;name&quot;: &quot;Home&quot;, &quot;item&quot;: &quot;<data:blog.homepageUrl.jsonEscaped/>&quot;},
-        {&quot;@type&quot;: &quot;ListItem&quot;, &quot;position&quot;: 2, &quot;name&quot;: &quot;<data:view.title.escaped/>&quot;, &quot;item&quot;: &quot;<data:view.url.canonical.jsonEscaped/>&quot;}
+        {&quot;@type&quot;: &quot;ListItem&quot;, &quot;position&quot;: 2, &quot;name&quot;: &quot;<data:view.title.jsonEscaped/>&quot;, &quot;item&quot;: &quot;<data:view.url.canonical.jsonEscaped/>&quot;}
       ]
     }
   ]
@@ -1817,7 +1820,7 @@ html ins.adsbygoogle-noablate,html ins.adsbygoogle[data-anchor-status],html ins.
   &quot;@graph&quot;: [
     {
       &quot;@type&quot;: &quot;WebPage&quot;,
-      &quot;name&quot;: &quot;<data:view.title.escaped/>&quot;,
+      &quot;name&quot;: &quot;<data:view.title.jsonEscaped/>&quot;,
       &quot;url&quot;: &quot;<data:view.url.canonical.jsonEscaped/>&quot;
     }
   ]
@@ -1829,7 +1832,7 @@ html ins.adsbygoogle-noablate,html ins.adsbygoogle[data-anchor-status],html ins.
     {
       &quot;@type&quot;: &quot;CollectionPage&quot;,
       &quot;@id&quot;: &quot;<data:view.url.canonical.jsonEscaped/>&quot;,
-      &quot;name&quot;: &quot;<data:view.title.escaped/>&quot;,
+      &quot;name&quot;: &quot;<data:view.title.jsonEscaped/>&quot;,
       &quot;url&quot;: &quot;<data:view.url.canonical.jsonEscaped/>&quot;,
       &quot;inLanguage&quot;: &quot;<data:blog.locale.language/>&quot;,
       &quot;isPartOf&quot;: {&quot;@id&quot;: &quot;<data:blog.homepageUrl.canonical.jsonEscaped/>#website&quot;}
@@ -1838,7 +1841,7 @@ html ins.adsbygoogle-noablate,html ins.adsbygoogle[data-anchor-status],html ins.
       &quot;@type&quot;: &quot;BreadcrumbList&quot;,
       &quot;itemListElement&quot;: [
         {&quot;@type&quot;: &quot;ListItem&quot;, &quot;position&quot;: 1, &quot;name&quot;: &quot;Home&quot;, &quot;item&quot;: &quot;<data:blog.homepageUrl.jsonEscaped/>&quot;},
-        {&quot;@type&quot;: &quot;ListItem&quot;, &quot;position&quot;: 2, &quot;name&quot;: &quot;<data:view.title.escaped/>&quot;, &quot;item&quot;: &quot;<data:view.url.canonical.jsonEscaped/>&quot;}
+        {&quot;@type&quot;: &quot;ListItem&quot;, &quot;position&quot;: 2, &quot;name&quot;: &quot;<data:view.title.jsonEscaped/>&quot;, &quot;item&quot;: &quot;<data:view.url.canonical.jsonEscaped/>&quot;}
       ]
     }
   ]
@@ -1849,7 +1852,7 @@ html ins.adsbygoogle-noablate,html ins.adsbygoogle[data-anchor-status],html ins.
   &quot;@graph&quot;: [
     {
       &quot;@type&quot;: &quot;SearchResultsPage&quot;,
-      &quot;name&quot;: &quot;<data:view.title.escaped/>&quot;,
+      &quot;name&quot;: &quot;<data:view.title.jsonEscaped/>&quot;,
       &quot;url&quot;: &quot;<data:view.url.canonical.jsonEscaped/>&quot;
     }
   ]
@@ -1861,7 +1864,7 @@ html ins.adsbygoogle-noablate,html ins.adsbygoogle[data-anchor-status],html ins.
     {
       &quot;@type&quot;: &quot;WebSite&quot;,
       &quot;@id&quot;: &quot;<data:blog.homepageUrl.canonical.jsonEscaped/>#website&quot;,
-      &quot;name&quot;: &quot;<data:blog.title.escaped/>&quot;,
+      &quot;name&quot;: &quot;<data:blog.title.jsonEscaped/>&quot;,
       &quot;url&quot;: &quot;<data:blog.homepageUrl.canonical.jsonEscaped/>&quot;,
       &quot;description&quot;: &quot;<data:blog.metaDescription.jsonEscaped/>&quot;,
       &quot;inLanguage&quot;: &quot;<data:blog.locale.language/>&quot;,
@@ -1878,7 +1881,7 @@ html ins.adsbygoogle-noablate,html ins.adsbygoogle[data-anchor-status],html ins.
     {
       &quot;@type&quot;: &quot;Organization&quot;,
       &quot;@id&quot;: &quot;<data:blog.homepageUrl.canonical.jsonEscaped/>#organization&quot;,
-      &quot;name&quot;: &quot;<data:blog.title.escaped/>&quot;,
+      &quot;name&quot;: &quot;<data:blog.title.jsonEscaped/>&quot;,
       &quot;url&quot;: &quot;<data:blog.homepageUrl.canonical.jsonEscaped/>&quot;,
       &quot;description&quot;: &quot;<data:blog.metaDescription.jsonEscaped/>&quot;,
       &quot;logo&quot;: {
@@ -1917,8 +1920,8 @@ html ins.adsbygoogle-noablate,html ins.adsbygoogle[data-anchor-status],html ins.
       &quot;@type&quot;: &quot;WebPage&quot;,
       &quot;@id&quot;: &quot;<data:view.url.canonical.jsonEscaped/>&quot;,
       &quot;url&quot;: &quot;<data:view.url.canonical.jsonEscaped/>&quot;,
-      &quot;headline&quot;: &quot;<data:view.title.escaped/>&quot;,
-      &quot;description&quot;: &quot;<data:view.description.escaped/>&quot;,
+      &quot;headline&quot;: &quot;<data:view.title.jsonEscaped/>&quot;,
+      <b:if cond='data:view.description and not (data:view.description contains &quot;{&quot;)'>&quot;description&quot;: &quot;<data:view.description.jsonEscaped/>&quot;,</b:if>
       &quot;inLanguage&quot;: &quot;<data:blog.locale.language/>&quot;,
       &quot;isPartOf&quot;: {&quot;@id&quot;: &quot;<data:blog.homepageUrl.canonical.jsonEscaped/>#website&quot;},
       &quot;publisher&quot;: {&quot;@id&quot;: &quot;<data:blog.homepageUrl.canonical.jsonEscaped/>#organization&quot;}
@@ -1937,7 +1940,7 @@ html ins.adsbygoogle-noablate,html ins.adsbygoogle[data-anchor-status],html ins.
         {
           &quot;@type&quot;: &quot;ListItem&quot;,
           &quot;position&quot;: 2,
-          &quot;name&quot;: &quot;<data:view.title.escaped/>&quot;,
+          &quot;name&quot;: &quot;<data:view.title.jsonEscaped/>&quot;,
           &quot;item&quot;: &quot;<data:view.url.canonical.jsonEscaped/>&quot;
         }
       ]
@@ -2514,7 +2517,7 @@ html ins.adsbygoogle-noablate,html ins.adsbygoogle[data-anchor-status],html ins.
                               },
                               &quot;publisher&quot;: {
                                 &quot;@type&quot;: &quot;Organization&quot;,
-                                &quot;name&quot;: &quot;<data:blog.title.escaped/>&quot;,
+                                &quot;name&quot;: &quot;<data:blog.title.jsonEscaped/>&quot;,
                                 &quot;logo&quot;: {
                                   &quot;@type&quot;: &quot;ImageObject&quot;,
                                   &quot;url&quot;: &quot;https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgqjFdEWNgwNSHf8cuiBJ5SO6VLtkzs2xcmzsaEK7jELM2mLf5IB2oiMcnEQmeAzIokVd4pKnasNfrNAKj50Q8eGodMdghKT8EQVCc9ViaX7yebBtN_ByUgCGgZkF9KJp68K5l7xgovnldmexg9hdaPdA1TMb_4SVrfAuZ7TNY68vouUIHaE__kwBrL3mPF/s1600/bukit-besi-blog.webp&quot;,
@@ -3432,7 +3435,7 @@ html ins.adsbygoogle-noablate,html ins.adsbygoogle[data-anchor-status],html ins.
 //]]>
         </script>
         <!-- Lightweight vanilla application layer (full port of the theme's jQuery framework) -->
-        <script defer='defer' src='https://cdn.jsdelivr.net/gh/bukitbesi/xml@v6/asset/src/tbb-script.min.js'/>
+        <script defer='defer' src='https://cdn.jsdelivr.net/gh/bukitbesi/xml@v7/asset/src/tbb-script.min.js'/>
       </b:if>
       <!-- Blogger Scripts -->
       <b:if cond='data:isFeed'>
