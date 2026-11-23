@@ -18,6 +18,7 @@ Note: the GSC export stops at 8 impressions, so "0 impressions" here means fewer
 | KEEP / KEEP (watch) | 838 | No change. Look at "watch" posts again in 3 months. |
 
 Posts labelled "Bukit Besi" stay indexed whatever their traffic, because they are original local content.
+The nine first-hand Terengganu island and travel posts from 2009–2010 (Redang, Tenggol, Gemia, Lang Tengah, Rhu Hentian, Pulau Duyung, Sekayu, Batu Bersurat, Batu Penyu) follow the same rule and were removed from `noindex.txt` on 2026-11-23.
 
 ## Rollback
 Remove a URL from `noindex.txt` and rebuild, or empty the file to undo everything. Google re-indexes a post on its next crawl.
